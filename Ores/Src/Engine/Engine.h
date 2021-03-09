@@ -1,0 +1,43 @@
+#pragma once
+
+#include <SDL.h>
+
+class Engine
+{
+public:
+	Engine();
+	~Engine();
+
+	void init(char* title, int width, int height, bool fullscreen, bool vsync);
+	void quit();
+	void clear();
+
+	void update();
+	void render();
+
+	inline static Engine& getInstance()
+	{
+		if (s_instance == nullptr)
+		{
+			s_instance = new Engine();
+		}
+
+		return *s_instance;
+	}
+
+	inline bool isRunning()
+	{
+		return _isRunning;
+	}
+
+	inline SDL_Renderer* getRenderer()
+	{
+		return _renderer;
+	}
+
+private:
+	bool _isRunning;
+	SDL_Window* _window;
+	SDL_Renderer* _renderer;
+	static Engine* s_instance;
+};
