@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL.h>
+#include "ECS/ECS.h"
 
 class Engine
 {
@@ -8,10 +9,11 @@ public:
 	Engine();
 	~Engine();
 
-	void init(char* title, int width, int height, bool fullscreen, bool vsync);
+	void init(const char* title, int width, int height, bool fullscreen, bool vsync);
 	void quit();
 	void clear();
 
+	void handleEvents();
 	void update();
 	void render();
 
@@ -36,8 +38,9 @@ public:
 	}
 
 private:
-	bool _isRunning;
-	SDL_Window* _window;
-	SDL_Renderer* _renderer;
+	bool _isRunning = false;
+	SDL_Window* _window = nullptr;
+	SDL_Renderer* _renderer = nullptr;
+	EntityManager* _entityManager = nullptr;
 	static Engine* s_instance;
 };
