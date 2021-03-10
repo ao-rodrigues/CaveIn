@@ -33,7 +33,7 @@ public:
 	void init() override
 	{
 		_transform = &entity->getComponent<Transform>();
-		_texture = AssetManager::getInstance()->getTexture(_textureID);
+		_texture = AssetManager::instance()->getTexture(_textureID);
 
 		_srcRect.x = 0;
 		_srcRect.y = _rowIndex * _height;;

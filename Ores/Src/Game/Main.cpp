@@ -5,7 +5,7 @@
 
 int main(int argc, char *args[])
 {
-	Engine& engine = Engine::getInstance();
+	Engine& engine = Engine::instance();
 	engine.init("Ores", 800, 600, false, false);
 
 	while (engine.isRunning())

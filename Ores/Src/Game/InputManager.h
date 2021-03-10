@@ -6,7 +6,7 @@ public:
 	InputManager();
 	~InputManager();
 
-	inline static InputManager& getInstance()
+	inline static InputManager& instance()
 	{
 		if (s_instance == nullptr)
 		{

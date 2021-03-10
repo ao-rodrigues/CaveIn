@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Engine.h"
-#include "AssetManager.h"
-#include "ECS/Sprite.h"
+#include "ECS/Transform.h"
 
 Engine* Engine::s_instance = nullptr;
 
@@ -42,15 +41,6 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 
 	_entityManager = new EntityManager();
 
-	AssetManager::getInstance()->loadTexture("Characters", "Assets/Textures/characters.png");
-	
-	Entity& entity = _entityManager->createEntity();
-	Transform& transform = entity.addComponent<Transform>();
-	entity.addComponent<Sprite>(_renderer, "Characters", 32, 32, 4, 100, 1);
-
-	transform.scale.x = 2.f;
-	transform.scale.y = 2.f;
-
 	_isRunning = true;
 }
 
@@ -89,10 +79,22 @@ void Engine::update()
 
 void Engine::render()
 {
+	deltaTime = (SDL_GetTicks() - _lastFrameTime) / 1000.f;
+
 	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0);
 	SDL_RenderClear(_renderer);
 
 	_entityManager->render();
 
 	SDL_RenderPresent(_renderer);
+
+	_lastFrameTime = SDL_GetTicks();
+}
+
+Entity& Engine::createEntity()
+{
+	Entity& newEntity = _entityManager->createEntity();
+	newEntity.addComponent<Transform>();
+
+	return newEntity;
 }

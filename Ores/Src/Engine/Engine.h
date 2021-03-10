@@ -17,7 +17,9 @@ public:
 	void update();
 	void render();
 
-	inline static Engine& getInstance()
+	Entity& createEntity();
+
+	inline static Engine& instance()
 	{
 		if (s_instance == nullptr)
 		{
@@ -37,8 +39,11 @@ public:
 		return _renderer;
 	}
 
+	float deltaTime = 1.f;
+
 private:
 	bool _isRunning = false;
+	int _lastFrameTime = 0;
 	SDL_Window* _window = nullptr;
 	SDL_Renderer* _renderer = nullptr;
 	EntityManager* _entityManager = nullptr;

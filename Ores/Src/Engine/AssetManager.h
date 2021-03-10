@@ -16,7 +16,7 @@ public:
 	SDL_Texture* getTexture(std::string id);
 	void loadTexture(std::string id, std::string path);
 
-	inline static AssetManager* getInstance()
+	inline static AssetManager* instance()
 	{
 		if (s_instance == nullptr)
 		{
