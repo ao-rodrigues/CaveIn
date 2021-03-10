@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Engine.h"
+#include "InputManager.h"
 #include "ECS/Transform.h"
 
 Engine* Engine::s_instance = nullptr;
@@ -61,20 +62,22 @@ void Engine::handleEvents()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
-		switch (event.type)
+		if (event.type == SDL_QUIT)
 		{
-		case SDL_QUIT:
 			quit();
-			break;
-		default:
-			break;
+			return;
 		}
+
+		InputManager::handleEvent(event);
 	}
 }
 
 void Engine::update()
 {
+	_entityManager->refresh();
 	_entityManager->update();
+
+	InputManager::clearEvents();
 }
 
 void Engine::render()

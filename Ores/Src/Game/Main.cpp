@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "Engine.h"
-#include "InputManager.h"
+#include "../Engine/InputManager.h"
 #include "../Engine/ECS/Transform.h"
 
 int main(int argc, char *args[])
@@ -11,6 +11,13 @@ int main(int argc, char *args[])
 	while (engine.isRunning())
 	{
 		engine.handleEvents();
+
+		// Game code
+		if (InputManager::keyDown(SDLK_w))
+		{
+			std::cout << "Pressed W!" << std::endl;
+		}
+
 		engine.update();
 		engine.render();
 	}

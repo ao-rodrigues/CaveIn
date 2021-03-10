@@ -144,7 +144,8 @@
   <ItemGroup>
     <ClCompile Include="Src\Engine\AssetManager.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
-    <ClCompile Include="Src\Game\InputManager.cpp" />
+    <ClCompile Include="Src\Engine\InputManager.cpp" />
+    <ClCompile Include="Src\Game\Managers\GameManager.cpp" />
     <ClCompile Include="Src\Game\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,8 +154,9 @@
     <ClInclude Include="Src\Engine\ECS\Sprite.h" />
     <ClInclude Include="Src\Engine\ECS\Transform.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
+    <ClInclude Include="Src\Engine\InputManager.h" />
     <ClInclude Include="Src\Engine\Math\Vector2.h" />
-    <ClInclude Include="Src\Game\InputManager.h" />
+    <ClInclude Include="Src\Game\Managers\GameManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

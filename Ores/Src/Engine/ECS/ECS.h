@@ -108,14 +108,17 @@ public:
 		for (auto& e : _entities) e->render();
 	}
 
+	/**
+	* Removes all inactive entities
+	*/
 	void refresh()
 	{
-		_entities.erase(std::remove_if(std::begin(_entities), std::end(_entities),
+		_entities.erase(std::remove_if(_entities.begin(), _entities.end(),
 			[](const std::unique_ptr<Entity>& entity)
 			{
 				return !entity->isActive();
 			}
-		));
+		), _entities.end());
 	}
 
 	Entity& createEntity()
