@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ECS.h"
-#include "../Math/Vector2.h"
+#include "../ECS.h"
+#include "../../Math/Vector2.h"
 
 class Transform : public Component
 {

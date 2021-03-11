@@ -4,8 +4,9 @@
 #include <SDL_image.h>
 #include <map>
 #include <string>
+#include "Singleton.h"
 
-class AssetManager
+class AssetManager : public Singleton<AssetManager>
 {
 public:
 	AssetManager();
@@ -16,6 +17,7 @@ public:
 	SDL_Texture* getTexture(std::string id);
 	void loadTexture(std::string id, std::string path);
 
+	/*
 	inline static AssetManager* instance()
 	{
 		if (s_instance == nullptr)
@@ -25,8 +27,9 @@ public:
 
 		return s_instance;
 	}
+	*/
 
 private:
-	static AssetManager* s_instance;
+	//static AssetManager* s_instance;
 	std::map<std::string, SDL_Texture*> _textures;
 };

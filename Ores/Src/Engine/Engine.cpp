@@ -1,9 +1,7 @@
 #include <iostream>
 #include "Engine.h"
 #include "InputManager.h"
-#include "ECS/Transform.h"
-
-Engine* Engine::s_instance = nullptr;
+#include "ECS/Components/Transform.h"
 
 Engine::Engine()
 {
@@ -15,6 +13,8 @@ Engine::Engine()
 
 Engine::~Engine()
 {
+	delete _renderer;
+	delete _entityManager;
 }
 
 void Engine::init(const char* title, int width, int height, bool fullscreen, bool vsync)
@@ -32,6 +32,7 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 		std::cerr << SDL_GetError() << std::endl;
 	}
 
+	
 	auto rendererFlags = vsync ? (SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED) : SDL_RENDERER_ACCELERATED;
 	_renderer = SDL_CreateRenderer(_window, -1, rendererFlags);
 
@@ -39,6 +40,11 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 	{
 		std::cerr << SDL_GetError() << std::endl;
 	}
+	
+
+	//_renderer = new Renderer();
+
+	//_renderer->init(_window, rendererFlags);
 
 	_entityManager = new EntityManager();
 
@@ -53,6 +59,7 @@ void Engine::quit()
 void Engine::clear()
 {
 	SDL_DestroyRenderer(_renderer);
+	//_renderer->destroy();
 	SDL_DestroyWindow(_window);
 	SDL_Quit();
 }
@@ -90,6 +97,7 @@ void Engine::render()
 	_entityManager->render();
 
 	SDL_RenderPresent(_renderer);
+	//_renderer->render();
 
 	_lastFrameTime = SDL_GetTicks();
 }

@@ -150,12 +150,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Engine\AssetManager.h" />
+    <ClInclude Include="Src\Engine\ECS\BaseComponents.h" />
     <ClInclude Include="Src\Engine\ECS\ECS.h" />
-    <ClInclude Include="Src\Engine\ECS\Sprite.h" />
-    <ClInclude Include="Src\Engine\ECS\Transform.h" />
+    <ClInclude Include="Src\Engine\ECS\Components\Sprite.h" />
+    <ClInclude Include="Src\Engine\ECS\Components\Transform.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\Engine\InputManager.h" />
     <ClInclude Include="Src\Engine\Math\Vector2.h" />
+    <ClInclude Include="Src\Engine\Singleton.h" />
     <ClInclude Include="Src\Game\Managers\GameManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

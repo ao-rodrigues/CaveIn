@@ -7,6 +7,8 @@
 #include <bitset>
 #include <array>
 
+//#include "BaseComponents.h"
+
 class Component;
 class Entity;
 
@@ -14,7 +16,7 @@ using ComponentID = std::size_t;
 
 inline ComponentID getComponentTypeID()
 {
-	static ComponentID lastID = 0;
+	static ComponentID lastID = 0u;
 	return lastID++;
 }
 
@@ -51,10 +53,12 @@ public:
 		for (auto& c : _components) c->update();
 	}
 
+	
 	void render() 
 	{
 		for (auto& c : _components) c->render();
 	}
+	
 
 	inline bool isActive() const { return _isActive; }
 	inline void destroy() { _isActive = false; }
@@ -68,16 +72,16 @@ public:
 	template<typename T, typename... TArgs>
 	T& addComponent(TArgs&&... args)
 	{
-		T* newComp = new T(std::forward<TArgs>(args)...);
-		newComp->entity = this;
-		std::unique_ptr<Component> compPtr{ newComp };
+		T* newComponent = new T(std::forward<TArgs>(args)...);
+		newComponent->entity = this;
+		std::unique_ptr<Component> compPtr{ newComponent };
 		_components.emplace_back(std::move(compPtr));
 
-		_componentArray[getComponentTypeID<T>()] = newComp;
+		_componentArray[getComponentTypeID<T>()] = newComponent;
 		_componentBitset[getComponentTypeID<T>()] = true;
 
-		newComp->init();
-		return *newComp;
+		newComponent->init();
+		return *newComponent;
 	}
 
 	template<typename T>
@@ -98,15 +102,18 @@ private:
 class EntityManager
 {
 public:
+
 	void update()
 	{
 		for (auto& e : _entities) e->update();
 	}
 
+	
 	void render()
 	{
 		for (auto& e : _entities) e->render();
 	}
+	
 
 	/**
 	* Removes all inactive entities

@@ -1,13 +1,11 @@
 #pragma once
 
 #include "Engine.h"
+#include "Singleton.h"
 
-class GameManager
+class GameManager : public Singleton<GameManager>
 {
 public:
-	GameManager();
-	~GameManager();
-
 	void init();
 	void update();
 

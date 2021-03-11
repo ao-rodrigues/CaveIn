@@ -2,8 +2,6 @@
 #include "Engine.h"
 #include <iostream>
 
-AssetManager* AssetManager::s_instance = nullptr;
-
 AssetManager::AssetManager()
 {
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
