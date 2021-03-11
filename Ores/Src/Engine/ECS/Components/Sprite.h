@@ -57,15 +57,6 @@ public:
 		dstRect.h = static_cast<int>(height * transform->scale.y);
 	}
 
-	/*
-	void render()
-	{
-		SDL_RenderCopyEx(_renderTarget, texture, &srcRect, &dstRect, transform->rotation, nullptr, flip);
-	}
-	*/
-	
-
-
 	int width = 0;
 	int height = 0;
 	SDL_Rect srcRect = { 0, 0, 0, 0 };

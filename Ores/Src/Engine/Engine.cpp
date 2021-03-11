@@ -72,8 +72,8 @@ void Engine::handleEvents()
 
 void Engine::update()
 {
-	_entityManager->refresh();
 	_entityManager->update();
+	_entityManager->refresh();
 }
 
 void Engine::render()

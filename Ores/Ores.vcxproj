@@ -147,6 +147,7 @@
     <ClCompile Include="Src\Engine\Engine.cpp" />
     <ClCompile Include="Src\Engine\InputManager.cpp" />
     <ClCompile Include="Src\Engine\Renderer.cpp" />
+    <ClCompile Include="Src\Game\Components\Ore.cpp" />
     <ClCompile Include="Src\Game\Managers\GameManager.cpp" />
     <ClCompile Include="Src\Game\Main.cpp" />
   </ItemGroup>
@@ -163,6 +164,7 @@
     <ClInclude Include="Src\Engine\Singleton.h" />
     <ClInclude Include="Src\Game\Components\Ore.h" />
     <ClInclude Include="Src\Game\Managers\GameManager.h" />
+    <ClInclude Include="Src\Game\OreData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

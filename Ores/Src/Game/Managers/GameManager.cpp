@@ -1,50 +1,33 @@
 #include "GameManager.h"
 #include "../../Engine/AssetManager.h"
 #include "../../Engine/InputManager.h"
+#include "../Components/Ore.h"
 
 void GameManager::init()
 {
-	AssetManager::instance().loadTexture("Grass", "Assets/Textures/grass.png");
-	AssetManager::instance().loadTexture("Characters", "Assets/Textures/characters.png");
+	AssetManager::instance().loadTexture("Ore", "Assets/Textures/cobble_blood4.png");
+	AssetManager::instance().loadTexture("OreHover", "Assets/Textures/dirt_full.png");
+	AssetManager::instance().loadTexture("OreClick", "Assets/Textures/dirt_nw.png");
 
 	Engine& engine = Engine::instance();
 
-	for (std::size_t y = 0; y < 32; y++)
-	{
-		for (std::size_t x = 0; x < 32; x++)
-		{
-			Entity& grassBlock = engine.createEntity();
-			grassBlock.addComponent<Sprite>(engine.getRenderer(), Sprite::RenderLayer::Background, 0, "Grass", 32, 32);
+	OreData oreData;
+	oreData.typeIndex = 0;
+	oreData.destructionPoints = 200;
+	oreData.defaultTextureID = "Ore";
+	oreData.hoverTextureID = "OreHover";
+	oreData.clickedTextureID = "OreClick";
 
-			Transform& blockTransform = grassBlock.getComponent<Transform>();
-			blockTransform.position.x = x * 32;
-			blockTransform.position.y = y * 32;
-		}
-	}
+	Entity& ore = engine.createEntity();
+	ore.addComponent<Sprite>(engine.getRenderer(), Sprite::RenderLayer::Foreground, 0, "Ore", 32, 32);
+	ore.addComponent<Ore>(oreData);
 
-	player = &engine.createEntity();
-	player->addComponent<Sprite>(engine.getRenderer(), Sprite::RenderLayer::Foreground, 0, "Characters", 32, 32, 4, 100, 1);
+	Transform& t = ore.getComponent<Transform>();
+	t.position.x = 20;
+	t.position.y = 20;
 }
 
 void GameManager::update()
 {
-	if (InputManager::keyDown(SDLK_d))
-	{
-		player->getComponent<Transform>().position.x += 100.f * Engine::instance().deltaTime;
-	}
 
-	if (InputManager::keyDown(SDLK_a))
-	{
-		player->getComponent<Transform>().position.x -= 100.f * Engine::instance().deltaTime;
-	}
-
-	if (InputManager::keyDown(SDLK_w))
-	{
-		player->getComponent<Transform>().position.y -= 100.f * Engine::instance().deltaTime;
-	}
-
-	if (InputManager::keyDown(SDLK_s))
-	{
-		player->getComponent<Transform>().position.y += 100.f * Engine::instance().deltaTime;
-	}
 }

@@ -10,5 +10,5 @@ public:
 	void update();
 
 private:
-	Entity* player;
+	//Entity* player;
 };
