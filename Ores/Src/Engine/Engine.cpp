@@ -33,18 +33,9 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 	}
 
 	
+	_renderer = new Renderer();
 	auto rendererFlags = vsync ? (SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED) : SDL_RENDERER_ACCELERATED;
-	_renderer = SDL_CreateRenderer(_window, -1, rendererFlags);
-
-	if (!_renderer)
-	{
-		std::cerr << SDL_GetError() << std::endl;
-	}
-	
-
-	//_renderer = new Renderer();
-
-	//_renderer->init(_window, rendererFlags);
+	_renderer->init(_window, rendererFlags);
 
 	_entityManager = new EntityManager();
 
@@ -58,8 +49,8 @@ void Engine::quit()
 
 void Engine::clear()
 {
-	SDL_DestroyRenderer(_renderer);
-	//_renderer->destroy();
+	_renderer->destroy();
+	InputManager::clearEvents();
 	SDL_DestroyWindow(_window);
 	SDL_Quit();
 }
@@ -83,23 +74,14 @@ void Engine::update()
 {
 	_entityManager->refresh();
 	_entityManager->update();
-
-	InputManager::clearEvents();
 }
 
 void Engine::render()
 {
 	deltaTime = (SDL_GetTicks() - _lastFrameTime) / 1000.f;
-
-	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0);
-	SDL_RenderClear(_renderer);
-
-	_entityManager->render();
-
-	SDL_RenderPresent(_renderer);
-	//_renderer->render();
-
 	_lastFrameTime = SDL_GetTicks();
+
+	_renderer->render();
 }
 
 Entity& Engine::createEntity()

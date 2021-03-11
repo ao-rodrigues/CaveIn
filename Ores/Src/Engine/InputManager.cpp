@@ -16,18 +16,22 @@ void InputManager::handleEvent(const SDL_Event& event)
 	{
 	case SDL_KEYDOWN:
 		_keyDowns.emplace(event.key.keysym.sym);
+		_keyUps.erase(event.key.keysym.sym);
 		break;
 
 	case SDL_KEYUP:
 		_keyUps.emplace(event.key.keysym.sym);
+		_keyDowns.erase(event.key.keysym.sym);
 		break;
 
 	case SDL_MOUSEBUTTONUP:
 		_mouseButtonUps.emplace(event.button.button);
+		_mouseButtonDowns.erase(event.button.button);
 		break;
 
 	case SDL_MOUSEBUTTONDOWN:
 		_mouseButtonDowns.emplace(event.button.button);
+		_mouseButtonUps.erase(event.button.button);
 		break;
 
 	case SDL_MOUSEMOTION:

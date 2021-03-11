@@ -7,8 +7,6 @@
 #include <bitset>
 #include <array>
 
-//#include "BaseComponents.h"
-
 class Component;
 class Entity;
 
@@ -39,7 +37,6 @@ public:
 
 	virtual void init() {}
 	virtual void update() {}
-	virtual void render() {}
 
 	Entity* entity = nullptr;
 };
@@ -52,13 +49,6 @@ public:
 	{
 		for (auto& c : _components) c->update();
 	}
-
-	
-	void render() 
-	{
-		for (auto& c : _components) c->render();
-	}
-	
 
 	inline bool isActive() const { return _isActive; }
 	inline void destroy() { _isActive = false; }
@@ -107,13 +97,6 @@ public:
 	{
 		for (auto& e : _entities) e->update();
 	}
-
-	
-	void render()
-	{
-		for (auto& e : _entities) e->render();
-	}
-	
 
 	/**
 	* Removes all inactive entities

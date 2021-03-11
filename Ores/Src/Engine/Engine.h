@@ -3,11 +3,12 @@
 #include <SDL.h>
 #include "ECS/ECS.h"
 #include "Singleton.h"
-//#include "Renderer.h"
+#include "Renderer.h"
 
 class Engine : public Singleton<Engine>
 {
 public:
+
 	Engine();
 	~Engine();
 
@@ -38,7 +39,7 @@ public:
 		return _isRunning;
 	}
 
-	inline SDL_Renderer* getRenderer()
+	inline Renderer* getRenderer()
 	{
 		return _renderer;
 	}
@@ -49,8 +50,8 @@ private:
 	bool _isRunning = false;
 	int _lastFrameTime = 0;
 	SDL_Window* _window = nullptr;
-	SDL_Renderer* _renderer = nullptr;
-	//Renderer* _renderer = nullptr;
+	//SDL_Renderer* _renderer = nullptr;
+	Renderer* _renderer = nullptr;
 	EntityManager* _entityManager = nullptr;
 	//static Engine* s_instance;
 };

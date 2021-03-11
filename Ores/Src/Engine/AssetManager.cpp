@@ -20,7 +20,7 @@ void AssetManager::loadTexture(std::string id, std::string path)
 {
 	if (_textures.count(id) <= 0)
 	{
-		SDL_Texture* texture = IMG_LoadTexture(Engine::instance().getRenderer(), path.c_str());
+		SDL_Texture* texture = IMG_LoadTexture(Engine::instance().getRenderer()->SDLRenderer(), path.c_str());
 		if (texture)
 		{
 			_textures[id] = texture;
