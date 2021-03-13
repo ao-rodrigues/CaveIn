@@ -11,8 +11,8 @@ public:
 	void init(SDL_Window* window, int flags);
 	void destroy();
 
-	void addRenderable(Sprite* renderable);
-	void render();
+	//void addRenderable(Sprite* renderable);
+	void render(std::vector<Entity*> renderables);
 
 	SDL_Renderer* SDLRenderer() { return _renderer; }
 
@@ -25,6 +25,6 @@ private:
 		}
 	};
 
-	std::vector<std::multiset<Sprite*, RenderableComparator>> _renderables;
+	std::vector<std::multiset<Sprite*, RenderableComparator>> _sortedRenderables;
 	SDL_Renderer* _renderer;
 };

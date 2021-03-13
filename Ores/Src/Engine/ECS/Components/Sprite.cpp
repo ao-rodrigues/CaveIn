@@ -16,5 +16,5 @@ void Sprite::init()
 	dstRect.w = static_cast<int>(width * transform->scale.x);
 	dstRect.h = static_cast<int>(height * transform->scale.y);
 
-	_renderTarget->addRenderable(this);
+	//_renderTarget->addRenderable(this);
 }

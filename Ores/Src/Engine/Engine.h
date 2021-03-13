@@ -22,18 +22,6 @@ public:
 
 	Entity& createEntity();
 
-	/*
-	inline static Engine& instance()
-	{
-		if (s_instance == nullptr)
-		{
-			s_instance = new Engine();
-		}
-
-		return *s_instance;
-	}
-	*/
-
 	inline bool isRunning()
 	{
 		return _isRunning;
@@ -53,5 +41,4 @@ private:
 	//SDL_Renderer* _renderer = nullptr;
 	Renderer* _renderer = nullptr;
 	EntityManager* _entityManager = nullptr;
-	//static Engine* s_instance;
 };

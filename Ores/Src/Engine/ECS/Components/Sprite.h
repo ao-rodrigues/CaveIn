@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include "Transform.h"
 #include "../../AssetManager.h"
-//#include "../../Renderer.h"
+
 class Renderer;
 
 class Sprite : public Component
@@ -18,9 +18,9 @@ public:
 		Count
 	};
 
-	Sprite(Renderer* renderTarget, RenderLayer renderLayer, int depth, std::string textureID, int width, int height)
-		: _renderTarget(renderTarget)
-		, renderLayer(renderLayer)
+	Sprite(RenderLayer renderLayer, int depth, std::string textureID, int width, int height)
+		//: _renderTarget(renderTarget)
+		: renderLayer(renderLayer)
 		, depth(depth)
 		, textureID(textureID)
 		, width(width)
@@ -28,9 +28,9 @@ public:
 	{
 	}
 
-	Sprite(Renderer* renderTarget, RenderLayer renderLayer, int depth, std::string textureID, int width, int height, int numFrames, int frameDelay, int rowIndex)
-		: _renderTarget(renderTarget)
-		, renderLayer(renderLayer)
+	Sprite(RenderLayer renderLayer, int depth, std::string textureID, int width, int height, int numFrames, int frameDelay, int rowIndex)
+		//: _renderTarget(renderTarget)
+		: renderLayer(renderLayer)
 		, depth(depth)
 		, textureID(textureID)
 		, width(width)
@@ -72,14 +72,11 @@ public:
 	std::string textureID = "";
 	SDL_Texture* texture = nullptr;
 
-	//Renderer::RenderLayer renderLayer = Renderer::RenderLayer::Background;
-
 	RenderLayer renderLayer = RenderLayer::Background;
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 
 	Transform* transform = nullptr;
 
 private:
-	//Renderer* _renderer;
-	Renderer* _renderTarget;
+	//Renderer* _renderTarget;
 };

@@ -81,7 +81,9 @@ void Engine::render()
 	deltaTime = (SDL_GetTicks() - _lastFrameTime) / 1000.f;
 	_lastFrameTime = SDL_GetTicks();
 
-	_renderer->render();
+	std::vector<Entity*> renderables = _entityManager->getEntitiesWithComponent<Sprite>();
+
+	_renderer->render(renderables);
 }
 
 Entity& Engine::createEntity()

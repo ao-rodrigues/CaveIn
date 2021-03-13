@@ -1,7 +1,11 @@
 #include "GameManager.h"
+
+#include "Engine.h"
+
 #include "../../Engine/AssetManager.h"
 #include "../../Engine/InputManager.h"
 #include "../Components/Ore.h"
+
 
 void GameManager::init()
 {
@@ -18,13 +22,19 @@ void GameManager::init()
 	oreData.hoverTextureID = "OreHover";
 	oreData.clickedTextureID = "OreClick";
 
-	Entity& ore = engine.createEntity();
-	ore.addComponent<Sprite>(engine.getRenderer(), Sprite::RenderLayer::Foreground, 0, "Ore", 32, 32);
-	ore.addComponent<Ore>(oreData);
+	for (std::size_t y = 0; y < 32; y++)
+	{
+		for (std::size_t x = 0; x < 32; x++)
+		{
+			Entity& ore = engine.createEntity();
+			ore.addComponent<Sprite>(Sprite::RenderLayer::Foreground, 0, "Ore", 32, 32);
+			ore.addComponent<Ore>(oreData);
 
-	Transform& t = ore.getComponent<Transform>();
-	t.position.x = 20;
-	t.position.y = 20;
+			Transform& t = ore.getComponent<Transform>();
+			t.position.x = x * 32;
+			t.position.y = y * 32;
+		}
+	}
 }
 
 void GameManager::update()

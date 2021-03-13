@@ -8,8 +8,8 @@ void Ore::update()
 	Vector2 mousePos = InputManager::mousePosition();
 	bool hover = false;
 
-	if (mousePos.x >= sprite->dstRect.x && mousePos.x <= sprite->dstRect.x + sprite->dstRect.w
-		&& mousePos.y >= sprite->dstRect.y && mousePos.y <= sprite->dstRect.y + sprite->dstRect.h)
+	if (mousePos.x > sprite->dstRect.x && mousePos.x < sprite->dstRect.x + sprite->dstRect.w
+		&& mousePos.y > sprite->dstRect.y && mousePos.y < sprite->dstRect.y + sprite->dstRect.h)
 	{
 		std::cout << "Hovering!" << std::endl;
 		hover = true;

@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include <map>
+#include <unordered_map>
 #include <string>
 #include "Singleton.h"
 
@@ -31,5 +31,5 @@ public:
 
 private:
 	//static AssetManager* s_instance;
-	std::map<std::string, SDL_Texture*> _textures;
+	std::unordered_map<std::string, SDL_Texture*> _textures;
 };

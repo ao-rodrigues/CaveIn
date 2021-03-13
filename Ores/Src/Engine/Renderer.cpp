@@ -9,35 +9,46 @@ void Renderer::init(SDL_Window* window, int flags)
 		std::cerr << SDL_GetError() << std::endl;
 	}
 
-	//_renderables.reserve(Sprite::RenderLayer::Count);
+	
+	_sortedRenderables.reserve(Sprite::RenderLayer::Count);
 	for (std::size_t i = 0; i < Sprite::RenderLayer::Count; i++)
 	{
-		_renderables.emplace_back(std::multiset<Sprite*, RenderableComparator>());
+		_sortedRenderables.emplace_back(std::multiset<Sprite*, RenderableComparator>());
 	}
 }
 
 void Renderer::destroy()
 {
-	_renderables.clear();
+	_sortedRenderables.clear();
 	SDL_DestroyRenderer(_renderer);
 }
 
+/*
 void Renderer::addRenderable(Sprite* renderable)
 {
 	_renderables[renderable->renderLayer].emplace(renderable);
 }
+*/
 
-void Renderer::render()
+void Renderer::render(std::vector<Entity*> renderables)
 {
+	for (auto& entity : renderables)
+	{
+		Sprite& renderable = entity->getComponent<Sprite>();
+		_sortedRenderables[renderable.renderLayer].emplace(&renderable);
+	}
+
 	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0);
 	SDL_RenderClear(_renderer);
-
-	for (auto& layer : _renderables)
+	
+	for (auto& layer : _sortedRenderables)
 	{
 		for (auto& renderable : layer)
 		{
 			SDL_RenderCopyEx(_renderer, renderable->texture, &renderable->srcRect, &renderable->dstRect, renderable->transform->rotation, nullptr, renderable->flip);
 		}
+
+		layer.clear();
 	}
 
 	SDL_RenderPresent(_renderer);
