@@ -2,6 +2,8 @@
 #include "../../Engine/ECS/ECS.h"
 #include "../OreData.h"
 
+#include "../../Engine/Math/Vector2.h"
+
 class Sprite;
 class Transform;
 class Animation;
@@ -10,9 +12,10 @@ class HoverCursor;
 class Ore : public Component
 {
 public:
-	Ore(OreData oreData, HoverCursor& hoverCursor)
+	Ore(OreData oreData, HoverCursor& hoverCursor, Vector2 gridCoords)
 		: _oreData(oreData)
 		, _hoverCursor(hoverCursor)
+		, _gridCoords(gridCoords)
 	{
 	}
 
@@ -25,8 +28,11 @@ public:
 
 	void update() override;
 
+	inline OreData getOreData() { return _oreData; }
+
 private:
 	OreData _oreData;
+	Vector2 _gridCoords;
 	Sprite* _sprite = nullptr;
 	Transform* _transform = nullptr;
 	HoverCursor& _hoverCursor;

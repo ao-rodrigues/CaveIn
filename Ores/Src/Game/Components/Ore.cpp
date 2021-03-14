@@ -1,9 +1,10 @@
 #include "Ore.h"
 #include "../../Engine/InputManager.h"
-#include "../../Engine/Math/Vector2.h"
 #include "../../Engine/ECS/Components/Sprite.h"
 #include "../../Engine/ECS/Components/Animation.h"
 #include "HoverCursor.h"
+#include "../Managers/GameManager.h"
+
 
 void Ore::update()
 {
@@ -30,12 +31,13 @@ void Ore::update()
 		_clicked = true;
 	}
 
-
 	if (InputManager::mouseButtonUp(SDL_BUTTON_LEFT) && _clicked)
 	{
-		std::cout << "Clicked it" << std::endl;
 		_hoverCursor.release();
 		_hoverCursor.setVisible(false);
-		entity->destroy();
+		_clicked = false;
+
+		GameManager::instance().onOreDestroyed(_gridCoords, _oreData.typeIndex);
+		//entity->destroy();
 	}
 }

@@ -43,26 +43,122 @@ void GameManager::init()
 	Entity& hoverCursor = engine.createEntity();
 	hoverCursor.addComponent<Sprite>(Sprite::RenderLayer::Foreground, 1, "Hover", 32, 32);
 	hoverCursor.addComponent<HoverCursor>();
-	
-	for (std::size_t y = 0; y < 10; y++)
+
+	for (std::size_t y = 0; y < GRID_HEIGHT; y++)
 	{
-		for (std::size_t x = 0; x < 10; x++)
+		for (std::size_t x = 0; x < GRID_WIDTH; x++)
 		{
-			OreData oreData = ores[rand() % 8];
+			if (x < GRID_WIDTH / 2)
+			{
+				_grid[x][y] = nullptr;
+			}
+			else
+			{
+				OreData oreData = ores[rand() % 8];
 
-			Entity& ore = engine.createEntity();
-			ore.addComponent<Sprite>(Sprite::RenderLayer::Foreground, 0, oreData.textureID, 32, 32);
-			ore.addComponent<Ore>(oreData, hoverCursor.getComponent<HoverCursor>());
+				Entity& ore = engine.createEntity();
+				ore.addComponent<Sprite>(Sprite::RenderLayer::Foreground, 0, oreData.textureID, 32, 32);
+				_grid[x][y] = &ore.addComponent<Ore>(oreData, hoverCursor.getComponent<HoverCursor>(), Vector2(x, y));
 
-			Transform& t = ore.getComponent<Transform>();
-			t.position.x = x * 32;
-			t.position.y = y * 32;
+				Transform& t = ore.getComponent<Transform>();
+				t.position.x = x * 32;
+				t.position.y = y * 32;
+			}
+
 		}
 	}
-	
 }
 
 void GameManager::update()
 {
 
+}
+
+void GameManager::onOreDestroyed(const Vector2& oreCoords, int typeIndex)
+{
+	int x = static_cast<int>(oreCoords.x);
+	int y = static_cast<int>(oreCoords.y);
+
+	bool neighborDestroyed = false;
+
+	// Check up
+	if (y - 1 >= 0 && _grid[x][y - 1] != nullptr && _grid[x][y - 1]->getOreData().typeIndex == typeIndex)
+	{
+		destroyNeighboringOre(Vector2(x, y - 1), _grid[x][y - 1]->getOreData().typeIndex, ComingFrom::Down);
+		_grid[x][y - 1]->entity->destroy();
+		_grid[x][y - 1] = nullptr;
+		neighborDestroyed = true;
+	}
+
+	// Check down
+	if (y + 1 < GRID_HEIGHT && _grid[x][y + 1] != nullptr && _grid[x][y + 1]->getOreData().typeIndex == typeIndex)
+	{
+		destroyNeighboringOre(Vector2(x, y + 1), _grid[x][y + 1]->getOreData().typeIndex, ComingFrom::Up);
+		_grid[x][y + 1]->entity->destroy();
+		_grid[x][y + 1] = nullptr;
+		neighborDestroyed = true;
+	}
+
+	// Check left
+	if (x - 1 >= 0 && _grid[x - 1][y] != nullptr && _grid[x - 1][y]->getOreData().typeIndex == typeIndex)
+	{
+		destroyNeighboringOre(Vector2(x - 1, y), _grid[x - 1][y]->getOreData().typeIndex, ComingFrom::Right);
+		_grid[x - 1][y]->entity->destroy();
+		_grid[x - 1][y] = nullptr;
+		neighborDestroyed = true;
+	}
+
+	// Check right
+	if (x + 1 < GRID_WIDTH && _grid[x + 1][y] != nullptr && _grid[x + 1][y]->getOreData().typeIndex == typeIndex)
+	{
+		destroyNeighboringOre(Vector2(x + 1, y), _grid[x + 1][y]->getOreData().typeIndex, ComingFrom::Left);
+		_grid[x + 1][y]->entity->destroy();
+		_grid[x + 1][y] = nullptr;
+		neighborDestroyed = true;
+	}
+
+	// We only destroy a block if at least one of its neighbors was destroyed
+	if (neighborDestroyed)
+	{
+		_grid[x][y]->entity->destroy();
+		_grid[x][y] = nullptr;
+	}
+}
+
+void GameManager::destroyNeighboringOre(const Vector2& oreCoords, int typeIndex, ComingFrom comingFrom)
+{
+	int x = static_cast<int>(oreCoords.x);
+	int y = static_cast<int>(oreCoords.y);
+
+	// Check up
+	if (comingFrom != ComingFrom::Up && y - 1 >= 0 && _grid[x][y - 1] != nullptr && _grid[x][y - 1]->getOreData().typeIndex == typeIndex)
+	{
+		destroyNeighboringOre(Vector2(x, y - 1), _grid[x][y - 1]->getOreData().typeIndex, ComingFrom::Down);
+		_grid[x][y - 1]->entity->destroy();
+		_grid[x][y - 1] = nullptr;
+	}
+
+	// Check down
+	if (comingFrom != ComingFrom::Down && y + 1 < GRID_HEIGHT && _grid[x][y + 1] != nullptr && _grid[x][y + 1]->getOreData().typeIndex == typeIndex)
+	{
+		destroyNeighboringOre(Vector2(x, y + 1), _grid[x][y + 1]->getOreData().typeIndex, ComingFrom::Up);
+		_grid[x][y + 1]->entity->destroy();
+		_grid[x][y + 1] = nullptr;
+	}
+
+	// Check left
+	if (comingFrom != ComingFrom::Left && x - 1 >= 0 && _grid[x - 1][y] != nullptr && _grid[x - 1][y]->getOreData().typeIndex == typeIndex)
+	{
+		destroyNeighboringOre(Vector2(x - 1, y), _grid[x - 1][y]->getOreData().typeIndex, ComingFrom::Right);
+		_grid[x - 1][y]->entity->destroy();
+		_grid[x - 1][y] = nullptr;
+	}
+
+	// Check right
+	if (comingFrom != ComingFrom::Right && x + 1 < GRID_WIDTH && _grid[x + 1][y] != nullptr && _grid[x + 1][y]->getOreData().typeIndex == typeIndex)
+	{
+		destroyNeighboringOre(Vector2(x + 1, y), _grid[x + 1][y]->getOreData().typeIndex, ComingFrom::Left);
+		_grid[x + 1][y]->entity->destroy();
+		_grid[x + 1][y] = nullptr;
+	}
 }
