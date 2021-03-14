@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Engine\AssetManager.cpp" />
+    <ClCompile Include="Src\Engine\ECS\Components\Animation.cpp" />
     <ClCompile Include="Src\Engine\ECS\Components\Sprite.cpp" />
     <ClCompile Include="Src\Engine\ECS\ECS.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
@@ -154,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Engine\AssetManager.h" />
+    <ClInclude Include="Src\Engine\ECS\Components\Animation.h" />
     <ClInclude Include="Src\Engine\ECS\ECS.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Sprite.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Transform.h" />

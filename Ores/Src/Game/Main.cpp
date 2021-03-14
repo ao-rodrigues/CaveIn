@@ -7,7 +7,7 @@
 int main(int argc, char *args[])
 {
 	Engine& engine = Engine::instance();
-	engine.init("Ores", 800, 600, false, false);
+	engine.init("Ores", 800, 600, false, false, 800, 600);
 
 	GameManager& gameManager = GameManager::instance();
 	gameManager.init();

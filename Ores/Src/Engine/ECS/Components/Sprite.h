@@ -4,7 +4,6 @@
 #include "Transform.h"
 #include "../../AssetManager.h"
 
-class Renderer;
 
 class Sprite : public Component
 {
@@ -19,26 +18,11 @@ public:
 	};
 
 	Sprite(RenderLayer renderLayer, int depth, std::string textureID, int width, int height)
-		//: _renderTarget(renderTarget)
 		: renderLayer(renderLayer)
 		, depth(depth)
 		, textureID(textureID)
 		, width(width)
 		, height(height)
-	{
-	}
-
-	Sprite(RenderLayer renderLayer, int depth, std::string textureID, int width, int height, int numFrames, int frameDelay, int rowIndex)
-		//: _renderTarget(renderTarget)
-		: renderLayer(renderLayer)
-		, depth(depth)
-		, textureID(textureID)
-		, width(width)
-		, height(height)
-		, animated(true)
-		, numFrames(numFrames)
-		, frameDelay(frameDelay)
-		, rowIndex(rowIndex)
 	{
 	}
 
@@ -46,15 +30,19 @@ public:
 
 	void update() override
 	{
-		if (animated)
-		{
-			srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / frameDelay) % numFrames);
-		}
-
 		dstRect.x = static_cast<int>(transform->position.x);
 		dstRect.y = static_cast<int>(transform->position.y);
 		dstRect.w = static_cast<int>(width * transform->scale.x);
 		dstRect.h = static_cast<int>(height * transform->scale.y);
+
+		makeDstRelativeToCamera();
+	}
+
+	inline void setTexture(std::string newTextureID, int rowIndex)
+	{
+		textureID = newTextureID;
+		texture = AssetManager::instance().getTexture(textureID);
+		srcRect.y = rowIndex * height;
 	}
 
 	int width = 0;
@@ -63,11 +51,6 @@ public:
 	SDL_Rect dstRect = { 0, 0, 0, 0 };
 
 	int depth = 0;
-
-	bool animated = false;
-	int rowIndex = 0;
-	int numFrames = 1;
-	int frameDelay = 100;
 
 	std::string textureID = "";
 	SDL_Texture* texture = nullptr;
@@ -78,5 +61,5 @@ public:
 	Transform* transform = nullptr;
 
 private:
-	//Renderer* _renderTarget;
+	void makeDstRelativeToCamera();
 };

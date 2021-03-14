@@ -23,13 +23,6 @@ void Renderer::destroy()
 	SDL_DestroyRenderer(_renderer);
 }
 
-/*
-void Renderer::addRenderable(Sprite* renderable)
-{
-	_renderables[renderable->renderLayer].emplace(renderable);
-}
-*/
-
 void Renderer::render(std::vector<Entity*> renderables)
 {
 	for (auto& entity : renderables)

@@ -17,7 +17,7 @@ Engine::~Engine()
 	delete _entityManager;
 }
 
-void Engine::init(const char* title, int width, int height, bool fullscreen, bool vsync)
+void Engine::init(const char* title, int width, int height, bool fullscreen, bool vsync, int worldWidth, int worldHeight)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -32,7 +32,14 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 		std::cerr << SDL_GetError() << std::endl;
 	}
 
-	
+	_camera.x = 0;
+	_camera.y = 0;
+	_camera.w = width;
+	_camera.h = height;
+
+	_worldDimensions.x = worldWidth;
+	_worldDimensions.y = worldHeight;
+
 	_renderer = new Renderer();
 	auto rendererFlags = vsync ? (SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED) : SDL_RENDERER_ACCELERATED;
 	_renderer->init(_window, rendererFlags);
@@ -80,10 +87,14 @@ void Engine::render()
 {
 	deltaTime = (SDL_GetTicks() - _lastFrameTime) / 1000.f;
 	_lastFrameTime = SDL_GetTicks();
+	int fps = _frameCount / (_lastFrameTime / 1000.f);
+	std::cout << "FPS: " << fps << std::endl;
+
 
 	std::vector<Entity*> renderables = _entityManager->getEntitiesWithComponent<Sprite>();
 
 	_renderer->render(renderables);
+	_frameCount++;
 }
 
 Entity& Engine::createEntity()

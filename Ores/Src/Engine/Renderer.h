@@ -11,7 +11,6 @@ public:
 	void init(SDL_Window* window, int flags);
 	void destroy();
 
-	//void addRenderable(Sprite* renderable);
 	void render(std::vector<Entity*> renderables);
 
 	SDL_Renderer* SDLRenderer() { return _renderer; }

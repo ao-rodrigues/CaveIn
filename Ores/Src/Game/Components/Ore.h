@@ -25,4 +25,7 @@ public:
 	OreData oreData;
 	Sprite* sprite;
 	Transform* transform;
+
+private:
+	bool _clicked = false;
 };

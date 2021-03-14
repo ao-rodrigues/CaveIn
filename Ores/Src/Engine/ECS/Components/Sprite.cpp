@@ -1,5 +1,5 @@
 #include "Sprite.h"
-#include "../../Renderer.h"
+#include "../../Engine.h"
 
 void Sprite::init()
 {
@@ -7,7 +7,7 @@ void Sprite::init()
 	texture = AssetManager::instance().getTexture(textureID);
 
 	srcRect.x = 0;
-	srcRect.y = rowIndex * height;;
+	srcRect.y = 0;
 	srcRect.w = width;
 	srcRect.h = height;
 
@@ -16,5 +16,27 @@ void Sprite::init()
 	dstRect.w = static_cast<int>(width * transform->scale.x);
 	dstRect.h = static_cast<int>(height * transform->scale.y);
 
-	//_renderTarget->addRenderable(this);
+	makeDstRelativeToCamera();
+}
+
+void Sprite::makeDstRelativeToCamera()
+{
+	/*
+	// Clamp final destination within world borders
+	Vector2 worldDimensions = Engine::instance().getWorldDimensions();
+	if (dstRect.x + dstRect.w > worldDimensions.x)
+	{
+		dstRect.x = worldDimensions.x - dstRect.w;
+	}
+
+	if (dstRect.y + dstRect.h > worldDimensions.y)
+	{
+		dstRect.y = worldDimensions.y - dstRect.y;
+	}
+	*/
+
+	// Make final destination relative to camera
+	SDL_Rect camera = Engine::instance().getCamera();
+	dstRect.x -= camera.x;
+	dstRect.y -= camera.y;
 }

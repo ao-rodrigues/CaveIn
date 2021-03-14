@@ -11,8 +11,6 @@ ArchetypeID Archetype::s_lastArchetypeID = 0u;
 Archetype::Archetype(const std::unordered_set<ComponentID>& newComponents)
 {
 	id = s_lastArchetypeID++;
-	//std::unique_ptr<Entity> uPtr(entity);
-	//entities.emplace(entity->id, std::move(uPtr));
 	components = newComponents;
 }
 
@@ -63,25 +61,17 @@ void EntityManager::update()
 
 void EntityManager::refresh()
 {
-	/*
-for (auto& arch : _archetypes)
-{
-	arch->entities.erase(std::remove_if(arch->entities.begin(), arch->entities.end(),
-		[](const std::unique_ptr<Entity>& entity)
-		{
-			return !entity->isActive();
-		}
-	), arch->entities.end());
-}
-*/
-
 	for (auto& arch : _archetypes)
 	{
-		for (auto& entry : arch->entities)
+		for (auto it = arch->entities.begin(); it != arch->entities.end();)
 		{
-			if (!entry.second->isActive())
+			if (!it->second->isActive())
 			{
-				arch->entities.erase(entry.first);
+				it = arch->entities.erase(it);
+			}
+			else
+			{
+				it++;
 			}
 		}
 	}
@@ -92,7 +82,6 @@ Entity& EntityManager::createEntity()
 	Entity* newEntity = new Entity(_archetypes[0]->id, this);
 	newEntity->manager = this;
 	std::unique_ptr<Entity> ptr(newEntity);
-	//_entities.emplace_back(std::move(ptr));
 
 	// Store in no-components archetype
 	_archetypes[0]->entities.emplace(ptr->id, std::move(ptr));

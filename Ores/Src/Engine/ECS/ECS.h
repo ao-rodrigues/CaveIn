@@ -103,7 +103,6 @@ public:
 	std::vector<Entity*> getEntitiesWithComponentExact();
 
 private:
-	//std::vector<std::unique_ptr<Entity>> _entities;
 	std::vector<std::unique_ptr<Archetype>> _archetypes;
 	friend class Entity;
 
