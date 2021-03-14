@@ -14,8 +14,8 @@ public:
 
 	void clear();
 
-	SDL_Texture* getTexture(std::string id);
-	void loadTexture(std::string id, std::string path);
+	SDL_Texture* getTexture(const std::string& id);
+	void loadTexture(const std::string& id, const std::string& path);
 
 	/*
 	inline static AssetManager* instance()

@@ -81,6 +81,7 @@ void Engine::update()
 {
 	_entityManager->update();
 	_entityManager->refresh();
+	InputManager::clearFrameEvents();
 }
 
 void Engine::render()

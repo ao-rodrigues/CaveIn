@@ -9,7 +9,7 @@ class Animation : public Component
 public:
 	struct AnimationInfo
 	{
-		AnimationInfo(std::string name, std::string textureID, int numFrames, int frameDelay, int rowIndex)
+		AnimationInfo(const std::string& name, const std::string& textureID, int numFrames, int frameDelay, int rowIndex)
 			: name(name)
 			, textureID(textureID)
 			, numFrames(numFrames)
@@ -24,7 +24,7 @@ public:
 		int rowIndex = 0;
 	};
 
-	Animation(std::string textureID, int numFrames, int frameDelay, int rowIndex = 0)
+	Animation(const std::string& textureID, int numFrames, int frameDelay, int rowIndex = 0)
 	{
 		AnimationInfo animation(currentAnimation, textureID, numFrames, frameDelay, rowIndex);
 		animations.emplace(currentAnimation, animation);
@@ -43,7 +43,7 @@ public:
 	void init() override;
 	void update() override;
 
-	void setAnimation(std::string animation)
+	void setAnimation(const std::string& animation)
 	{
 		if (animations.count(animation))
 		{

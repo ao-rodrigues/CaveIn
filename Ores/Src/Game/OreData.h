@@ -4,9 +4,13 @@
 
 struct OreData
 {
+	OreData(int typeIndex, int destructionPoints, const std::string& textureID)
+		: typeIndex(typeIndex)
+		, destructionPoints(destructionPoints)
+		, textureID(textureID)
+	{ }
+
 	int typeIndex;
 	int destructionPoints;
-	std::string defaultTextureID;
-	std::string hoverTextureID;
-	std::string clickedTextureID;
+	std::string textureID;
 };

@@ -23,7 +23,7 @@ void Renderer::destroy()
 	SDL_DestroyRenderer(_renderer);
 }
 
-void Renderer::render(std::vector<Entity*> renderables)
+void Renderer::render(const std::vector<Entity*>& renderables)
 {
 	for (auto& entity : renderables)
 	{
@@ -38,7 +38,10 @@ void Renderer::render(std::vector<Entity*> renderables)
 	{
 		for (auto& renderable : layer)
 		{
-			SDL_RenderCopyEx(_renderer, renderable->texture, &renderable->srcRect, &renderable->dstRect, renderable->transform->rotation, nullptr, renderable->flip);
+			if (renderable->visible)
+			{
+				SDL_RenderCopyEx(_renderer, renderable->texture, &renderable->srcRect, &renderable->dstRect, renderable->transform->rotation, nullptr, renderable->flip);
+			}
 		}
 
 		layer.clear();

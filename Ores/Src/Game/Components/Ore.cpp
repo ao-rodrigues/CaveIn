@@ -2,38 +2,40 @@
 #include "../../Engine/InputManager.h"
 #include "../../Engine/Math/Vector2.h"
 #include "../../Engine/ECS/Components/Sprite.h"
+#include "../../Engine/ECS/Components/Animation.h"
+#include "HoverCursor.h"
 
 void Ore::update()
 {
 	Vector2 mousePos = InputManager::mousePosition();
-	bool hover = false;
 
-	if (mousePos.x > sprite->dstRect.x && mousePos.x < sprite->dstRect.x + sprite->dstRect.w
-		&& mousePos.y > sprite->dstRect.y && mousePos.y < sprite->dstRect.y + sprite->dstRect.h)
+	if (mousePos.x > _sprite->dstRect.x && mousePos.x < _sprite->dstRect.x + _sprite->dstRect.w
+		&& mousePos.y > _sprite->dstRect.y && mousePos.y < _sprite->dstRect.y + _sprite->dstRect.h)
 	{
-		//std::cout << "Hovering!" << std::endl;
-		hover = true;
-		sprite->texture = AssetManager::instance().getTexture(oreData.hoverTextureID);
+		_hover = true;
+
+		_hoverCursor.setPosition(_transform->position);
+		_hoverCursor.setVisible(true);
+		_hoverCursor.use();
 	}
-	else
+	else if (_hover)
 	{
-		sprite->texture = AssetManager::instance().getTexture(oreData.defaultTextureID);
+		_hoverCursor.release();
+		_hoverCursor.setVisible(false);
+		_hover = false;
 	}
 
-	//bool clicked = false;
-
-	if (InputManager::mouseButtonDown(SDL_BUTTON_LEFT) && hover)
+	if (_hover && InputManager::mouseButtonPressed(SDL_BUTTON_LEFT))
 	{
 		_clicked = true;
-		//std::cout << "Clicked on ore!" << std::endl;
-		sprite->texture = AssetManager::instance().getTexture(oreData.clickedTextureID);
 	}
 
-	if (InputManager::mouseButtonUp(SDL_BUTTON_LEFT) && _clicked && hover)
+
+	if (InputManager::mouseButtonUp(SDL_BUTTON_LEFT) && _clicked)
 	{
-		std::cout << "Stopped clicking on ore!" << std::endl;
-		sprite->texture = AssetManager::instance().getTexture(oreData.hoverTextureID);
+		std::cout << "Clicked it" << std::endl;
+		_hoverCursor.release();
+		_hoverCursor.setVisible(false);
 		entity->destroy();
 	}
-
 }

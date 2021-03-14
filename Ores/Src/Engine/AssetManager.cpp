@@ -11,12 +11,12 @@ AssetManager::AssetManager()
 	}
 }
 
-SDL_Texture* AssetManager::getTexture(std::string id)
+SDL_Texture* AssetManager::getTexture(const std::string& id)
 {
 	return _textures.count(id) > 0 ? _textures[id] : nullptr;
 }
 
-void AssetManager::loadTexture(std::string id, std::string path)
+void AssetManager::loadTexture(const std::string& id, const std::string& path)
 {
 	if (_textures.count(id) <= 0)
 	{

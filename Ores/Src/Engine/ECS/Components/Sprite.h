@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL.h>
+#include <vector>
 #include "Transform.h"
 #include "../../AssetManager.h"
 
@@ -17,7 +18,7 @@ public:
 		Count
 	};
 
-	Sprite(RenderLayer renderLayer, int depth, std::string textureID, int width, int height)
+	Sprite(RenderLayer renderLayer, int depth, const std::string& textureID, int width, int height)
 		: renderLayer(renderLayer)
 		, depth(depth)
 		, textureID(textureID)
@@ -38,11 +39,16 @@ public:
 		makeDstRelativeToCamera();
 	}
 
-	inline void setTexture(std::string newTextureID, int rowIndex)
+	inline void setTexture(const std::string& newTextureID, int rowIndex)
 	{
 		textureID = newTextureID;
 		texture = AssetManager::instance().getTexture(textureID);
 		srcRect.y = rowIndex * height;
+	}
+
+	inline void setVisible(bool visible)
+	{
+		this->visible = visible;
 	}
 
 	int width = 0;
@@ -51,6 +57,7 @@ public:
 	SDL_Rect dstRect = { 0, 0, 0, 0 };
 
 	int depth = 0;
+	bool visible = true;
 
 	std::string textureID = "";
 	SDL_Texture* texture = nullptr;

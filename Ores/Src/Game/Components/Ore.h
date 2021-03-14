@@ -4,28 +4,32 @@
 
 class Sprite;
 class Transform;
+class Animation;
+class HoverCursor;
 
 class Ore : public Component
 {
 public:
-	Ore(OreData oreData)
-		: oreData(oreData)
+	Ore(OreData oreData, HoverCursor& hoverCursor)
+		: _oreData(oreData)
+		, _hoverCursor(hoverCursor)
 	{
 	}
 
 	void init()
 	{
 		// TODO safety check if entity has needed components
-		sprite = &entity->getComponent<Sprite>();
-		transform = &entity->getComponent<Transform>();
+		_transform = &entity->getComponent<Transform>();
+		_sprite = &entity->getComponent<Sprite>();
 	}
 
 	void update() override;
 
-	OreData oreData;
-	Sprite* sprite;
-	Transform* transform;
-
 private:
+	OreData _oreData;
+	Sprite* _sprite = nullptr;
+	Transform* _transform = nullptr;
+	HoverCursor& _hoverCursor;
+	bool _hover = false;
 	bool _clicked = false;
 };
