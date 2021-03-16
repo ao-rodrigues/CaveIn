@@ -90,36 +90,48 @@ void OreGridSystem::updateGrid()
 
 			if (_grid[y][x]->isSuspended())
 			{
-				if (x - 1 >= 0)
+				// Find the first null position starting from the bottom,
+				// then we move the ore to that position
+
+				int newX;
+				for (newX = 0; newX < GRID_HEIGHT; newX++)
 				{
-					if (_grid[y][x - 1] == nullptr)
-					{
-						_grid[y][x - 1] = _grid[y][x];
-						_grid[y][x]->setGridCoords(coordConvertGridToOre(x - 1, y));
-						_grid[y][x] = nullptr;
-					}
-					else
-					{
-						_grid[y][x]->flagNotSuspended();
-					}
+					if (_grid[y][newX] == nullptr) break;
 				}
+
+				_grid[y][newX] = _grid[y][x];
+				_grid[y][x]->setGridCoords(coordConvertGridToOre(newX, y));
+				_grid[y][x]->flagNotSuspended();
+				_grid[y][x] = nullptr;
 			}
 		}
 
 		if (emptyBlocksCounter == GRID_HEIGHT && y - 1 >= _leftmostColIndex)
 		{
-			// Empty column, move all blocks at the left to this column
-			for (int x = 0; x < GRID_HEIGHT; x++)
+			// Empty column, move all the columns at the left 1 step to the right to fill the gap
+			for (int i = 1, j = 0; y - i >= 0 && y - j >= 1; i++, j++)
 			{
+				for (int x = 0; x < GRID_HEIGHT; x++)
+				{
+					if (_grid[y - i][x] != nullptr)
+					{
+						_grid[y - j][x] = _grid[y - i][x];
+						_grid[y - i][x]->setGridCoords(coordConvertGridToOre(x, y - j));
+						_grid[y - i][x] = nullptr;
+					}
+				}
+
+				/*
 				if (_grid[y - 1][x] != nullptr)
 				{
 					_grid[y][x] = _grid[y - 1][x];
 					_grid[y - 1][x]->setGridCoords(coordConvertGridToOre(x, y));
 					_grid[y - 1][x] = nullptr;
 				}
-			}
+				*/
 
-			_leftmostColIndex++;
+				_leftmostColIndex++;
+			}
 		}
 	}
 }
