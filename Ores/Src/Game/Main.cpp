@@ -2,27 +2,28 @@
 #include "Engine.h"
 #include "../Engine/InputManager.h"
 #include "../Engine/ECS/Components/Transform.h"
-#include "Managers/GameManager.h"
+#include "Game.h"
 
 int main(int argc, char *args[])
 {
 	Engine& engine = Engine::instance();
 	engine.init("Ores", 800, 600, false, false, 800, 600);
 
-	GameManager& gameManager = GameManager::instance();
-	gameManager.init();
+	Game* game = new Game();
+	game->init();
 
 	while (engine.isRunning())
 	{
 		engine.handleEvents();
 
-		gameManager.update();
+		game->update();
 
 		engine.update();
 		engine.render();
 	}
 
 	engine.clear();
+	delete game;
 
 	return 0;
 }

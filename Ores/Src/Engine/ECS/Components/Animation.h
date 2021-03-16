@@ -41,7 +41,7 @@ public:
 	}
 
 	void init() override;
-	void update() override;
+	//void update() override;
 
 	void setAnimation(const std::string& animation)
 	{

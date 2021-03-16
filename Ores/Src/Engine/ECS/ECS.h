@@ -20,9 +20,30 @@ public:
 	virtual ~Component() {}
 
 	virtual void init() {}
-	virtual void update() {}
+	//virtual void update() {}
 
 	Entity* entity = nullptr;
+};
+
+class System
+{
+public:
+	System(EntityManager* entityManager)
+		: _entityManager(entityManager)
+	{ }
+
+	/// <summary>
+	/// Called upon creation of the system
+	/// </summary>
+	virtual void init() {}
+
+	/// <summary>
+	/// Called every frame in each system
+	/// </summary>
+	virtual void update() = 0;
+
+protected:
+	EntityManager* _entityManager;
 };
 
 struct Archetype
@@ -58,7 +79,7 @@ public:
 
 	Entity(ArchetypeID archetypeID, EntityManager* manager);
 
-	void update();
+	//void update();
 
 	inline bool isActive() const { return _isActive; }
 	inline void destroy() { _isActive = false; }
@@ -91,7 +112,7 @@ class EntityManager
 public:
 	EntityManager();
 
-	void update();
+	//void update();
 	void refresh();
 
 	Entity& createEntity();

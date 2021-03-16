@@ -2,40 +2,83 @@
 #include "../../Engine/ECS/ECS.h"
 #include "../OreData.h"
 
+#include "../../Engine/ECS/Components/Transform.h"
+#include "../../Engine/ECS/Components/Sprite.h"
 #include "../../Engine/Math/Vector2.h"
 
-class Sprite;
-class Transform;
-class Animation;
-class HoverCursor;
 
 class Ore : public Component
 {
 public:
-	Ore(OreData oreData, HoverCursor& hoverCursor, Vector2 gridCoords)
+	Ore(OreData oreData, const Vector2& gridCoords, int oreWidth, int oreHeight, float moveDuration)
 		: _oreData(oreData)
-		, _hoverCursor(hoverCursor)
 		, _gridCoords(gridCoords)
+		, _oreDimensions(Vector2(oreWidth, oreHeight))
+		, _moveDuration(moveDuration)
 	{
 	}
 
 	void init()
 	{
-		// TODO safety check if entity has needed components
 		_transform = &entity->getComponent<Transform>();
 		_sprite = &entity->getComponent<Sprite>();
 	}
 
-	void update() override;
-
+	inline Transform* getTransform() { return _transform; }
+	inline Sprite* getSprite() { return _sprite; }
 	inline OreData getOreData() { return _oreData; }
+
+	inline const Vector2& getGridCoords() { return _gridCoords; }
+	inline const Vector2& getOreDimensions() { return _oreDimensions; }
+
+	void setGridCoords(Vector2 newCoords)
+	{
+		_gridCoords = newCoords;
+		_transform->position.x = _gridCoords.x * _oreDimensions.x;
+		_transform->position.y = _gridCoords.y * _oreDimensions.y;
+	}
+
+	inline void flagSuspended()
+	{
+		_suspended = true;
+		_moving = true;
+	}
+
+	inline void flagNotSuspended()
+	{
+		_suspended = false;
+	}
+
+	inline void flagVisited()
+	{
+		_visited = true;
+	}
+
+	inline void flagNotVisited()
+	{
+		_visited = false;
+	}
+
+	inline bool isSuspended() { return _suspended; }
+	inline bool isMoving() { return _moving; }
+	inline bool visited() { return _visited; }
+
+
+	bool hover = false;
+	bool clicked = false;
 
 private:
 	OreData _oreData;
 	Vector2 _gridCoords;
+	Vector2 _oreDimensions;
+
 	Sprite* _sprite = nullptr;
 	Transform* _transform = nullptr;
-	HoverCursor& _hoverCursor;
-	bool _hover = false;
-	bool _clicked = false;
+
+	bool _visited = false;
+
+	bool _suspended = false; // Flag to check if this ore is suspended mid-air inside the grid, with no blocks underneath it.
+	bool _moving = false; // Flag to check if the ore is moving between grid positions. While this is true, the ore cannot be interacted with.
+	float _moveDuration = 0.f;
+	float _timeElapsed = 0.f;
 };

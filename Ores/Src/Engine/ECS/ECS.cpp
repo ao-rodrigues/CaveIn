@@ -30,10 +30,12 @@ Entity::Entity(ArchetypeID archetypeID, EntityManager* manager)
 	id = s_lastEntityID++;
 }
 
+/*
 void Entity::update()
 {
 	for (auto& c : _componentMap) c.second->update();
 }
+*/
 
 
 /**
@@ -51,6 +53,7 @@ EntityManager::EntityManager()
 	_archetypes.emplace_back(std::move(uPtr));
 }
 
+/*
 void EntityManager::update()
 {
 	for (auto& arch : _archetypes)
@@ -58,6 +61,7 @@ void EntityManager::update()
 		for (auto& e : arch->entities) e.second->update();
 	}
 }
+*/
 
 void EntityManager::refresh()
 {
@@ -71,7 +75,7 @@ void EntityManager::refresh()
 			}
 			else
 			{
-				it++;
+				++it;
 			}
 		}
 	}

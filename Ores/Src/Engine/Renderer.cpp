@@ -20,7 +20,16 @@ void Renderer::init(SDL_Window* window, int flags)
 void Renderer::destroy()
 {
 	_sortedRenderables.clear();
-	SDL_DestroyRenderer(_renderer);
+	SDL_DestroyRenderer(_renderer); struct RenderableComparator
+	{
+		bool operator()(const Sprite* r1, const Sprite* r2) const
+		{
+			return r1->depth < r2->depth;
+		}
+	};
+
+	std::vector<std::multiset<Sprite*, RenderableComparator>> _sortedRenderables;
+	SDL_Renderer* _renderer;
 }
 
 void Renderer::render(const std::vector<Entity*>& renderables)

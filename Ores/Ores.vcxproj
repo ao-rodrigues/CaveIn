@@ -146,13 +146,16 @@
     <ClCompile Include="Src\Engine\ECS\Components\Animation.cpp" />
     <ClCompile Include="Src\Engine\ECS\Components\Sprite.cpp" />
     <ClCompile Include="Src\Engine\ECS\ECS.cpp" />
+    <ClCompile Include="Src\Engine\ECS\Systems\AnimationSystem.cpp" />
+    <ClCompile Include="Src\Engine\ECS\Systems\SpriteSystem.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
     <ClCompile Include="Src\Engine\InputManager.cpp" />
     <ClCompile Include="Src\Engine\Renderer.cpp" />
-    <ClCompile Include="Src\Game\Components\HoverCursor.cpp" />
-    <ClCompile Include="Src\Game\Components\Ore.cpp" />
-    <ClCompile Include="Src\Game\Managers\GameManager.cpp" />
+    <ClCompile Include="Src\Game\Game.cpp" />
     <ClCompile Include="Src\Game\Main.cpp" />
+    <ClCompile Include="Src\Game\Systems\HoverCursorSystem.cpp" />
+    <ClCompile Include="Src\Game\Systems\OreClickSystem.cpp" />
+    <ClCompile Include="Src\Game\Systems\OreGridSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Engine\AssetManager.h" />
@@ -160,6 +163,8 @@
     <ClInclude Include="Src\Engine\ECS\ECS.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Sprite.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Transform.h" />
+    <ClInclude Include="Src\Engine\ECS\Systems\AnimationSystem.h" />
+    <ClInclude Include="Src\Engine\ECS\Systems\SpriteSystem.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\Engine\InputManager.h" />
     <ClInclude Include="Src\Engine\Math\Vector2.h" />
@@ -167,8 +172,14 @@
     <ClInclude Include="Src\Engine\Singleton.h" />
     <ClInclude Include="Src\Game\Components\HoverCursor.h" />
     <ClInclude Include="Src\Game\Components\Ore.h" />
-    <ClInclude Include="Src\Game\Managers\GameManager.h" />
+    <ClInclude Include="Src\Game\Events\HoverCursorAttachEvent.h" />
+    <ClInclude Include="Src\Game\Events\HoverCursorReleaseEvent.h" />
+    <ClInclude Include="Src\Game\Events\OreSelectedEvent.h" />
+    <ClInclude Include="Src\Game\Game.h" />
     <ClInclude Include="Src\Game\OreData.h" />
+    <ClInclude Include="Src\Game\Systems\HoverCursorSystem.h" />
+    <ClInclude Include="Src\Game\Systems\OreClickSystem.h" />
+    <ClInclude Include="Src\Game\Systems\OreGridSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

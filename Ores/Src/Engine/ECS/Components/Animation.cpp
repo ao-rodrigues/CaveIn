@@ -8,9 +8,11 @@ void Animation::init()
 	sprite->setTexture(animInfo.textureID, animInfo.rowIndex);
 }
 
+/*
 void Animation::update()
 {
 	AnimationInfo animInfo = animations.at(currentAnimation);
 
 	sprite->srcRect.x = sprite->srcRect.w * static_cast<int>((SDL_GetTicks() / animInfo.frameDelay) % animInfo.numFrames);
 }
+*/

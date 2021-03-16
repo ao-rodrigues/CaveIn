@@ -46,6 +46,9 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 
 	_entityManager = new EntityManager();
 
+	_spriteSystem = &createSystem<SpriteSystem>();
+	_animationSystem = &createSystem<AnimationSystem>();
+
 	_isRunning = true;
 }
 
@@ -79,7 +82,10 @@ void Engine::handleEvents()
 
 void Engine::update()
 {
-	_entityManager->update();
+	//_entityManager->update();
+	_spriteSystem-> update();
+	_animationSystem->update();
+
 	_entityManager->refresh();
 	InputManager::clearFrameEvents();
 }
@@ -103,5 +109,11 @@ Entity& Engine::createEntity()
 	Entity& newEntity = _entityManager->createEntity();
 	newEntity.addComponent<Transform>();
 
+	return newEntity;
+}
+
+Entity& Engine::createEmptyEntity()
+{
+	Entity& newEntity = _entityManager->createEntity();
 	return newEntity;
 }

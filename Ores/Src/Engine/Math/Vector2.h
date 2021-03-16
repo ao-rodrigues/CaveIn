@@ -1,6 +1,9 @@
 #pragma once
 
 #include <iostream>
+#include <stdlib.h>
+
+constexpr float EPSILON = 0.00001f;
 
 struct Vector2
 {
@@ -48,6 +51,15 @@ struct Vector2
 		return Vector2(x / v2.x, y / v2.y);
 	}
 
+	inline bool operator==(const Vector2& v2) const
+	{
+		return (abs(x - v2.x) <= EPSILON) && (abs(y - v2.y) <= EPSILON);
+	}
+
+	inline bool operator!=(const Vector2& v2) const
+	{
+		return (abs(x - v2.x) > EPSILON) || (abs(y - v2.y) > EPSILON);
+	}
 
 	inline friend Vector2& operator+=(Vector2& v1, const Vector2& v2)
 	{
@@ -82,5 +94,14 @@ struct Vector2
 	{
 		stream << "(" << v.x << "," << v.y << ")";
 		return stream;
+	}
+
+	inline static Vector2 lerp(Vector2 start, Vector2 dest, float t)
+	{
+		Vector2 result;
+		result.x = start.x + (dest.x - start.x) * t;
+		result.y = start.y + (dest.y - start.y) * t;
+
+		return result;
 	}
 };

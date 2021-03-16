@@ -29,6 +29,7 @@ public:
 
 	void init() override;
 
+	/*
 	void update() override
 	{
 		dstRect.x = static_cast<int>(transform->position.x);
@@ -38,6 +39,7 @@ public:
 
 		makeDstRelativeToCamera();
 	}
+	*/
 
 	inline void setTexture(const std::string& newTextureID, int rowIndex)
 	{
@@ -50,6 +52,8 @@ public:
 	{
 		this->visible = visible;
 	}
+
+	void makeDstRelativeToCamera();
 
 	int width = 0;
 	int height = 0;
@@ -68,5 +72,4 @@ public:
 	Transform* transform = nullptr;
 
 private:
-	void makeDstRelativeToCamera();
 };
