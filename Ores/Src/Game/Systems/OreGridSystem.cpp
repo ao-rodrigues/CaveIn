@@ -103,10 +103,8 @@ void OreGridSystem::updateGrid()
 
 		if (emptyBlocksCounter == GRID_HEIGHT && y - 1 >= _leftmostColIndex)
 		{
-			int oldLeftmostColIndex = _leftmostColIndex;
-
 			// Empty column, move all the columns at the left 1 step to the right to fill the gap
-			for (int i = 1, j = 0; y - i >= oldLeftmostColIndex && y - j >= oldLeftmostColIndex + 1; i++, j++)
+			for (int i = 1, j = 0; y - i >= _leftmostColIndex && y - j >= _leftmostColIndex + 1; i++, j++)
 			{
 				for (int x = 0; x < GRID_HEIGHT; x++)
 				{
@@ -117,9 +115,9 @@ void OreGridSystem::updateGrid()
 						_grid[y - i][x] = nullptr;
 					}
 				}
-
-				_leftmostColIndex++;
 			}
+
+			_leftmostColIndex++;
 		}
 	}
 }
