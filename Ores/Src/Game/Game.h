@@ -3,6 +3,7 @@
 #include "Systems/OreClickSystem.h"
 #include "Systems/HoverCursorSystem.h"
 #include "Systems/OreGridSystem.h"
+#include"Systems/OreMovementSystem.h"
 
 class Game
 {
@@ -15,4 +16,5 @@ private:
 	OreClickSystem* _oreClickSystem = nullptr;
 	HoverCursorSystem* _hoverCursorSystem = nullptr;
 	OreGridSystem* _oreGridSystem = nullptr;
+	OreMovementSystem* _oreMovementSystem = nullptr;
 };

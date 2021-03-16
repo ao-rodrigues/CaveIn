@@ -22,6 +22,14 @@ void OreClickSystem::update()
 
 void OreClickSystem::handleMouseInteractions(Ore& ore, const Vector2& mousePos)
 {
+	/*
+	if (ore.isMoving())
+	{
+		_entityManager->createEntity().addComponent<HoverCursorReleaseEvent>();
+		return;
+	}
+	*/
+
 	Sprite* sprite = ore.getSprite();
 	Transform* transform = ore.getTransform();
 

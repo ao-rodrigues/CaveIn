@@ -49,13 +49,8 @@ void OreGridSystem::init()
 
 				Vector2 convertedCoords = coordConvertGridToOre(x, y);
 				_grid[y][x] = &ore.addComponent<Ore>(oreData, convertedCoords, 32, 32, 0.8f);
-
-				Vector2 oreDimensions = _grid[y][x]->getOreDimensions();
-				Transform& t = ore.getComponent<Transform>();
-				t.position.x = convertedCoords.x * oreDimensions.x;
-				t.position.y = convertedCoords.y * oreDimensions.y;
+				_grid[y][x]->setGridCoords(convertedCoords, true);
 			}
-
 		}
 	}
 }
@@ -100,7 +95,7 @@ void OreGridSystem::updateGrid()
 				}
 
 				_grid[y][newX] = _grid[y][x];
-				_grid[y][x]->setGridCoords(coordConvertGridToOre(newX, y));
+				_grid[y][x]->setGridCoords(coordConvertGridToOre(newX, y), false);
 				_grid[y][x]->flagNotSuspended();
 				_grid[y][x] = nullptr;
 			}
@@ -108,27 +103,20 @@ void OreGridSystem::updateGrid()
 
 		if (emptyBlocksCounter == GRID_HEIGHT && y - 1 >= _leftmostColIndex)
 		{
+			int oldLeftmostColIndex = _leftmostColIndex;
+
 			// Empty column, move all the columns at the left 1 step to the right to fill the gap
-			for (int i = 1, j = 0; y - i >= 0 && y - j >= 1; i++, j++)
+			for (int i = 1, j = 0; y - i >= oldLeftmostColIndex && y - j >= oldLeftmostColIndex + 1; i++, j++)
 			{
 				for (int x = 0; x < GRID_HEIGHT; x++)
 				{
 					if (_grid[y - i][x] != nullptr)
 					{
 						_grid[y - j][x] = _grid[y - i][x];
-						_grid[y - i][x]->setGridCoords(coordConvertGridToOre(x, y - j));
+						_grid[y - i][x]->setGridCoords(coordConvertGridToOre(x, y - j), false);
 						_grid[y - i][x] = nullptr;
 					}
 				}
-
-				/*
-				if (_grid[y - 1][x] != nullptr)
-				{
-					_grid[y][x] = _grid[y - 1][x];
-					_grid[y - 1][x]->setGridCoords(coordConvertGridToOre(x, y));
-					_grid[y - 1][x] = nullptr;
-				}
-				*/
 
 				_leftmostColIndex++;
 			}

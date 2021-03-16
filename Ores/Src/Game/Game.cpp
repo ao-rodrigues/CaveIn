@@ -20,6 +20,7 @@ void Game::init()
 	_oreClickSystem = &engine.createSystem<OreClickSystem>();
 	_hoverCursorSystem = &engine.createSystem<HoverCursorSystem>();
 	_oreGridSystem = &engine.createSystem<OreGridSystem>();
+	_oreMovementSystem = &engine.createSystem<OreMovementSystem>();
 }
 
 void Game::update()
@@ -27,4 +28,5 @@ void Game::update()
 	_oreClickSystem->update();
 	_hoverCursorSystem->update();
 	_oreGridSystem->update();
+	_oreMovementSystem->update();
 }

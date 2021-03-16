@@ -156,6 +156,7 @@
     <ClCompile Include="Src\Game\Systems\HoverCursorSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\OreClickSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\OreGridSystem.cpp" />
+    <ClCompile Include="Src\Game\Systems\OreMovementSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Engine\AssetManager.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Src\Game\Systems\HoverCursorSystem.h" />
     <ClInclude Include="Src\Game\Systems\OreClickSystem.h" />
     <ClInclude Include="Src\Game\Systems\OreGridSystem.h" />
+    <ClInclude Include="Src\Game\Systems\OreMovementSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

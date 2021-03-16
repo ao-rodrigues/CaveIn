@@ -22,6 +22,7 @@ public:
 	{
 		_transform = &entity->getComponent<Transform>();
 		_sprite = &entity->getComponent<Sprite>();
+		targetPosition = _transform->position;
 	}
 
 	inline Transform* getTransform() { return _transform; }
@@ -31,11 +32,18 @@ public:
 	inline const Vector2& getGridCoords() { return _gridCoords; }
 	inline const Vector2& getOreDimensions() { return _oreDimensions; }
 
-	void setGridCoords(Vector2 newCoords)
+	void setGridCoords(Vector2 newCoords, bool immediate)
 	{
 		_gridCoords = newCoords;
-		_transform->position.x = _gridCoords.x * _oreDimensions.x;
-		_transform->position.y = _gridCoords.y * _oreDimensions.y;
+
+		if (immediate)
+		{
+			_transform->position.x = _gridCoords.x * _oreDimensions.x;
+			_transform->position.y = _gridCoords.y * _oreDimensions.y;
+
+		}
+
+		targetPosition = _gridCoords * _oreDimensions;
 	}
 
 	inline void flagSuspended()
@@ -59,6 +67,11 @@ public:
 		_visited = false;
 	}
 
+	inline void flagNotMoving()
+	{
+		_moving = false;
+	}
+
 	inline bool isSuspended() { return _suspended; }
 	inline bool isMoving() { return _moving; }
 	inline bool visited() { return _visited; }
@@ -67,13 +80,16 @@ public:
 	bool hover = false;
 	bool clicked = false;
 
+	Vector2 targetPosition;
+	Transform* _transform = nullptr;
+
 private:
 	OreData _oreData;
+
 	Vector2 _gridCoords;
 	Vector2 _oreDimensions;
 
 	Sprite* _sprite = nullptr;
-	Transform* _transform = nullptr;
 
 	bool _visited = false;
 

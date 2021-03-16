@@ -36,9 +36,19 @@ struct Vector2
 		return Vector2(x + v2.x, y + v2.y);
 	}
 
+	inline Vector2 operator+(float v) const
+	{
+		return Vector2(x + v, y + v);
+	}
+
 	inline Vector2 operator-(const Vector2& v2) const
 	{
 		return Vector2(x - v2.x, y - v2.y);
+	}
+
+	inline Vector2 operator-(float v) const
+	{
+		return Vector2(x - v, y - v);
 	}
 
 	inline Vector2 operator*(const Vector2& v2) const
@@ -46,9 +56,19 @@ struct Vector2
 		return Vector2(x * v2.x, y * v2.y);
 	}
 
+	inline Vector2 operator*(float v) const
+	{
+		return Vector2(x * v, y * v);
+	}
+
 	inline Vector2 operator/(const Vector2& v2) const
 	{
 		return Vector2(x / v2.x, y / v2.y);
+	}
+
+	inline Vector2 operator/(float v) const
+	{
+		return Vector2(x / v, y / v);
 	}
 
 	inline bool operator==(const Vector2& v2) const
@@ -68,10 +88,25 @@ struct Vector2
 		return v1;
 	}
 
+	inline friend Vector2& operator+=(Vector2& v1, float v)
+	{
+		v1.x += v;
+		v1.y += v;
+		return v1;
+	}
+
 	inline friend Vector2& operator-=(Vector2& v1, const Vector2& v2)
 	{
 		v1.x -= v2.x;
 		v1.y -= v2.y;
+
+		return v1;
+	}
+
+	inline friend Vector2& operator-=(Vector2& v1, float v)
+	{
+		v1.x -= v;
+		v1.y -= v;
 
 		return v1;
 	}
@@ -83,10 +118,24 @@ struct Vector2
 		return v1;
 	}
 
+	inline friend Vector2& operator*=(Vector2& v1, float v)
+	{
+		v1.x *= v;
+		v1.y *= v;
+		return v1;
+	}
+
 	inline friend Vector2& operator/=(Vector2& v1, const Vector2& v2)
 	{
 		v1.x /= v2.x;
 		v1.y /= v2.y;
+		return v1;
+	}
+
+	inline friend Vector2& operator/=(Vector2& v1, float v)
+	{
+		v1.x /= v;
+		v1.y /= v;
 		return v1;
 	}
 
