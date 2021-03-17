@@ -12,7 +12,7 @@
 class Text : public Renderable
 {
 public:
-	Text(std::string fontID, int depth, std::string text, SDL_Color& color)
+	Text(std::string fontID, int depth, std::string text, SDL_Color color)
 		: Renderable(RenderLayer::UI, depth)
 		, fontID(std::move(fontID))
 		, text(std::move(text))

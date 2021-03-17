@@ -7,12 +7,12 @@
 
 void ScoreSystem::init()
 {
-	AssetManager::instance().loadFont("Alagard", "Assets/Fonts/Alagard.ttf", 18);
+	AssetManager::instance().loadFont("ScoreFont", "Assets/Fonts/Alagard.ttf", 18);
 
 	SDL_Color textColor = { 255, 255, 255, 255 };
 	std::string displayText = "Score: " + std::to_string(_score);
 
-	_scoreDisplayText = &Engine::instance().createEntity().addComponent<Text>("Alagard", 0, displayText, textColor);
+	_scoreDisplayText = &Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, displayText, textColor);
 	_scoreDisplayText->setPosition(Vector2(10.f, 10.f));
 }
 
@@ -32,7 +32,7 @@ void ScoreSystem::update()
 void ScoreSystem::updateScoreDisplay(int newScore)
 {
 	std::string text = "Score: " + std::to_string(newScore);
-	_scoreDisplayText->setText("Alagard", text);
+	_scoreDisplayText->setText("ScoreFont", text);
 }
 
 void ScoreSystem::updateLevel(int newScore)

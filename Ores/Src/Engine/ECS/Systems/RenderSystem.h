@@ -31,5 +31,9 @@ private:
 	};
 
 	std::vector<std::multiset<Renderable*, RenderableComparator>> _sortedRenderables;
+
+	SDL_Texture* _cursorTexture;
+	SDL_Rect _cursorSrcRect = { 0, 0, 19, 19 };
+
 	SDL_Renderer* _renderer;
 };

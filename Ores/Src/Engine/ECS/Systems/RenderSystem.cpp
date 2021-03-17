@@ -4,6 +4,8 @@
 #include "../Components/Sprite.h"
 #include "../Components/Text.h"
 
+#include "../../InputManager.h"
+
 
 void RenderSystem::init()
 {
@@ -22,6 +24,11 @@ void RenderSystem::init(SDL_Window* window, int flags)
 	{
 		std::cerr << SDL_GetError() << std::endl;
 	}
+
+	AssetManager::instance().loadTexture("Cursor", "Assets/Textures/pointer.png");
+
+	SDL_ShowCursor(0);
+	_cursorTexture = AssetManager::instance().getTexture("Cursor");
 }
 
 void RenderSystem::update()
@@ -56,6 +63,10 @@ void RenderSystem::update()
 
 		layer.clear();
 	}
+
+	Vector2 mousePos = InputManager::mousePosition();
+	SDL_Rect cursorDstRect = { mousePos.x, mousePos.y, _cursorSrcRect.w, _cursorSrcRect.h };
+	SDL_RenderCopy(_renderer, _cursorTexture, &_cursorSrcRect, &cursorDstRect);
 
 	SDL_RenderPresent(_renderer);
 }
