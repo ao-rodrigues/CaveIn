@@ -11,7 +11,6 @@
 void Game::init()
 {
 	AssetManager::instance().loadTexture("Hover", "Assets/Textures/cursor.png");
-	AssetManager::instance().loadFont("Alagard", "Assets/Fonts/Alagard.ttf", 24);
 
 	Engine& engine = Engine::instance();
 
@@ -19,14 +18,12 @@ void Game::init()
 	hoverCursor.addComponent<Sprite>(RenderLayer::Foreground, 1, "Hover", 32, 32);
 	hoverCursor.addComponent<HoverCursor>();
 
-	Entity& text = engine.createEntity();
-	SDL_Color textColor = { 255, 255, 255, 255 };
-	text.addComponent<Text>("Alagard", 10, 10, 0, "TEST STRING", textColor);
-
 	_oreClickSystem = &engine.createSystem<OreClickSystem>();
 	_hoverCursorSystem = &engine.createSystem<HoverCursorSystem>();
 	_oreGridSystem = &engine.createSystem<OreGridSystem>();
 	_oreMovementSystem = &engine.createSystem<OreMovementSystem>();
+	_scoreSystem = &engine.createSystem<ScoreSystem>();
+	_pointsPopupSystem = &engine.createSystem<PointsPopupSystem>();
 }
 
 void Game::update()
@@ -35,4 +32,6 @@ void Game::update()
 	_hoverCursorSystem->update();
 	_oreGridSystem->update();
 	_oreMovementSystem->update();
+	_scoreSystem->update();
+	_pointsPopupSystem->update();
 }

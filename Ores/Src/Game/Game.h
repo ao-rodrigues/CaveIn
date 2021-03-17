@@ -4,6 +4,8 @@
 #include "Systems/HoverCursorSystem.h"
 #include "Systems/OreGridSystem.h"
 #include"Systems/OreMovementSystem.h"
+#include "Systems/ScoreSystem.h"
+#include "Systems/PointsPopupSystem.h"
 
 class Game
 {
@@ -17,4 +19,6 @@ private:
 	HoverCursorSystem* _hoverCursorSystem = nullptr;
 	OreGridSystem* _oreGridSystem = nullptr;
 	OreMovementSystem* _oreMovementSystem = nullptr;
+	ScoreSystem* _scoreSystem = nullptr;
+	PointsPopupSystem* _pointsPopupSystem = nullptr;
 };

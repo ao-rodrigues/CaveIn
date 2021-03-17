@@ -157,6 +157,8 @@
     <ClCompile Include="Src\Game\Systems\OreClickSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\OreGridSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\OreMovementSystem.cpp" />
+    <ClCompile Include="Src\Game\Systems\PointsPopupSystem.cpp" />
+    <ClCompile Include="Src\Game\Systems\ScoreSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Engine\AssetManager.h" />
@@ -171,13 +173,16 @@
     <ClInclude Include="Src\Engine\ECS\Systems\SpriteSystem.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\Engine\InputManager.h" />
+    <ClInclude Include="Src\Engine\Math\Math.h" />
     <ClInclude Include="Src\Engine\Math\Vector2.h" />
     <ClInclude Include="Src\Engine\RenderLayer.h" />
     <ClInclude Include="Src\Engine\Singleton.h" />
     <ClInclude Include="Src\Game\Components\HoverCursor.h" />
     <ClInclude Include="Src\Game\Components\Ore.h" />
+    <ClInclude Include="Src\Game\Components\PointsPopup.h" />
     <ClInclude Include="Src\Game\Events\HoverCursorAttachEvent.h" />
     <ClInclude Include="Src\Game\Events\HoverCursorReleaseEvent.h" />
+    <ClInclude Include="Src\Game\Events\OreDestroyedEvent.h" />
     <ClInclude Include="Src\Game\Events\OreSelectedEvent.h" />
     <ClInclude Include="Src\Game\Game.h" />
     <ClInclude Include="Src\Game\OreData.h" />
@@ -185,6 +190,8 @@
     <ClInclude Include="Src\Game\Systems\OreClickSystem.h" />
     <ClInclude Include="Src\Game\Systems\OreGridSystem.h" />
     <ClInclude Include="Src\Game\Systems\OreMovementSystem.h" />
+    <ClInclude Include="Src\Game\Systems\PointsPopupSystem.h" />
+    <ClInclude Include="Src\Game\Systems\ScoreSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
