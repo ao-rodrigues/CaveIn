@@ -7,13 +7,11 @@ Engine::Engine()
 {
 	_isRunning = false;
 	_window = nullptr;
-	_renderer = nullptr;
 	_entityManager = nullptr;
 }
 
 Engine::~Engine()
 {
-	delete _renderer;
 	delete _entityManager;
 }
 
@@ -32,6 +30,8 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 		std::cerr << SDL_GetError() << std::endl;
 	}
 
+	_entityManager = new EntityManager();
+
 	_camera.x = 0;
 	_camera.y = 0;
 	_camera.w = width;
@@ -40,11 +40,9 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 	_worldDimensions.x = worldWidth;
 	_worldDimensions.y = worldHeight;
 
-	_renderer = new Renderer();
+	_renderSystem = &createSystem<RenderSystem>();
 	auto rendererFlags = vsync ? (SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED) : SDL_RENDERER_ACCELERATED;
-	_renderer->init(_window, rendererFlags);
-
-	_entityManager = new EntityManager();
+	_renderSystem->init(_window, rendererFlags);
 
 	_spriteSystem = &createSystem<SpriteSystem>();
 	_animationSystem = &createSystem<AnimationSystem>();
@@ -59,7 +57,8 @@ void Engine::quit()
 
 void Engine::clear()
 {
-	_renderer->destroy();
+	_renderSystem->destroy();
+	_systems.clear();
 	InputManager::clearEvents();
 	SDL_DestroyWindow(_window);
 	SDL_Quit();
@@ -82,7 +81,6 @@ void Engine::handleEvents()
 
 void Engine::update()
 {
-	//_entityManager->update();
 	_spriteSystem-> update();
 	_animationSystem->update();
 
@@ -97,10 +95,7 @@ void Engine::render()
 	int fps = _frameCount / (_lastFrameTime / 1000.f);
 	std::cout << "FPS: " << fps << std::endl;
 
-
-	std::vector<Entity*> renderables = _entityManager->getEntitiesWithComponent<Sprite>();
-
-	_renderer->render(renderables);
+	_renderSystem->update();
 	_frameCount++;
 }
 

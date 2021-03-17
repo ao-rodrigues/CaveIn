@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Ores\Src\Game;$(SolutionDir)Ores\Src\Engine;$(SolutionDir)External\SDL2_image-2.0.5\include;$(SolutionDir)External\SDL2-2.0.14\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)External\SDL2_image-2.0.5\lib\x64;$(SolutionDir)External\SDL2-2.0.14\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Ores\Src\Game;$(SolutionDir)Ores\Src\Engine;$(SolutionDir)External\SDL2_image-2.0.5\include;$(SolutionDir)External\SDL2-2.0.14\include;$(SolutionDir)External\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)External\SDL2_image-2.0.5\lib\x64;$(SolutionDir)External\SDL2-2.0.14\lib\x64;$(SolutionDir)External\SDL2_ttf-2.0.15\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -122,7 +122,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,10 +147,10 @@
     <ClCompile Include="Src\Engine\ECS\Components\Sprite.cpp" />
     <ClCompile Include="Src\Engine\ECS\ECS.cpp" />
     <ClCompile Include="Src\Engine\ECS\Systems\AnimationSystem.cpp" />
+    <ClCompile Include="Src\Engine\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="Src\Engine\ECS\Systems\SpriteSystem.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
     <ClCompile Include="Src\Engine\InputManager.cpp" />
-    <ClCompile Include="Src\Engine\Renderer.cpp" />
     <ClCompile Include="Src\Game\Game.cpp" />
     <ClCompile Include="Src\Game\Main.cpp" />
     <ClCompile Include="Src\Game\Systems\HoverCursorSystem.cpp" />
@@ -161,15 +161,18 @@
   <ItemGroup>
     <ClInclude Include="Src\Engine\AssetManager.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Animation.h" />
+    <ClInclude Include="Src\Engine\ECS\Components\Renderable.h" />
+    <ClInclude Include="Src\Engine\ECS\Components\Text.h" />
     <ClInclude Include="Src\Engine\ECS\ECS.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Sprite.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Transform.h" />
     <ClInclude Include="Src\Engine\ECS\Systems\AnimationSystem.h" />
+    <ClInclude Include="Src\Engine\ECS\Systems\RenderSystem.h" />
     <ClInclude Include="Src\Engine\ECS\Systems\SpriteSystem.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\Engine\InputManager.h" />
     <ClInclude Include="Src\Engine\Math\Vector2.h" />
-    <ClInclude Include="Src\Engine\Renderer.h" />
+    <ClInclude Include="Src\Engine\RenderLayer.h" />
     <ClInclude Include="Src\Engine\Singleton.h" />
     <ClInclude Include="Src\Game\Components\HoverCursor.h" />
     <ClInclude Include="Src\Game\Components\Ore.h" />

@@ -9,6 +9,6 @@ void AnimationSystem::update()
 		Animation& animation = animEntity->getComponent<Animation>();
 		Animation::AnimationInfo animInfo = animation.animations.at(animation.currentAnimation);
 
-		animation.sprite->srcRect.x = animation.sprite->srcRect.w * static_cast<int>((SDL_GetTicks() / animInfo.frameDelay) % animInfo.numFrames);
+		animation.sprite->srcRect()->x = animation.sprite->srcRect()->w * static_cast<int>((SDL_GetTicks() / animInfo.frameDelay) % animInfo.numFrames);
 	}
 }

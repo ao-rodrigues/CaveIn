@@ -8,7 +8,7 @@
 
 ArchetypeID Archetype::s_lastArchetypeID = 0u;
 
-Archetype::Archetype(const std::unordered_set<ComponentID>& newComponents)
+Archetype::Archetype(std::unordered_set<ComponentID>&& newComponents)
 {
 	id = s_lastArchetypeID++;
 	components = newComponents;
@@ -50,7 +50,7 @@ EntityManager::EntityManager()
 	std::unique_ptr<Archetype> uPtr(emptyArchetype);
 
 	// Create an "empty" archetype that stores all entities with no components
-	_archetypes.emplace_back(std::move(uPtr));
+	_entityArchetypes.emplace_back(std::move(uPtr));
 }
 
 /*
@@ -65,7 +65,7 @@ void EntityManager::update()
 
 void EntityManager::refresh()
 {
-	for (auto& arch : _archetypes)
+	for (auto& arch : _entityArchetypes)
 	{
 		for (auto it = arch->entities.begin(); it != arch->entities.end();)
 		{
@@ -83,12 +83,12 @@ void EntityManager::refresh()
 
 Entity& EntityManager::createEntity()
 {
-	Entity* newEntity = new Entity(_archetypes[0]->id, this);
+	Entity* newEntity = new Entity(_entityArchetypes[0]->id, this);
 	newEntity->manager = this;
 	std::unique_ptr<Entity> ptr(newEntity);
 
 	// Store in no-components archetype
-	_archetypes[0]->entities.emplace(ptr->id, std::move(ptr));
+	_entityArchetypes[0]->entities.emplace(ptr->id, std::move(ptr));
 
 	return *newEntity;
 }

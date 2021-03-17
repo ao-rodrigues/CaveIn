@@ -45,7 +45,7 @@ void OreGridSystem::init()
 				OreData oreData = ores[rand() % 8];
 
 				Entity& ore = engine.createEntity();
-				ore.addComponent<Sprite>(Sprite::RenderLayer::Foreground, 0, oreData.textureID, 32, 32);
+				ore.addComponent<Sprite>(RenderLayer::Foreground, 0, oreData.textureID, 32, 32);
 
 				Vector2 convertedCoords = coordConvertGridToOre(x, y);
 				_grid[y][x] = &ore.addComponent<Ore>(oreData, convertedCoords, 32, 32, 0.8f);

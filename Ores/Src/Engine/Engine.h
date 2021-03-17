@@ -1,9 +1,12 @@
 #pragma once
 
 #include <SDL.h>
+#include <vector>
+#include <memory>
+
 #include "ECS/ECS.h"
 #include "Singleton.h"
-#include "Renderer.h"
+#include "ECS/Systems/RenderSystem.h"
 #include "Math/Vector2.h"
 #include "ECS/Systems/SpriteSystem.h"
 #include "ECS/Systems/AnimationSystem.h"
@@ -41,11 +44,14 @@ public:
 		static_assert(std::is_base_of<System, T>::value, "Type must be derived from System!");
 		T* system = new T(_entityManager);
 		system->init();
+		std::unique_ptr<System> ptr(system);
+		_systems.emplace_back(std::move(ptr));
+
 		return *system;
 	}
 
 	inline bool isRunning() { return _isRunning; }
-	inline Renderer* getRenderer() { return _renderer; }
+	inline SDL_Renderer* getRenderer() { return _renderSystem->SDLRenderer(); }
 	inline SDL_Rect getCamera() { return _camera; }
 	inline Vector2 getWorldDimensions() { return _worldDimensions; }
 
@@ -58,11 +64,13 @@ private:
 	int _frameCount = 0;
 
 	SDL_Window* _window = nullptr;
-	SDL_Rect _camera;
+	SDL_Rect _camera = { 0, 0, 0, 0 };
 	Vector2 _worldDimensions;
-	Renderer* _renderer = nullptr;
+	RenderSystem* _renderSystem = nullptr;
 	EntityManager* _entityManager = nullptr;
 
 	SpriteSystem* _spriteSystem = nullptr;
 	AnimationSystem* _animationSystem = nullptr;
+
+	std::vector<std::unique_ptr<System>> _systems;
 };

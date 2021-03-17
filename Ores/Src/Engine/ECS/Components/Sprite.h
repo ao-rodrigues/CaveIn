@@ -2,25 +2,16 @@
 
 #include <SDL.h>
 #include <vector>
-#include "Transform.h"
+#include "Renderable.h"
 #include "../../AssetManager.h"
+#include "../../RenderLayer.h"
 
 
-class Sprite : public Component
+class Sprite : public Renderable
 {
 public:
-	enum RenderLayer
-	{
-		Background,
-		Foreground,
-		UI,
-
-		Count
-	};
-
 	Sprite(RenderLayer renderLayer, int depth, const std::string& textureID, int width, int height)
-		: renderLayer(renderLayer)
-		, depth(depth)
+		: Renderable(renderLayer, depth)
 		, textureID(textureID)
 		, width(width)
 		, height(height)
@@ -29,23 +20,21 @@ public:
 
 	void init() override;
 
-	/*
-	void update() override
+	virtual SDL_Rect* srcRect() override
 	{
-		dstRect.x = static_cast<int>(transform->position.x);
-		dstRect.y = static_cast<int>(transform->position.y);
-		dstRect.w = static_cast<int>(width * transform->scale.x);
-		dstRect.h = static_cast<int>(height * transform->scale.y);
-
-		makeDstRelativeToCamera();
+		return &_srcRect;
 	}
-	*/
+
+	virtual SDL_Rect* dstRect() override
+	{
+		return &_dstRect;
+	}
 
 	inline void setTexture(const std::string& newTextureID, int rowIndex)
 	{
 		textureID = newTextureID;
 		texture = AssetManager::instance().getTexture(textureID);
-		srcRect.y = rowIndex * height;
+		_srcRect.y = rowIndex * height;
 	}
 
 	inline void setVisible(bool visible)
@@ -57,19 +46,6 @@ public:
 
 	int width = 0;
 	int height = 0;
-	SDL_Rect srcRect = { 0, 0, 0, 0 };
-	SDL_Rect dstRect = { 0, 0, 0, 0 };
-
-	int depth = 0;
-	bool visible = true;
 
 	std::string textureID = "";
-	SDL_Texture* texture = nullptr;
-
-	RenderLayer renderLayer = RenderLayer::Background;
-	SDL_RendererFlip flip = SDL_FLIP_NONE;
-
-	Transform* transform = nullptr;
-
-private:
 };

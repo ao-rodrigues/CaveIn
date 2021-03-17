@@ -33,17 +33,11 @@ void OreClickSystem::handleMouseInteractions(Ore& ore, const Vector2& mousePos)
 	Sprite* sprite = ore.getSprite();
 	Transform* transform = ore.getTransform();
 
-	if (mousePos.x > sprite->dstRect.x && mousePos.x < sprite->dstRect.x + sprite->dstRect.w
-		&& mousePos.y > sprite->dstRect.y && mousePos.y < sprite->dstRect.y + sprite->dstRect.h)
+	if (mousePos.x > sprite->dstRect()->x && mousePos.x < sprite->dstRect()->x + sprite->dstRect()->w
+		&& mousePos.y > sprite->dstRect()->y && mousePos.y < sprite->dstRect()->y + sprite->dstRect()->h)
 	{
 		
 		ore.hover = true;
-
-		/*
-		_hoverCursor.setPosition(_transform->position);
-		_hoverCursor.setVisible(true);
-		_hoverCursor.use();
-		*/
 
 		// Create hover attach event
 		_entityManager->createEntity().addComponent<HoverCursorAttachEvent>(transform->position);
@@ -51,12 +45,6 @@ void OreClickSystem::handleMouseInteractions(Ore& ore, const Vector2& mousePos)
 	else if (ore.hover)
 	{
 		ore.hover = false;
-
-		/*
-		_hoverCursor.release();
-		_hoverCursor.setVisible(false);
-		_hover = false;
-		*/
 
 		// Create hover release event
 		_entityManager->createEntity().addComponent<HoverCursorReleaseEvent>();
@@ -69,17 +57,11 @@ void OreClickSystem::handleMouseInteractions(Ore& ore, const Vector2& mousePos)
 
 	if (InputManager::mouseButtonUp(SDL_BUTTON_LEFT) && ore.clicked)
 	{
-		/*
-		_hoverCursor.release();
-		_hoverCursor.setVisible(false);
-		*/
+		ore.clicked = false;
 
 		// Create hover cursor release event
-
-		ore.clicked = false;
 		_entityManager->createEntity().addComponent<HoverCursorReleaseEvent>();
 
-		//GameManager::instance().onOreDestroyed(_gridCoords, _oreData.typeIndex);
 		// Create ore destroyed event
 		_entityManager->createEntity().addComponent<OreSelectedEvent>(ore.getGridCoords(), ore.getOreData().typeIndex);
 	}

@@ -53,13 +53,19 @@ struct Archetype
 		id = s_lastArchetypeID++;
 	}
 
-	Archetype(const std::unordered_set<ComponentID>& newComponents);
+	Archetype(std::unordered_set<ComponentID>&& newComponents);
 
 	template<typename T>
 	inline bool hasComponent()
 	{
 		std::size_t compHash = typeid(T).hash_code();
 		return components.count(compHash) > 0;
+	}
+
+	template<typename T>
+	static ComponentID getComponentID()
+	{
+		return typeid(T).hash_code();
 	}
 
 	ArchetypeID id;
@@ -93,7 +99,7 @@ public:
 	template<typename T>
 	inline T& getComponent() const
 	{
-		Component* ptr = _componentMap.at(typeid(T).hash_code()).get();
+		Component* ptr = _componentMap.at(Archetype::getComponentID<T>()).get();
 		return *static_cast<T*>(ptr);
 	}
 
@@ -124,7 +130,8 @@ public:
 	std::vector<Entity*> getEntitiesWithComponentExact();
 
 private:
-	std::vector<std::unique_ptr<Archetype>> _archetypes;
+	std::vector<std::unique_ptr<Archetype>> _entityArchetypes;
+	std::vector<std::unique_ptr<Archetype>> _eventArchetypes;
 	friend class Entity;
 
 	template<typename T>
@@ -144,7 +151,7 @@ T& Entity::addComponent(TArgs&&... args)
 	T* newComponent = new T(std::forward<TArgs>(args)...);
 	newComponent->entity = this;
 	std::unique_ptr<Component> compPtr(newComponent);
-	ComponentID componentID = typeid(T).hash_code();
+	ComponentID componentID = Archetype::getComponentID<T>();
 
 	_componentMap.emplace(componentID, std::move(compPtr));
 
@@ -161,6 +168,7 @@ T& Entity::addComponent(TArgs&&... args)
 * /////////////////////////////////////////////////////////////////
 */
 
+
 template<typename T>
 void EntityManager::updateArchetypes(Entity* entity)
 {
@@ -168,7 +176,7 @@ void EntityManager::updateArchetypes(Entity* entity)
 	std::unordered_set<ComponentID> entityComponents;
 	std::unique_ptr<Entity> entityUPtr;
 
-	for (auto& archetype : _archetypes)
+	for (auto& archetype : _entityArchetypes)
 	{
 		if (archetype->id == archetypeID)
 		{
@@ -182,10 +190,10 @@ void EntityManager::updateArchetypes(Entity* entity)
 	}
 
 	// Add new component type
-	entityComponents.emplace(typeid(T).hash_code());
+	entityComponents.emplace(Archetype::getComponentID<T>());
 
 	// Check if new archetype already exists and add entity to it if true
-	for (auto& archetype : _archetypes)
+	for (auto& archetype : _entityArchetypes)
 	{
 		bool containsAll = true;
 
@@ -203,25 +211,25 @@ void EntityManager::updateArchetypes(Entity* entity)
 	}
 
 	// Archetype doesn't exist yet, create a new one
-	Archetype* newArchetype = new Archetype(entityComponents);
+	Archetype* newArchetype = new Archetype(std::move(entityComponents));
 
 	std::unique_ptr<Archetype> archetypeUPtr(newArchetype);
 
 	entityUPtr->archetypeID = archetypeUPtr->id;
 	archetypeUPtr->entities.emplace(entityUPtr->id, std::move(entityUPtr));
 
-	_archetypes.emplace_back(std::move(archetypeUPtr));
+	_entityArchetypes.emplace_back(std::move(archetypeUPtr));
 }
 
 template<typename... Ts>
 std::vector<Entity*> EntityManager::getEntitiesWithComponent()
 {
 	std::vector<ComponentID> components;
-	components.insert(components.end(), { typeid(Ts).hash_code()... });
+	components.insert(components.end(), { Archetype::getComponentID<Ts>()... });
 
 	std::vector<Entity*> entities;
 
-	for (auto& archetype : _archetypes)
+	for (auto& archetype : _entityArchetypes)
 	{
 		// Check if this archetype has AT LEAST one of the supplied components
 		for (auto& component : components)
@@ -246,11 +254,11 @@ template<typename... Ts>
 std::vector<Entity*> EntityManager::getEntitiesWithComponentExact()
 {
 	std::vector<ComponentID> components;
-	components.insert(components.end(), { typeid(Ts).hash_code()... });
+	components.insert(components.end(), { Archetype::getComponentID<Ts>()... });
 
 	std::vector<Entity*> entities;
 
-	for (auto& archetype : _archetypes)
+	for (auto& archetype : _entityArchetypes)
 	{
 		bool containsAll = true;
 

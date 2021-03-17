@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <unordered_map>
 #include <string>
 #include "Singleton.h"
@@ -12,24 +13,13 @@ public:
 	AssetManager();
 	~AssetManager() = default;
 
-	void clear();
-
-	SDL_Texture* getTexture(const std::string& id);
 	void loadTexture(const std::string& id, const std::string& path);
+	SDL_Texture* getTexture(const std::string& id);
 
-	/*
-	inline static AssetManager* instance()
-	{
-		if (s_instance == nullptr)
-		{
-			s_instance = new AssetManager();
-		}
-
-		return s_instance;
-	}
-	*/
+	void loadFont(const std::string& id, const std::string& path, int fontSize);
+	TTF_Font* getFont(const std::string& id);
 
 private:
-	//static AssetManager* s_instance;
 	std::unordered_map<std::string, SDL_Texture*> _textures;
+	std::unordered_map<std::string, TTF_Font*> _fonts;
 };
