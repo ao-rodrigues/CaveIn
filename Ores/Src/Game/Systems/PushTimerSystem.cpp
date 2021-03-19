@@ -11,14 +11,14 @@ void PushTimerSystem::init()
 	AssetManager::instance().loadTexture("ProgressBarFgAlt", "Assets/Textures/progress_bar_fg_alt.png");
 
 	SDL_Color textColor = { 255, 255, 255, 255 };
-	Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, "Push:", textColor).setPosition(Vector2(350.f, 10.f));
+	Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, "Push:", textColor).setPosition(Vector2(400.f, 10.f));
 
 	Sprite& progressbarBg = Engine::instance().createEntity().addComponent<Sprite>(RenderLayer::UI, 0, "ProgressBarBg", 0, 0, 125, 25);
-	progressbarBg.transform->position.x = 410.f;
+	progressbarBg.transform->position.x = 460.f;
 	progressbarBg.transform->position.y = 5.f;
 
 	_progressBarFg = &Engine::instance().createEntity().addComponent<Sprite>(RenderLayer::UI, 1, "ProgressBarFgAlt", 0, 0, 113, 16);
-	_progressBarFg->transform->position.x = 410.f + (125.f - 113.f) / 2.f;
+	_progressBarFg->transform->position.x = 460.f + (125.f - 113.f) / 2.f;
 	_progressBarFg->transform->position.y = 5.f + (25.f - 16.f) / 2.f;
 	_progressBarFg->srcWidth = 0;
 	_progressBarFg->dstWidth = 0;

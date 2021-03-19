@@ -24,7 +24,7 @@ void OreGridSystem::init()
 	AssetManager::instance().loadTexture("Slime", "Assets/Textures/slime0.png");
 
 	AssetManager::instance().loadSoundEffect("OreDestroySFX", "Assets/Audio/ore_destroy.wav");
-	Mix_Volume(-1, MIX_MAX_VOLUME / 2);
+	Mix_Volume(-1, MIX_MAX_VOLUME / 3);
 
 	Engine& engine = Engine::instance();
 
@@ -43,7 +43,7 @@ void OreGridSystem::init()
 				OreData oreData = _oreData[rand() % 8];
 
 				Entity& ore = engine.createEntity();
-				ore.addComponent<Sprite>(RenderLayer::Foreground, 0, oreData.textureID, 0, 0, 32, 32);
+				ore.addComponent<Sprite>(RenderLayer::Midground, 0, oreData.textureID, 0, 0, 32, 32);
 				ore.addComponent<Audio>(Audio::AudioType::SoundEffect, "OreDestroySFX");
 
 				Vector2 convertedCoords = coordConvertGridToOre(x, y);
@@ -172,7 +172,7 @@ void OreGridSystem::pushNewGrid()
 			OreData oreData = _oreData[rand() % 8];
 
 			Entity& ore = engine.createEntity();
-			ore.addComponent<Sprite>(RenderLayer::Foreground, 0, oreData.textureID, 0, 0, 32, 32);
+			ore.addComponent<Sprite>(RenderLayer::Midground, 0, oreData.textureID, 0, 0, 32, 32);
 			ore.addComponent<Audio>(Audio::AudioType::SoundEffect, "OreDestroySFX");
 
 			Vector2 startingCoords = coordConvertGridToOre(x, y + GRID_WIDTH);
@@ -217,7 +217,7 @@ void OreGridSystem::pushColumn()
 		OreData oreData = _oreData[rand() % 8];
 
 		Entity& ore = engine.createEntity();
-		ore.addComponent<Sprite>(RenderLayer::Foreground, 0, oreData.textureID, 0, 0, 32, 32);
+		ore.addComponent<Sprite>(RenderLayer::Midground, 0, oreData.textureID, 0, 0, 32, 32);
 		ore.addComponent<Audio>(Audio::AudioType::SoundEffect, "OreDestroySFX");
 
 		Vector2 startingCoords = coordConvertGridToOre(x, GRID_WIDTH);

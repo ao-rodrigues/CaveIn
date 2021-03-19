@@ -18,7 +18,7 @@ public:
 private:
 	void loadMusic();
 	void loadCursor();
-	void loadBackground();
+	void loadEnvironment();
 	void loadCharacters();
 
 	OreClickSystem* _oreClickSystem = nullptr;
