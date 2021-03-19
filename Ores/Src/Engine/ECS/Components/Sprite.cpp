@@ -6,8 +6,8 @@ void Sprite::init()
 	transform = &entity->getComponent<Transform>();
 	texture = AssetManager::instance().getTexture(textureID);
 
-	_srcRect.x = 0;
-	_srcRect.y = 0;
+	_srcRect.x = srcX;
+	_srcRect.y = srcY;
 	_srcRect.w = srcWidth;
 	_srcRect.h = srcHeight;
 

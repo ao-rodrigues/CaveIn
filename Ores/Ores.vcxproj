@@ -78,13 +78,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Ores\Src\Game;$(SolutionDir)Ores\Src\Engine;$(SolutionDir)External\SDL2_image-2.0.5\include;$(SolutionDir)External\SDL2-2.0.14\include;$(SolutionDir)External\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)External\SDL2_image-2.0.5\lib\x64;$(SolutionDir)External\SDL2-2.0.14\lib\x64;$(SolutionDir)External\SDL2_ttf-2.0.15\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Ores\Src\Game;$(SolutionDir)Ores\Src\Engine;$(SolutionDir)External\SDL2_image-2.0.5\include;$(SolutionDir)External\SDL2-2.0.14\include;$(SolutionDir)External\SDL2_ttf-2.0.15\include;$(SolutionDir)External\SDL2_mixer-2.0.4\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)External\SDL2_image-2.0.5\lib\x64;$(SolutionDir)External\SDL2-2.0.14\lib\x64;$(SolutionDir)External\SDL2_ttf-2.0.15\lib\x64;$(SolutionDir)External\SDL2_mixer-2.0.4\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Ores\Src\Game;$(SolutionDir)Ores\Src\Engine;$(SolutionDir)External\SDL2_image-2.0.5\include;$(SolutionDir)External\SDL2-2.0.14\include;$(SolutionDir)External\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)External\SDL2_image-2.0.5\lib\x64;$(SolutionDir)External\SDL2-2.0.14\lib\x64;$(SolutionDir)External\SDL2_ttf-2.0.15\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Ores\Src\Game;$(SolutionDir)Ores\Src\Engine;$(SolutionDir)External\SDL2_image-2.0.5\include;$(SolutionDir)External\SDL2-2.0.14\include;$(SolutionDir)External\SDL2_ttf-2.0.15\include;$(SolutionDir)External\SDL2_mixer-2.0.4\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)External\SDL2_image-2.0.5\lib\x64;$(SolutionDir)External\SDL2-2.0.14\lib\x64;$(SolutionDir)External\SDL2_ttf-2.0.15\lib\x64;$(SolutionDir)External\SDL2_mixer-2.0.4\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -124,7 +124,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,7 +141,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -167,6 +167,7 @@
   <ItemGroup>
     <ClInclude Include="Src\Engine\AssetManager.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Animation.h" />
+    <ClInclude Include="Src\Engine\ECS\Components\Audio.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Renderable.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Text.h" />
     <ClInclude Include="Src\Engine\ECS\ECS.h" />

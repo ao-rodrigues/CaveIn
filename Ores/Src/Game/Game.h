@@ -16,6 +16,11 @@ public:
 	void update();
 
 private:
+	void loadMusic();
+	void loadCursor();
+	void loadBackground();
+	void loadCharacters();
+
 	OreClickSystem* _oreClickSystem = nullptr;
 	HoverCursorSystem* _hoverCursorSystem = nullptr;
 	OreGridSystem* _oreGridSystem = nullptr;

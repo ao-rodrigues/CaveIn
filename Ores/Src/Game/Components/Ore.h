@@ -5,6 +5,7 @@
 
 #include "../../Engine/ECS/Components/Transform.h"
 #include "../../Engine/ECS/Components/Sprite.h"
+#include "../../Engine/ECS/Components/Audio.h"
 #include "../../Engine/Math/Vector2.h"
 
 
@@ -24,6 +25,8 @@ public:
 	{
 		_transform = &entity->getComponent<Transform>();
 		_sprite = &entity->getComponent<Sprite>();
+		_destructionSFX = &entity->getComponent<Audio>();
+
 		setGridCoords(_gridCoords, true);
 	}
 
@@ -73,6 +76,12 @@ public:
 		_moving = false;
 	}
 
+	void destroy()
+	{
+		_destructionSFX->play();
+		entity->destroy();
+	}
+
 	inline bool isSuspended() { return _suspended; }
 	inline bool isMoving() { return _moving; }
 	inline bool visited() { return _visited; }
@@ -92,6 +101,7 @@ private:
 	Vector2 _oreDimensions;
 
 	Sprite* _sprite = nullptr;
+	Audio* _destructionSFX = nullptr;
 
 	bool _visited = false;
 

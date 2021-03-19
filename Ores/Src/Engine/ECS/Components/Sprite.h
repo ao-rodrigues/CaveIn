@@ -10,9 +10,11 @@
 class Sprite : public Renderable
 {
 public:
-	Sprite(RenderLayer renderLayer, int depth, const std::string& textureID, int width, int height)
+	Sprite(RenderLayer renderLayer, int depth, const std::string& textureID, int srcX, int srcY, int width, int height)
 		: Renderable(renderLayer, depth)
 		, textureID(textureID)
+		, srcX(srcX)
+		, srcY(srcY)
 		, srcWidth(width)
 		, srcHeight(height)
 		, dstWidth(width)
@@ -56,6 +58,9 @@ public:
 	}
 
 	void makeDstRelativeToCamera();
+
+	int srcX = 0;
+	int srcY = 0;
 
 	int srcWidth = 0;
 	int srcHeight = 0;

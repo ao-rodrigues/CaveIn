@@ -19,7 +19,7 @@ private:
 	int _level = 1;
 	int _scoreInLevel = 0;
 	int _levelUpScore = STARTER_LEVEL_UP_SCORE;
-	float _levelUpScoreIncreaseRate = 1.3f;
+	float _levelUpScoreIncreaseRate = 1.1f;
 
 	Text* _scoreDisplayText = nullptr;
 	Text* _levelDisplayText = nullptr;

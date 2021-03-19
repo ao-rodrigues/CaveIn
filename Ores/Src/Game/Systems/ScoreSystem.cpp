@@ -23,11 +23,11 @@ void ScoreSystem::init()
 	_levelDisplayText = &Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, levelDisplayText, textColor);
 	_levelDisplayText->setPosition(Vector2(125.f, 10.f));
 
-	_levelProgressBarBg = &Engine::instance().createEntity().addComponent<Sprite>(RenderLayer::UI, 0, "ProgressBarBg", 125, 25);
+	_levelProgressBarBg = &Engine::instance().createEntity().addComponent<Sprite>(RenderLayer::UI, 0, "ProgressBarBg", 0, 0, 125, 25);
 	_levelProgressBarBg->transform->position.x = 200.f;
 	_levelProgressBarBg->transform->position.y = 5.f;
 
-	_levelProgressBarFg = &Engine::instance().createEntity().addComponent<Sprite>(RenderLayer::UI, 1, "ProgressBarFg", 113, 16);
+	_levelProgressBarFg = &Engine::instance().createEntity().addComponent<Sprite>(RenderLayer::UI, 1, "ProgressBarFg", 0, 0, 113, 16);
 	_levelProgressBarFg->transform->position.x = 200.f + (125.f - 113.f) / 2.f;
 	_levelProgressBarFg->transform->position.y = 5.f + (25.f - 16.f) / 2.f;
 	_levelProgressBarFg->srcWidth = 0;

@@ -39,12 +39,12 @@ private:
 
 	OreData _oreData[8] = {
 		OreData(0, 100, "Brick"),
-		OreData(1, 100, "Cobble"),
-		OreData(2, 100, "Crystal"),
-		OreData(3, 100, "Marble"),
-		OreData(4, 100, "Pebble"),
+		OreData(1, 110, "Cobble"),
+		OreData(2, 280, "Crystal"),
+		OreData(3, 240, "Marble"),
+		OreData(4, 150, "Pebble"),
 		OreData(5, 100, "Red"),
-		OreData(6, 100, "Sandstone"),
-		OreData(7, 100, "Slime")
+		OreData(6, 90, "Sandstone"),
+		OreData(7, 200, "Slime")
 	};
 };

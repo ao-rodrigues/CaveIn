@@ -173,5 +173,8 @@
     <ClInclude Include="Src\Game\Events\LevelUpEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Engine\ECS\Components\Audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
