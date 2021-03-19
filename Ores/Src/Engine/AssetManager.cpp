@@ -18,8 +18,21 @@ AssetManager::AssetManager()
 
 void AssetManager::clear()
 {
+	for (auto& texture : _textures)
+	{
+		SDL_DestroyTexture(texture.second);
+	}
+
 	_textures.clear();
+
+	for (auto& font : _fonts)
+	{
+		TTF_CloseFont(font.second);
+	}
+
 	_fonts.clear();
+
+	TTF_Quit();
 	deleteInstance();
 }
 

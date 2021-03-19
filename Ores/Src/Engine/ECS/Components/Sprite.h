@@ -22,7 +22,7 @@ public:
 
 	~Sprite()
 	{
-
+		
 	}
 
 	void init() override;

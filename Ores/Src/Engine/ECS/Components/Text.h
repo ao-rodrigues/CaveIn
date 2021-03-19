@@ -18,8 +18,6 @@ public:
 		, text(std::move(text))
 		, textColor(color)
 	{
-		//_dstRect.x = xPos;
-		//_dstRect.y = yPos;
 		setText(this->fontID, this->text);
 	}
 
@@ -31,7 +29,12 @@ public:
 	}
 
 	~Text()
-	{ }
+	{ 
+		if (texture != nullptr)
+		{
+			SDL_DestroyTexture(texture);
+		}
+	}
 
 	void setPosition(Vector2 position)
 	{
@@ -45,6 +48,11 @@ public:
 		this->fontID = fontID;
 		this->text = text;
 
+		if (texture != nullptr)
+		{
+			SDL_DestroyTexture(texture);
+		}
+
 		SDL_Surface* surf = TTF_RenderText_Blended(AssetManager::instance().getFont(fontID), text.c_str(), textColor);
 		texture = SDL_CreateTextureFromSurface(Engine::instance().getRenderer(), surf);
 		SDL_FreeSurface(surf);
@@ -54,6 +62,11 @@ public:
 
 	void setTextColor(SDL_Color newColor)
 	{
+		if (texture != nullptr)
+		{
+			SDL_DestroyTexture(texture);
+		}
+
 		SDL_Surface* surf = TTF_RenderText_Blended(AssetManager::instance().getFont(fontID), text.c_str(), newColor);
 		texture = SDL_CreateTextureFromSurface(Engine::instance().getRenderer(), surf);
 		SDL_FreeSurface(surf);
