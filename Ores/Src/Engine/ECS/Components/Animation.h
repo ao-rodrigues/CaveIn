@@ -40,6 +40,11 @@ public:
 		currentAnimation = animations[0].name;
 	}
 
+	~Animation()
+	{
+
+	}
+
 	void init() override;
 	//void update() override;
 

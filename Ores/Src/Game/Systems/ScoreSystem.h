@@ -2,8 +2,9 @@
 
 #include "../../Engine/ECS/ECS.h"
 #include "../../Engine/ECS/Components/Text.h"
+#include "../../Engine/ECS/Components/Sprite.h"
 
-constexpr int STARTER_LEVEL_UP_SCORE = 1200;
+constexpr int STARTER_LEVEL_UP_SCORE = 3200;
 
 class ScoreSystem : public System
 {
@@ -16,10 +17,15 @@ public:
 private:
 	int _score = 0;
 	int _level = 1;
+	int _scoreInLevel = 0;
 	int _levelUpScore = STARTER_LEVEL_UP_SCORE;
-	float _levelUpScoreIncreaseRate = 0.2f;
+	float _levelUpScoreIncreaseRate = 1.3f;
 
 	Text* _scoreDisplayText = nullptr;
+	Text* _levelDisplayText = nullptr;
+
+	Sprite* _levelProgressBarBg = nullptr;
+	Sprite* _levelProgressBarFg = nullptr;
 
 	void updateScoreDisplay(int newScore);
 	void updateLevel(int newScore);

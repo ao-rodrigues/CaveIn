@@ -4,14 +4,18 @@
 
 void SpriteSystem::update()
 {
-	for (auto& spriteEntity : _entityManager->getEntitiesWithComponent<Sprite>())
+	auto spriteEntities = _entityManager->getEntitiesWithComponentAll<Sprite>();
+	for (auto& spriteEntity : spriteEntities)
 	{
 		Sprite& sprite = spriteEntity->getComponent<Sprite>();
 
+		sprite.srcRect()->w = sprite.srcWidth;
+		sprite.srcRect()->h = sprite.srcHeight;
+
 		sprite.dstRect()->x = static_cast<int>(sprite.transform->position.x);
 		sprite.dstRect()->y = static_cast<int>(sprite.transform->position.y);
-		sprite.dstRect()->w = static_cast<int>(sprite.width * sprite.transform->scale.x);
-		sprite.dstRect()->h = static_cast<int>(sprite.height * sprite.transform->scale.y);
+		sprite.dstRect()->w = static_cast<int>(sprite.dstWidth * sprite.transform->scale.x);
+		sprite.dstRect()->h = static_cast<int>(sprite.dstHeight * sprite.transform->scale.y);
 
 		sprite.makeDstRelativeToCamera();
 	}

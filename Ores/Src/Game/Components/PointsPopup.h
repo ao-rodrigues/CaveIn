@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include "../../Engine/ECS/ECS.h"
 #include "../../Engine/ECS/Components/Text.h"
+#include "../../Engine/ECS/Components/Transform.h"
 
 class PointsPopup : public Component
 {
@@ -15,15 +16,25 @@ public:
 
 	void init() override
 	{
-		if (!entity->hasComponent<Text>())
-		{
-			std::cerr << "PointsPopup requires component Text!" << std::endl;
-		}
-
 		text = &entity->getComponent<Text>();
+		transform = &entity->getComponent<Transform>();
+
+		_defaultColor = text->textColor;
+		_defaultPosition = transform->position;
+	}
+
+	void reset()
+	{
+		text->setTextColor(_defaultColor);
+		transform->position = _defaultPosition;
 	}
 
 	float lifetime = 0.f;
 	float spawnTime = 0.f;
 	Text* text = nullptr;
+	Transform* transform = nullptr;
+
+private:
+	SDL_Color _defaultColor;
+	Vector2 _defaultPosition;
 };

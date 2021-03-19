@@ -13,10 +13,10 @@ void PointsPopupSystem::init()
 
 void PointsPopupSystem::update()
 {
-	auto oreDestroyedEvents = _entityManager->getEntitiesWithComponent<OreDestroyedEvent>();
+	auto oreDestroyedEvents = _entityManager->getEntitiesWithComponentAll<OreDestroyedEvent>();
 	for (auto& event : oreDestroyedEvents)
 	{
-		OreDestroyedEvent& oreDestroyedEvent = event->getComponent<OreDestroyedEvent>();
+		OreDestroyedEvent oreDestroyedEvent = event->getComponent<OreDestroyedEvent>();
 		OreData oreData = oreDestroyedEvent.oreData;
 		Vector2 position = oreDestroyedEvent.position;
 		position.x += 5.f;
@@ -25,7 +25,7 @@ void PointsPopupSystem::update()
 		event->destroy();
 	}
 
-	auto popupEntities = _entityManager->getEntitiesWithComponent<PointsPopup>();
+	auto popupEntities = _entityManager->getEntitiesWithComponentAll<PointsPopup>();
 	for (auto& entity : popupEntities)
 	{
 		PointsPopup& popup = entity->getComponent<PointsPopup>();
@@ -39,6 +39,7 @@ void PointsPopupSystem::update()
 		if (timePassed > popup.lifetime)
 		{
 			entity->destroy();
+			//std::cout << "Destroyed popup!" << std::endl;
 			continue;
 		}
 

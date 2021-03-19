@@ -1,5 +1,7 @@
 #include "ECS.h"
 
+#include <SDL.h>
+
 /**
 * /////////////////////////////////////////////////////////////////
 * ************************ Archetype ******************************
@@ -8,10 +10,13 @@
 
 ArchetypeID Archetype::s_lastArchetypeID = 0u;
 
-Archetype::Archetype(std::unordered_set<ComponentID>&& newComponents)
+Archetype::Archetype(std::unordered_set<ComponentID> newComponents)
+	: components(newComponents)
 {
+	entities.reserve(100);
+	std::cout << "New archetype!!!" << std::endl;
 	id = s_lastArchetypeID++;
-	components = newComponents;
+	//components = newComponents;
 }
 
 
@@ -28,14 +33,8 @@ Entity::Entity(ArchetypeID archetypeID, EntityManager* manager)
 	, manager(manager)
 {
 	id = s_lastEntityID++;
+	//_componentMap.reserve(50);
 }
-
-/*
-void Entity::update()
-{
-	for (auto& c : _componentMap) c.second->update();
-}
-*/
 
 
 /**
@@ -46,6 +45,8 @@ void Entity::update()
 
 EntityManager::EntityManager()
 {
+	_entityArchetypes.reserve(50);
+
 	Archetype* emptyArchetype = new Archetype();
 	std::unique_ptr<Archetype> uPtr(emptyArchetype);
 
@@ -53,20 +54,10 @@ EntityManager::EntityManager()
 	_entityArchetypes.emplace_back(std::move(uPtr));
 }
 
-/*
-void EntityManager::update()
-{
-	for (auto& arch : _archetypes)
-	{
-		for (auto& e : arch->entities) e.second->update();
-	}
-}
-*/
-
 void EntityManager::refresh()
 {
 	for (auto& arch : _entityArchetypes)
-	{
+	{	
 		for (auto it = arch->entities.begin(); it != arch->entities.end();)
 		{
 			if (!it->second->isActive())
@@ -79,16 +70,30 @@ void EntityManager::refresh()
 			}
 		}
 	}
+
+	if (SDL_GetTicks() - _lastCleanupTime >= CLEANUP_INTERVAL)
+	{
+		_entityArchetypes.erase(std::remove_if(_entityArchetypes.begin() + 1, _entityArchetypes.end(),
+			[](const std::unique_ptr<Archetype>& archetype)
+			{
+				return archetype->entities.size() == 0;
+			}
+		), _entityArchetypes.end());
+
+		_lastCleanupTime = SDL_GetTicks();
+	}
+
 }
 
 Entity& EntityManager::createEntity()
 {
-	Entity* newEntity = new Entity(_entityArchetypes[0]->id, this);
-	newEntity->manager = this;
-	std::unique_ptr<Entity> ptr(newEntity);
+	//Entity* newEntity = new Entity(_entityArchetypes[0]->id, this);
+	//newEntity->manager = this;
+	std::unique_ptr<Entity> entityUniqPtr = std::make_unique<Entity>(_entityArchetypes[0]->id, this);
+	Entity* newEntity = entityUniqPtr.get();
 
 	// Store in no-components archetype
-	_entityArchetypes[0]->entities.emplace(ptr->id, std::move(ptr));
+	_entityArchetypes[0]->entities.emplace(entityUniqPtr->id, std::move(entityUniqPtr));
 
 	return *newEntity;
 }

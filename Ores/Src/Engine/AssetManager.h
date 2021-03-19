@@ -13,6 +13,8 @@ public:
 	AssetManager();
 	~AssetManager() = default;
 
+	void clear();
+
 	void loadTexture(const std::string& id, const std::string& path);
 	SDL_Texture* getTexture(const std::string& id);
 

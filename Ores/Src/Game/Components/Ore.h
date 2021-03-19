@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../../Engine/ECS/ECS.h"
 #include "../OreData.h"
 
@@ -10,8 +11,9 @@
 class Ore : public Component
 {
 public:
-	Ore(OreData oreData, const Vector2& gridCoords, int oreWidth, int oreHeight, float moveDuration)
+	Ore(OreData oreData, const Vector2& gridRoot, const Vector2& gridCoords, int oreWidth, int oreHeight, float moveDuration)
 		: _oreData(oreData)
+		, _gridRoot(gridRoot)
 		, _gridCoords(gridCoords)
 		, _oreDimensions(Vector2(oreWidth, oreHeight))
 		, _moveDuration(moveDuration)
@@ -22,7 +24,8 @@ public:
 	{
 		_transform = &entity->getComponent<Transform>();
 		_sprite = &entity->getComponent<Sprite>();
-		targetPosition = _transform->position;
+		setGridCoords(_gridCoords, true);
+		//targetPosition = _transform->position;
 	}
 
 	inline Transform* getTransform() { return _transform; }
@@ -38,12 +41,13 @@ public:
 
 		if (immediate)
 		{
-			_transform->position.x = _gridCoords.x * _oreDimensions.x;
-			_transform->position.y = _gridCoords.y * _oreDimensions.y;
+			//_transform->position.x = _gridCoords.x * _oreDimensions.x;
+			//_transform->position.y = _gridCoords.y * _oreDimensions.y;
+			_transform->position = _gridRoot + _gridCoords * _oreDimensions;
 
 		}
 
-		targetPosition = _gridCoords * _oreDimensions;
+		targetPosition = _gridRoot + _gridCoords * _oreDimensions;
 	}
 
 	inline void flagSuspended()
@@ -87,6 +91,7 @@ private:
 	OreData _oreData;
 
 	Vector2 _gridCoords;
+	Vector2 _gridRoot;
 	Vector2 _oreDimensions;
 
 	Sprite* _sprite = nullptr;

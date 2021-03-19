@@ -13,6 +13,11 @@ public:
 		, depth(depth)
 	{}
 
+	~Renderable()
+	{
+
+	}
+
 	virtual void init() override 
 	{
 		transform = &entity->getComponent <Transform>();

@@ -14,7 +14,7 @@ void OreClickSystem::update()
 {
 	Vector2 mousePos = InputManager::mousePosition();
 
-	for (auto& oreEntity : _entityManager->getEntitiesWithComponent<Ore>())
+	for (auto& oreEntity : _entityManager->getEntitiesWithComponentAll<Ore>())
 	{
 		handleMouseInteractions(oreEntity->getComponent<Ore>(), mousePos);
 	}

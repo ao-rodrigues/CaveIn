@@ -40,8 +40,11 @@ public:
 		_dstRect.y = transform->position.y;
 	}
 
-	void setText(const std::string& fontID, const std::string& text)
+	void setText(std::string fontID, std::string text)
 	{
+		this->fontID = fontID;
+		this->text = text;
+
 		SDL_Surface* surf = TTF_RenderText_Blended(AssetManager::instance().getFont(fontID), text.c_str(), textColor);
 		texture = SDL_CreateTextureFromSurface(Engine::instance().getRenderer(), surf);
 		SDL_FreeSurface(surf);

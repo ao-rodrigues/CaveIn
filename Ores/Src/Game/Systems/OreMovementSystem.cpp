@@ -5,7 +5,7 @@
 
 void OreMovementSystem::update()
 {
-	for (auto& oreEntity : _entityManager->getEntitiesWithComponent<Ore>())
+	for (auto& oreEntity : _entityManager->getEntitiesWithComponentAll<Ore>())
 	{
 		Ore& ore = oreEntity->getComponent<Ore>();
 

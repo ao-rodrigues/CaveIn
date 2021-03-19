@@ -28,6 +28,11 @@ public:
 		scale.y = yScale;
 	}
 
+	~Transform()
+	{
+
+	}
+
 	Vector2 position;
 	Vector2 scale = { 1, 1 };
 	float rotation = 0.f;

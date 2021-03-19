@@ -8,12 +8,25 @@
 
 void HoverCursorSystem::update()
 {
-	auto entities = _entityManager->getEntitiesWithComponent<HoverCursor>();
-	if (entities.size() == 0) return;
+	auto entities = _entityManager->getEntitiesWithComponentAll<HoverCursor>();
+	if (entities.size() == 0)
+	{
+		for (auto& event : _entityManager->getEntitiesWithComponentAll<HoverCursorAttachEvent>())
+		{
+			event->destroy();
+		}
+
+		for (auto& event : _entityManager->getEntitiesWithComponentAll<HoverCursorReleaseEvent>())
+		{
+			event->destroy();
+		}
+
+		return;
+	}
 
 	HoverCursor& hoverCursor = entities[0]->getComponent<HoverCursor>();
 
-	auto hoverAttachEvents = _entityManager->getEntitiesWithComponent<HoverCursorAttachEvent>();
+	auto hoverAttachEvents = _entityManager->getEntitiesWithComponentAll<HoverCursorAttachEvent>();
 	if (hoverAttachEvents.size() > 0 && !_cursorInUse)
 	{
 		hoverCursor.setPosition(hoverAttachEvents[0]->getComponent<HoverCursorAttachEvent>().position);
@@ -26,7 +39,7 @@ void HoverCursorSystem::update()
 		event->destroy();
 	}
 
-	auto hoverReleaseEvents = _entityManager->getEntitiesWithComponent<HoverCursorReleaseEvent>();
+	auto hoverReleaseEvents = _entityManager->getEntitiesWithComponentAll<HoverCursorReleaseEvent>();
 	if (hoverReleaseEvents.size() > 0)
 	{
 		_cursorInUse = false;

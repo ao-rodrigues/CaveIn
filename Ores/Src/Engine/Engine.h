@@ -1,6 +1,5 @@
 #pragma once
 
-#include <SDL.h>
 #include <vector>
 #include <memory>
 
@@ -42,10 +41,14 @@ public:
 	T& createSystem()
 	{
 		static_assert(std::is_base_of<System, T>::value, "Type must be derived from System!");
-		T* system = new T(_entityManager);
-		system->init();
-		std::unique_ptr<System> ptr(system);
-		_systems.emplace_back(std::move(ptr));
+		//T* system = new T(_entityManager);
+		//system->init();
+		std::unique_ptr<T> systemUniqPtr = std::make_unique<T>(_entityManager);
+		systemUniqPtr->init();
+
+		T* system = systemUniqPtr.get();
+
+		_systems.emplace_back(std::move(systemUniqPtr));
 
 		return *system;
 	}

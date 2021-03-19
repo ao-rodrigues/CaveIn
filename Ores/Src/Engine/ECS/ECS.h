@@ -6,13 +6,14 @@
 #include <unordered_map>
 #include <algorithm>
 #include <iterator>
+#include <iostream>
 
 class Entity;
 class EntityManager;
 
 using EntityID = std::size_t;
 using ArchetypeID = std::size_t;
-using ComponentID = std::size_t;
+using ComponentID = std::string;
 
 class Component
 {
@@ -31,6 +32,8 @@ public:
 	System(EntityManager* entityManager)
 		: _entityManager(entityManager)
 	{ }
+
+	virtual ~System() {}
 
 	/// <summary>
 	/// Called upon creation of the system
@@ -51,21 +54,21 @@ struct Archetype
 	Archetype()
 	{
 		id = s_lastArchetypeID++;
+		entities.reserve(10);
 	}
 
-	Archetype(std::unordered_set<ComponentID>&& newComponents);
+	Archetype(std::unordered_set<ComponentID> newComponents);
 
 	template<typename T>
 	inline bool hasComponent()
 	{
-		std::size_t compHash = typeid(T).hash_code();
-		return components.count(compHash) > 0;
+		return components.count(getComponentID<T>()) > 0;
 	}
 
 	template<typename T>
 	static ComponentID getComponentID()
 	{
-		return typeid(T).hash_code();
+		return typeid(T).name();
 	}
 
 	ArchetypeID id;
@@ -84,6 +87,10 @@ public:
 	EntityManager* manager = nullptr;
 
 	Entity(ArchetypeID archetypeID, EntityManager* manager);
+	~Entity()
+	{
+		_componentMap.clear();
+	}
 
 	//void update();
 
@@ -93,7 +100,7 @@ public:
 	template<typename T>
 	inline bool hasComponent() const
 	{
-		return _componentMap.count(typeid(T).hash_code());
+		return _componentMap.count(Archetype::getComponentID<T>());
 	}
 
 	template<typename T>
@@ -117,22 +124,54 @@ class EntityManager
 {
 public:
 	EntityManager();
+	~EntityManager()
+	{
+		_entityArchetypes.clear();
+	}
 
 	//void update();
 	void refresh();
 
 	Entity& createEntity();
 
+	/// <summary>
+	/// Returns all entities that contain all of the supplied components.
+	/// </summary>
+	/// <typeparam name="...Ts">Component type</typeparam>
+	/// <returns>Vector with all entities with all of the supplied components</returns>
 	template<typename... Ts>
-	std::vector<Entity*> getEntitiesWithComponent();
+	std::vector<Entity*> getEntitiesWithComponentAll();
 
+	/// <summary>
+	/// Returns all entities that contain any of the supplied components.
+	/// </summary>
+	/// <typeparam name="...Ts">Component type</typeparam>
+	/// <returns>Vector with all entities with any of the supplied components</returns>
+	template<typename... Ts>
+	std::vector<Entity*> getEntitiesWithComponentAny();
+
+	/// <summary>
+	/// Returns all entities that contain none of the supplied components.
+	/// </summary>
+	/// <typeparam name="...Ts">Component type</typeparam>
+	/// <returns>Vector with all entities with none of the supplied components</returns>
+	template<typename... Ts>
+	std::vector<Entity*> getEntitiesWithComponentNone();
+
+	/// <summary>
+	/// Returns all entities that contain exactly all of the supplied components.
+	/// </summary>
+	/// <typeparam name="...Ts">Component type</typeparam>
+	/// <returns>Vector with all entities with exactly all of the supplied components</returns>
 	template<typename... Ts>
 	std::vector<Entity*> getEntitiesWithComponentExact();
 
 private:
-	std::vector<std::unique_ptr<Archetype>> _entityArchetypes;
-	std::vector<std::unique_ptr<Archetype>> _eventArchetypes;
 	friend class Entity;
+	std::vector<std::unique_ptr<Archetype>> _entityArchetypes;
+
+	unsigned int _lastCleanupTime = 0;
+	const unsigned int CLEANUP_INTERVAL = 60000;
 
 	template<typename T>
 	void updateArchetypes(Entity* entity);
@@ -148,14 +187,14 @@ private:
 template<typename T, typename... TArgs>
 T& Entity::addComponent(TArgs&&... args)
 {
-	T* newComponent = new T(std::forward<TArgs>(args)...);
-	newComponent->entity = this;
-	std::unique_ptr<Component> compPtr(newComponent);
+	std::unique_ptr<Component> compUniqPtr = std::make_unique<T>(std::forward<TArgs>(args)...);
+	compUniqPtr->entity = this;
+	compUniqPtr->init();
+
+	T* newComponent = dynamic_cast<T*>(compUniqPtr.get());
+
 	ComponentID componentID = Archetype::getComponentID<T>();
-
-	_componentMap.emplace(componentID, std::move(compPtr));
-
-	newComponent->init();
+	_componentMap.emplace(componentID, std::move(compUniqPtr));
 
 	manager->updateArchetypes<T>(this);
 
@@ -202,7 +241,7 @@ void EntityManager::updateArchetypes(Entity* entity)
 			containsAll = containsAll && archetype->components.count(component);
 		}
 
-		if (containsAll)
+		if (containsAll && archetype->components.size() == entityComponents.size())
 		{
 			entityUPtr->archetypeID = archetype->id;
 			archetype->entities.emplace(entityUPtr->id, std::move(entityUPtr));
@@ -211,7 +250,8 @@ void EntityManager::updateArchetypes(Entity* entity)
 	}
 
 	// Archetype doesn't exist yet, create a new one
-	Archetype* newArchetype = new Archetype(std::move(entityComponents));
+	Archetype* newArchetype = new Archetype(entityComponents);
+	//std::cout << "Created new archetype!" << std::endl;
 
 	std::unique_ptr<Archetype> archetypeUPtr(newArchetype);
 
@@ -222,7 +262,7 @@ void EntityManager::updateArchetypes(Entity* entity)
 }
 
 template<typename... Ts>
-std::vector<Entity*> EntityManager::getEntitiesWithComponent()
+std::vector<Entity*> EntityManager::getEntitiesWithComponentAll()
 {
 	std::vector<ComponentID> components;
 	components.insert(components.end(), { Archetype::getComponentID<Ts>()... });
@@ -231,18 +271,79 @@ std::vector<Entity*> EntityManager::getEntitiesWithComponent()
 
 	for (auto& archetype : _entityArchetypes)
 	{
-		// Check if this archetype has AT LEAST one of the supplied components
+		bool containsAll = true;
+
+		// Check if this archetype has ALL of the supplied components
 		for (auto& component : components)
 		{
-			// If it does, we add its entities
-			if (archetype->components.count(component))
+			containsAll = containsAll && archetype->components.count(component);
+		}
+
+		if (containsAll)
+		{
+			for (auto& entity : archetype->entities)
 			{
-				std::transform(archetype->entities.begin(), archetype->entities.end(), std::back_inserter(entities),
-					[](const auto& pair) 
-					{
-						return pair.second.get();
-					});
-				break;
+				entities.emplace_back(entity.second.get());
+			}
+		}
+	}
+
+	return entities;
+}
+
+template<typename... Ts>
+std::vector<Entity*> EntityManager::getEntitiesWithComponentAny()
+{
+	std::vector<ComponentID> components;
+	components.insert(components.end(), { Archetype::getComponentID<Ts>()... });
+
+	std::vector<Entity*> entities;
+
+	for (auto& archetype : _entityArchetypes)
+	{
+		bool containsAny = true;
+
+		// Check if this archetype has ANY of the supplied components
+		for (auto& component : components)
+		{
+			containsAny = containsAny || archetype->components.count(component);
+		}
+
+		if (containsAny)
+		{
+			for (auto& entity : archetype->entities)
+			{
+				entities.emplace_back(entity.second.get());
+			}
+		}
+	}
+
+	return entities;
+}
+
+template<typename... Ts>
+std::vector<Entity*> EntityManager::getEntitiesWithComponentNone()
+{
+	std::vector<ComponentID> components;
+	components.insert(components.end(), { Archetype::getComponentID<Ts>()... });
+
+	std::vector<Entity*> entities;
+
+	for (auto& archetype : _entityArchetypes)
+	{
+		bool containsNone = true;
+
+		// Check if this archetype has ANY of the supplied components
+		for (auto& component : components)
+		{
+			containsNone = containsNone && !archetype->components.count(component);
+		}
+
+		if (containsNone)
+		{
+			for (auto& entity : archetype->entities)
+			{
+				entities.emplace_back(entity.second.get());
 			}
 		}
 	}

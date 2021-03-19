@@ -24,6 +24,7 @@ void Game::init()
 	_oreMovementSystem = &engine.createSystem<OreMovementSystem>();
 	_scoreSystem = &engine.createSystem<ScoreSystem>();
 	_pointsPopupSystem = &engine.createSystem<PointsPopupSystem>();
+	_pushTimerSystem = &engine.createSystem<PushTimerSystem>();
 }
 
 void Game::update()
@@ -34,4 +35,5 @@ void Game::update()
 	_oreMovementSystem->update();
 	_scoreSystem->update();
 	_pointsPopupSystem->update();
+	_pushTimerSystem->update();
 }

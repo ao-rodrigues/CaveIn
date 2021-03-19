@@ -16,6 +16,13 @@ AssetManager::AssetManager()
 	}
 }
 
+void AssetManager::clear()
+{
+	_textures.clear();
+	_fonts.clear();
+	deleteInstance();
+}
+
 void AssetManager::loadTexture(const std::string& id, const std::string& path)
 {
 	if (!_textures.count(id))

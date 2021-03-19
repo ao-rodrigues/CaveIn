@@ -6,6 +6,7 @@
 #include"Systems/OreMovementSystem.h"
 #include "Systems/ScoreSystem.h"
 #include "Systems/PointsPopupSystem.h"
+#include "Systems/PushTimerSystem.h"
 
 class Game
 {
@@ -21,4 +22,5 @@ private:
 	OreMovementSystem* _oreMovementSystem = nullptr;
 	ScoreSystem* _scoreSystem = nullptr;
 	PointsPopupSystem* _pointsPopupSystem = nullptr;
+	PushTimerSystem* _pushTimerSystem = nullptr;
 };

@@ -1,7 +1,8 @@
-#include <iostream>
 #include "Engine.h"
+#include <iostream>
 #include "InputManager.h"
 #include "ECS/Components/Transform.h"
+#include "AssetManager.h"
 
 Engine::Engine()
 {
@@ -12,7 +13,7 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-	delete _entityManager;
+	//delete _entityManager;
 }
 
 void Engine::init(const char* title, int width, int height, bool fullscreen, bool vsync, int worldWidth, int worldHeight)
@@ -57,11 +58,18 @@ void Engine::quit()
 
 void Engine::clear()
 {
+	delete _entityManager;
+
 	_renderSystem->destroy();
 	_systems.clear();
+
 	InputManager::clearEvents();
+	AssetManager::instance().clear();
+
 	SDL_DestroyWindow(_window);
 	SDL_Quit();
+
+	deleteInstance();
 }
 
 void Engine::handleEvents()
@@ -81,7 +89,7 @@ void Engine::handleEvents()
 
 void Engine::update()
 {
-	_spriteSystem-> update();
+	_spriteSystem->update();
 	_animationSystem->update();
 
 	_entityManager->refresh();
@@ -93,7 +101,7 @@ void Engine::render()
 	deltaTime = (SDL_GetTicks() - _lastFrameTime) / 1000.f;
 	_lastFrameTime = SDL_GetTicks();
 	int fps = _frameCount / (_lastFrameTime / 1000.f);
-	std::cout << "FPS: " << fps << std::endl;
+	//std::cout << "FPS: " << fps << std::endl;
 
 	_renderSystem->update();
 	_frameCount++;

@@ -3,6 +3,8 @@
 #include "../../Engine/ECS/ECS.h"
 #include "../../Engine/Math/Vector2.h"
 
+#include "../OreData.h"
+
 class Ore;
 
 constexpr auto GRID_WIDTH = 20;
@@ -22,9 +24,22 @@ private:
 	Vector2 coordConvertGridToOre(int gridX, int gridY);
 	Vector2 coordConvertOreToGrid(int oreX, int oreY);
 
+	void pushColumn();
+
 	void tryDestroy(const Vector2& oreCoords, int typeIndex);
 	void destroyNeighboringOre(const Vector2& gridCoords, int typeIndex);
 
 	Ore* _grid[GRID_WIDTH][GRID_HEIGHT]; // We work with a transposed grid because we'll be working column-major and this way it's more cache-friendly
 	int _leftmostColIndex = GRID_WIDTH / 2; // The value that controls how close the grid is from the limit line (0)
+
+	OreData _oreData[8] = {
+		OreData(0, 100, "Brick"),
+		OreData(1, 100, "Cobble"),
+		OreData(2, 100, "Crystal"),
+		OreData(3, 100, "Marble"),
+		OreData(4, 100, "Pebble"),
+		OreData(5, 100, "Red"),
+		OreData(6, 100, "Sandstone"),
+		OreData(7, 100, "Slime")
+	};
 };

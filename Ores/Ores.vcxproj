@@ -83,6 +83,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)Ores\Src\Game;$(SolutionDir)Ores\Src\Engine;$(SolutionDir)External\SDL2_image-2.0.5\include;$(SolutionDir)External\SDL2-2.0.14\include;$(SolutionDir)External\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)External\SDL2_image-2.0.5\lib\x64;$(SolutionDir)External\SDL2-2.0.14\lib\x64;$(SolutionDir)External\SDL2_ttf-2.0.15\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -118,6 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/EHsc /W4 /D_DEBUG /MDd %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,6 +142,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -159,6 +163,7 @@
     <ClCompile Include="Src\Game\Systems\OreMovementSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\PointsPopupSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\ScoreSystem.cpp" />
+    <ClCompile Include="Src\Game\Systems\PushTimerSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Engine\AssetManager.h" />
@@ -184,6 +189,7 @@
     <ClInclude Include="Src\Game\Events\HoverCursorReleaseEvent.h" />
     <ClInclude Include="Src\Game\Events\OreDestroyedEvent.h" />
     <ClInclude Include="Src\Game\Events\OreSelectedEvent.h" />
+    <ClInclude Include="Src\Game\Events\PushEvent.h" />
     <ClInclude Include="Src\Game\Game.h" />
     <ClInclude Include="Src\Game\OreData.h" />
     <ClInclude Include="Src\Game\Systems\HoverCursorSystem.h" />
@@ -192,6 +198,7 @@
     <ClInclude Include="Src\Game\Systems\OreMovementSystem.h" />
     <ClInclude Include="Src\Game\Systems\PointsPopupSystem.h" />
     <ClInclude Include="Src\Game\Systems\ScoreSystem.h" />
+    <ClInclude Include="Src\Game\Systems\PushTimerSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

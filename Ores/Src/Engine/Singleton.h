@@ -15,6 +15,12 @@ public:
 		return *s_instance;
 	}
 
+	static void deleteInstance()
+	{
+		delete s_instance;
+		s_instance = nullptr;
+	}
+
 private:
 	static T* s_instance;
 };

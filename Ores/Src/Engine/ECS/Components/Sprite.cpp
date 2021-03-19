@@ -8,13 +8,13 @@ void Sprite::init()
 
 	_srcRect.x = 0;
 	_srcRect.y = 0;
-	_srcRect.w = width;
-	_srcRect.h = height;
+	_srcRect.w = srcWidth;
+	_srcRect.h = srcHeight;
 
 	_dstRect.x = static_cast<int>(transform->position.x);
 	_dstRect.y = static_cast<int>(transform->position.y);
-	_dstRect.w = static_cast<int>(width * transform->scale.x);
-	_dstRect.h = static_cast<int>(height * transform->scale.y);
+	_dstRect.w = static_cast<int>(dstWidth * transform->scale.x);
+	_dstRect.h = static_cast<int>(dstHeight * transform->scale.y);
 
 	makeDstRelativeToCamera();
 }

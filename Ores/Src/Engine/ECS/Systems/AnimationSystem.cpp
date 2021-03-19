@@ -4,7 +4,7 @@
 
 void AnimationSystem::update()
 {
-	for (auto& animEntity : _entityManager->getEntitiesWithComponent<Animation>())
+	for (auto& animEntity : _entityManager->getEntitiesWithComponentAll<Animation>())
 	{
 		Animation& animation = animEntity->getComponent<Animation>();
 		Animation::AnimationInfo animInfo = animation.animations.at(animation.currentAnimation);
