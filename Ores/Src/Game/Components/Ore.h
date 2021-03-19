@@ -25,7 +25,6 @@ public:
 		_transform = &entity->getComponent<Transform>();
 		_sprite = &entity->getComponent<Sprite>();
 		setGridCoords(_gridCoords, true);
-		//targetPosition = _transform->position;
 	}
 
 	inline Transform* getTransform() { return _transform; }
@@ -41,8 +40,6 @@ public:
 
 		if (immediate)
 		{
-			//_transform->position.x = _gridCoords.x * _oreDimensions.x;
-			//_transform->position.y = _gridCoords.y * _oreDimensions.y;
 			_transform->position = _gridRoot + _gridCoords * _oreDimensions;
 
 		}

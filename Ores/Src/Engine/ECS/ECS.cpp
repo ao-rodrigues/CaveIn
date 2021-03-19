@@ -10,10 +10,10 @@
 
 ArchetypeID Archetype::s_lastArchetypeID = 0u;
 
-Archetype::Archetype(std::unordered_set<ComponentID> newComponents)
+Archetype::Archetype(std::unordered_set<ComponentID>&& newComponents)
 	: components(newComponents)
 {
-	entities.reserve(100);
+	//entities.reserve(100);
 	std::cout << "New archetype!!!" << std::endl;
 	id = s_lastArchetypeID++;
 	//components = newComponents;

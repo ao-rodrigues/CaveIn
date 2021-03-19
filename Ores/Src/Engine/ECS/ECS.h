@@ -57,7 +57,7 @@ struct Archetype
 		entities.reserve(10);
 	}
 
-	Archetype(std::unordered_set<ComponentID> newComponents);
+	Archetype(std::unordered_set<ComponentID>&& newComponents);
 
 	template<typename T>
 	inline bool hasComponent()
@@ -250,10 +250,7 @@ void EntityManager::updateArchetypes(Entity* entity)
 	}
 
 	// Archetype doesn't exist yet, create a new one
-	Archetype* newArchetype = new Archetype(entityComponents);
-	//std::cout << "Created new archetype!" << std::endl;
-
-	std::unique_ptr<Archetype> archetypeUPtr(newArchetype);
+	std::unique_ptr<Archetype> archetypeUPtr = std::make_unique<Archetype>(std::move(entityComponents));
 
 	entityUPtr->archetypeID = archetypeUPtr->id;
 	archetypeUPtr->entities.emplace(entityUPtr->id, std::move(entityUPtr));

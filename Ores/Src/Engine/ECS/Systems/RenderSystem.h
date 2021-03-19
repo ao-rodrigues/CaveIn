@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <vector>
+#include <set>
 
 #include "../ECS.h"
 #include "../Components/Renderable.h"
@@ -21,7 +22,6 @@ public:
 	void destroy();
 
 private:
-	/*
 	struct RenderableComparator
 	{
 		bool operator()(const Renderable* r1, const Renderable* r2) const
@@ -29,10 +29,10 @@ private:
 			return r1->depth < r2->depth;
 		}
 	};
-	*/
+	
 
-	//std::vector<std::multiset<Renderable*, RenderableComparator>> _sortedRenderables;
-	std::vector<std::vector<Renderable*>> _sortedRenderables;
+	std::vector<std::multiset<Renderable*, RenderableComparator>> _sortedRenderables;
+	//std::vector<std::vector<Renderable*>> _sortedRenderables;
 
 	SDL_Texture* _cursorTexture;
 	SDL_Rect _cursorSrcRect = { 0, 0, 19, 19 };

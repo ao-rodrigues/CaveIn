@@ -120,7 +120,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalOptions>/EHsc /W4 /D_DEBUG /MDd %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -187,6 +186,7 @@
     <ClInclude Include="Src\Game\Components\PointsPopup.h" />
     <ClInclude Include="Src\Game\Events\HoverCursorAttachEvent.h" />
     <ClInclude Include="Src\Game\Events\HoverCursorReleaseEvent.h" />
+    <ClInclude Include="Src\Game\Events\LevelUpEvent.h" />
     <ClInclude Include="Src\Game\Events\OreDestroyedEvent.h" />
     <ClInclude Include="Src\Game\Events\OreSelectedEvent.h" />
     <ClInclude Include="Src\Game\Events\PushEvent.h" />

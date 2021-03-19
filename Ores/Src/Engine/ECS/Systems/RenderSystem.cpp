@@ -9,21 +9,21 @@
 
 void RenderSystem::init()
 {
-	/*
 	_sortedRenderables.reserve(RenderLayer::Count);
 	for (std::size_t i = 0; i < RenderLayer::Count; i++)
 	{
 		_sortedRenderables.emplace_back(std::multiset<Renderable*, RenderableComparator>());
 	}
-	*/
 
 	//_sortedRenderables(RenderLayer::Count, std::vector<Renderable*>(100));
+	/*
 	_sortedRenderables.reserve(RenderLayer::Count);
 	for (int i = 0; i < RenderLayer::Count; i++)
 	{
 		_sortedRenderables.emplace_back(std::vector<Renderable*>());
 		_sortedRenderables[i].reserve(100);
 	}
+	*/
 }
 
 void RenderSystem::init(SDL_Window* window, int flags)
@@ -49,12 +49,14 @@ void RenderSystem::update()
 		if (entity->hasComponent<Sprite>())
 		{
 			Sprite& sprite = entity->getComponent<Sprite>();
-			_sortedRenderables[sprite.renderLayer].emplace_back(&sprite);
+			//_sortedRenderables[sprite.renderLayer].emplace_back(&sprite);
+			_sortedRenderables[sprite.renderLayer].emplace(&sprite);
 		}
 		else if (entity->hasComponent<Text>())
 		{
 			Text& text = entity->getComponent<Text>();
-			_sortedRenderables[text.renderLayer].emplace_back(&text);
+			//_sortedRenderables[text.renderLayer].emplace_back(&text);
+			_sortedRenderables[text.renderLayer].emplace(&text);
 		}
 	}
 
@@ -63,12 +65,14 @@ void RenderSystem::update()
 
 	for (auto& layer : _sortedRenderables)
 	{
+		/*
 		std::sort(layer.begin(), layer.end(), 
 			[](const Renderable* r1, const Renderable* r2)
 			{
 				return r1->depth < r2->depth;
 			}
 		);
+		*/
 
 		for (auto& renderable : layer)
 		{

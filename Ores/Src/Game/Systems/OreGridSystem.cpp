@@ -1,11 +1,12 @@
 #include "OreGridSystem.h"
 
 #include "../../Engine/Engine.h"
+#include "../../Engine/AssetManager.h"
+#include "../Components/Ore.h"
 #include "../Events/OreSelectedEvent.h"
 #include "../Events/OreDestroyedEvent.h"
 #include "../Events/PushEvent.h"
-#include "../Components/Ore.h"
-#include "../../Engine/AssetManager.h"
+#include "../Events/LevelUpEvent.h"
 
 void OreGridSystem::init()
 {
@@ -22,7 +23,7 @@ void OreGridSystem::init()
 
 	Engine& engine = Engine::instance();
 
-	Vector2 gridRoot = Vector2(Engine::instance().getWorldDimensions().x - (GRID_WIDTH * 32), 100.f);
+	_gridRoot = Vector2(Engine::instance().getWorldDimensions().x - (GRID_WIDTH * 32), 100.f);
 
 	for (int y = 0; y < GRID_WIDTH; y++)
 	{
@@ -40,7 +41,7 @@ void OreGridSystem::init()
 				ore.addComponent<Sprite>(RenderLayer::Foreground, 0, oreData.textureID, 32, 32);
 
 				Vector2 convertedCoords = coordConvertGridToOre(x, y);
-				_grid[y][x] = &ore.addComponent<Ore>(oreData, gridRoot, convertedCoords, 32, 32, 0.8f);
+				_grid[y][x] = &ore.addComponent<Ore>(oreData, _gridRoot, convertedCoords, 32, 32, 0.8f);
 			}
 		}
 	}
@@ -48,6 +49,13 @@ void OreGridSystem::init()
 
 void OreGridSystem::update()
 {
+	for (auto& event : _entityManager->getEntitiesWithComponentAll<LevelUpEvent>())
+	{
+		destroyAllOres();
+		pushNewGrid();
+		event->destroy();
+	}
+
 	for (auto& event : _entityManager->getEntitiesWithComponentAll<PushEvent>())
 	{
 		pushColumn();
@@ -129,11 +137,51 @@ Vector2 OreGridSystem::coordConvertOreToGrid(int oreX, int oreY)
 	return Vector2((GRID_HEIGHT - 1 - oreY), oreX);
 }
 
+void OreGridSystem::destroyAllOres()
+{
+	for (int y = _leftmostColIndex; y < GRID_WIDTH; y++)
+	{
+		for (int x = 0; x < GRID_HEIGHT; x++)
+		{
+			if (_grid[y][x] != nullptr)
+			{
+				_entityManager->createEntity().addComponent<OreDestroyedEvent>(_grid[y][x]->getOreData(), _grid[y][x]->getTransform()->position);
+				_grid[y][x]->entity->destroy();
+				_grid[y][x] = nullptr;
+			}
+		}
+	}
+
+	_leftmostColIndex = GRID_WIDTH / 2;
+}
+
+void OreGridSystem::pushNewGrid()
+{
+	Engine& engine = Engine::instance();
+
+	for (int y = _leftmostColIndex; y < GRID_WIDTH; y++)
+	{
+		for (int x = 0; x < GRID_HEIGHT; x++)
+		{
+			OreData oreData = _oreData[rand() % 8];
+
+			Entity& ore = engine.createEntity();
+			ore.addComponent<Sprite>(RenderLayer::Foreground, 0, oreData.textureID, 32, 32);
+
+			Vector2 startingCoords = coordConvertGridToOre(x, y + GRID_WIDTH);
+			_grid[y][x] = &ore.addComponent<Ore>(oreData, _gridRoot, startingCoords, 32, 32, 0.8f);
+
+			Vector2 convertedCoords = coordConvertGridToOre(x, y);
+			_grid[y][x]->setGridCoords(convertedCoords, false);
+		}
+	}
+}
+
 void OreGridSystem::pushColumn()
 {
 	if (_leftmostColIndex - 1 < 0)
 	{
-		// Send game over event
+		// TODO Send game over event
 		return;
 	}
 
@@ -155,7 +203,6 @@ void OreGridSystem::pushColumn()
 
 
 	Engine& engine = Engine::instance();
-	Vector2 gridRoot = Vector2(Engine::instance().getWorldDimensions().x - (GRID_WIDTH * 32), 100.f);
 
 	// Add new column at the end
 	for (int x = 0; x < GRID_HEIGHT; x++)
@@ -166,7 +213,7 @@ void OreGridSystem::pushColumn()
 		ore.addComponent<Sprite>(RenderLayer::Foreground, 0, oreData.textureID, 32, 32);
 
 		Vector2 startingCoords = coordConvertGridToOre(x, GRID_WIDTH);
-		_grid[GRID_WIDTH - 1][x] = &ore.addComponent<Ore>(oreData, gridRoot, startingCoords, 32, 32, 0.8f);
+		_grid[GRID_WIDTH - 1][x] = &ore.addComponent<Ore>(oreData, _gridRoot, startingCoords, 32, 32, 0.8f);
 
 		Vector2 convertedCoords = coordConvertGridToOre(x, GRID_WIDTH - 1);
 		_grid[GRID_WIDTH - 1][x]->setGridCoords(convertedCoords, false);

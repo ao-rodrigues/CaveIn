@@ -2,8 +2,9 @@
 
 #include <cmath>
 
-#include "../Events/OreDestroyedEvent.h"
 #include "../../Engine/Engine.h"
+#include "../Events/OreDestroyedEvent.h"
+#include "../Events/LevelUpEvent.h"
 
 void ScoreSystem::init()
 {
@@ -60,6 +61,8 @@ void ScoreSystem::updateLevel(int newScore)
 
 	if (newScore >= _levelUpScore)
 	{
+		_entityManager->createEntity().addComponent<LevelUpEvent>();
+
 		_level++;
 		_scoreInLevel = 0;
 		_levelUpScore += round(_levelUpScore * _levelUpScoreIncreaseRate);
