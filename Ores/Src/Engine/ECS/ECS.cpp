@@ -60,12 +60,17 @@ void EntityManager::refresh()
 	{	
 		for (auto it = arch->entities.begin(); it != arch->entities.end();)
 		{
-			if (!it->second->isActive())
+			if (!it->second->isActive() && !it->second->destroyNextFrame())
 			{
 				it = arch->entities.erase(it);
 			}
 			else
 			{
+				if (!it->second->isActive() && it->second->destroyNextFrame())
+				{
+					it->second->setDestroyNextFrame(false);
+				}
+
 				++it;
 			}
 		}

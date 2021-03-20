@@ -23,6 +23,7 @@ void Game::init()
 	_fallingOresSystem = &engine.createSystem<FallingOresSystem>();
 	_pointsPopupSystem = &engine.createSystem<PointsPopupSystem>();
 	_pushTimerSystem = &engine.createSystem<PushTimerSystem>();
+	_clearEventsSystem = &engine.createSystem<ClearEventsSystem>();
 
 	loadCursor();
 	loadEnvironment();
@@ -43,6 +44,7 @@ void Game::update()
 	_fallingOresSystem->update();
 	_pointsPopupSystem->update();
 	_pushTimerSystem->update();
+	_clearEventsSystem->update();
 }
 
 void Game::loadCursor()

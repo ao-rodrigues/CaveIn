@@ -156,6 +156,7 @@
     <ClCompile Include="Src\Engine\InputManager.cpp" />
     <ClCompile Include="Src\Game\Game.cpp" />
     <ClCompile Include="Src\Game\Main.cpp" />
+    <ClCompile Include="Src\Game\Systems\ClearEventsSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\FallingOresSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\HoverCursorSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\MenuSystem.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Src\Game\Events\PushEvent.h" />
     <ClInclude Include="Src\Game\Game.h" />
     <ClInclude Include="Src\Game\OreData.h" />
+    <ClInclude Include="Src\Game\Systems\ClearEventsSystem.h" />
     <ClInclude Include="Src\Game\Systems\FallingOresSystem.h" />
     <ClInclude Include="Src\Game\Systems\HoverCursorSystem.h" />
     <ClInclude Include="Src\Game\Systems\MenuSystem.h" />

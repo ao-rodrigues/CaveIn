@@ -96,6 +96,8 @@ public:
 
 	inline bool isActive() const { return _isActive; }
 	inline void destroy() { _isActive = false; }
+	inline void setDestroyNextFrame(bool destroyNextFrame) { _destroyNextFrame = destroyNextFrame; }
+	inline bool destroyNextFrame() { return _destroyNextFrame; }
 
 	template<typename T>
 	inline bool hasComponent() const
@@ -113,10 +115,10 @@ public:
 	template<typename T, typename... TArgs>
 	T& addComponent(TArgs&&... args);
 
-
 private:
 	static EntityID s_lastEntityID;
 	bool _isActive = true;
+	bool _destroyNextFrame = false;
 	std::unordered_map<ComponentID, std::unique_ptr<Component>> _componentMap;
 };
 
@@ -138,33 +140,37 @@ public:
 	/// Returns all entities that contain all of the supplied components.
 	/// </summary>
 	/// <typeparam name="...Ts">Component type</typeparam>
+	/// <param name="includeInactive>If true, this query will include entities marked for removal.</param>
 	/// <returns>Vector with all entities with all of the supplied components</returns>
 	template<typename... Ts>
-	std::vector<Entity*> getEntitiesWithComponentAll();
+	std::vector<Entity*> getEntitiesWithComponentAll(bool includeInactive = false);
 
 	/// <summary>
 	/// Returns all entities that contain any of the supplied components.
 	/// </summary>
 	/// <typeparam name="...Ts">Component type</typeparam>
+	/// <param name="includeInactive>If true, this query will include entities marked for removal.</param>
 	/// <returns>Vector with all entities with any of the supplied components</returns>
 	template<typename... Ts>
-	std::vector<Entity*> getEntitiesWithComponentAny();
+	std::vector<Entity*> getEntitiesWithComponentAny(bool includeInactive = false);
 
 	/// <summary>
 	/// Returns all entities that contain none of the supplied components.
 	/// </summary>
 	/// <typeparam name="...Ts">Component type</typeparam>
+	/// <param name="includeInactive>If true, this query will include entities marked for removal.</param>
 	/// <returns>Vector with all entities with none of the supplied components</returns>
 	template<typename... Ts>
-	std::vector<Entity*> getEntitiesWithComponentNone();
+	std::vector<Entity*> getEntitiesWithComponentNone(bool includeInactive = false);
 
 	/// <summary>
 	/// Returns all entities that contain exactly all of the supplied components.
 	/// </summary>
 	/// <typeparam name="...Ts">Component type</typeparam>
+	/// <param name="includeInactive>If true, this query will include entities marked for removal.</param>
 	/// <returns>Vector with all entities with exactly all of the supplied components</returns>
 	template<typename... Ts>
-	std::vector<Entity*> getEntitiesWithComponentExact();
+	std::vector<Entity*> getEntitiesWithComponentExact(bool includeInactive = false);
 
 private:
 	friend class Entity;
@@ -259,7 +265,7 @@ void EntityManager::updateArchetypes(Entity* entity)
 }
 
 template<typename... Ts>
-std::vector<Entity*> EntityManager::getEntitiesWithComponentAll()
+std::vector<Entity*> EntityManager::getEntitiesWithComponentAll(bool includeInactive)
 {
 	std::vector<ComponentID> components;
 	components.insert(components.end(), { Archetype::getComponentID<Ts>()... });
@@ -280,6 +286,8 @@ std::vector<Entity*> EntityManager::getEntitiesWithComponentAll()
 		{
 			for (auto& entity : archetype->entities)
 			{
+				if (!entity.second->isActive() && !includeInactive) continue;
+
 				entities.emplace_back(entity.second.get());
 			}
 		}
@@ -289,7 +297,7 @@ std::vector<Entity*> EntityManager::getEntitiesWithComponentAll()
 }
 
 template<typename... Ts>
-std::vector<Entity*> EntityManager::getEntitiesWithComponentAny()
+std::vector<Entity*> EntityManager::getEntitiesWithComponentAny(bool includeInactive)
 {
 	std::vector<ComponentID> components;
 	components.insert(components.end(), { Archetype::getComponentID<Ts>()... });
@@ -298,7 +306,7 @@ std::vector<Entity*> EntityManager::getEntitiesWithComponentAny()
 
 	for (auto& archetype : _entityArchetypes)
 	{
-		bool containsAny = true;
+		bool containsAny = false;
 
 		// Check if this archetype has ANY of the supplied components
 		for (auto& component : components)
@@ -310,6 +318,8 @@ std::vector<Entity*> EntityManager::getEntitiesWithComponentAny()
 		{
 			for (auto& entity : archetype->entities)
 			{
+				if (!entity.second->isActive() && !includeInactive) continue;
+
 				entities.emplace_back(entity.second.get());
 			}
 		}
@@ -319,7 +329,7 @@ std::vector<Entity*> EntityManager::getEntitiesWithComponentAny()
 }
 
 template<typename... Ts>
-std::vector<Entity*> EntityManager::getEntitiesWithComponentNone()
+std::vector<Entity*> EntityManager::getEntitiesWithComponentNone(bool includeInactive)
 {
 	std::vector<ComponentID> components;
 	components.insert(components.end(), { Archetype::getComponentID<Ts>()... });
@@ -340,6 +350,8 @@ std::vector<Entity*> EntityManager::getEntitiesWithComponentNone()
 		{
 			for (auto& entity : archetype->entities)
 			{
+				if (!entity.second->isActive() && !includeInactive) continue;
+
 				entities.emplace_back(entity.second.get());
 			}
 		}
@@ -349,7 +361,7 @@ std::vector<Entity*> EntityManager::getEntitiesWithComponentNone()
 }
 
 template<typename... Ts>
-std::vector<Entity*> EntityManager::getEntitiesWithComponentExact()
+std::vector<Entity*> EntityManager::getEntitiesWithComponentExact(bool includeInactive)
 {
 	std::vector<ComponentID> components;
 	components.insert(components.end(), { Archetype::getComponentID<Ts>()... });
@@ -369,11 +381,12 @@ std::vector<Entity*> EntityManager::getEntitiesWithComponentExact()
 		// Now check if it also contains the EXACT number of components
 		if (containsAll && archetype->components.size() == components.size())
 		{
-			std::transform(archetype->entities.begin(), archetype->entities.end(), entities.end(),
-				[](const std::pair<EntityID, std::unique_ptr<Entity>>& pair)
-				{
-					return pair.second.get();
-				});
+			for (auto& entity : archetype->entities)
+			{
+				if (!entity.second->isActive() && !includeInactive) continue;
+
+				entities.emplace_back(entity.second.get());
+			}
 
 			return entities;
 		}

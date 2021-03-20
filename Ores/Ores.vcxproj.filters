@@ -78,6 +78,9 @@
     <ClCompile Include="Src\Game\Systems\FallingOresSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Game\Systems\ClearEventsSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Engine\Engine.h">
@@ -198,6 +201,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Game\Events\OreDestroyedInLevelUpEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Game\Systems\ClearEventsSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

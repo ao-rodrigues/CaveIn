@@ -9,6 +9,7 @@
 void HoverCursorSystem::update()
 {
 	auto entities = _entityManager->getEntitiesWithComponentAll<HoverCursor>();
+	/*
 	if (entities.size() == 0)
 	{
 		for (auto& event : _entityManager->getEntitiesWithComponentAll<HoverCursorAttachEvent>())
@@ -23,6 +24,7 @@ void HoverCursorSystem::update()
 
 		return;
 	}
+	*/
 
 	HoverCursor& hoverCursor = entities[0]->getComponent<HoverCursor>();
 
@@ -34,10 +36,12 @@ void HoverCursorSystem::update()
 		_cursorInUse = true;
 	}
 
+	/*
 	for (auto& event : hoverAttachEvents)
 	{
 		event->destroy();
 	}
+	*/
 
 	auto hoverReleaseEvents = _entityManager->getEntitiesWithComponentAll<HoverCursorReleaseEvent>();
 	if (hoverReleaseEvents.size() > 0)
@@ -46,9 +50,11 @@ void HoverCursorSystem::update()
 		hoverCursor.setVisible(false);
 	}
 
+	/*
 	// Now that we got the event, we can destroy it
 	for (auto& event : hoverReleaseEvents)
 	{
 		event->destroy();
 	}
+	*/
 }

@@ -50,24 +50,24 @@ void OreGridSystem::init()
 
 void OreGridSystem::update()
 {
-	for (auto& event : _entityManager->getEntitiesWithComponentAll<LevelUpEvent>())
+	for (auto& event : _entityManager->getEntitiesWithComponentAll<LevelUpEvent>(true))
 	{
 		destroyAllOres();
 		pushNewGrid();
-		event->destroy();
+		//event->destroy();
 	}
 
 	for (auto& event : _entityManager->getEntitiesWithComponentAll<PushEvent>())
 	{
 		pushColumn();
-		event->destroy();
+		//event->destroy();
 	}
 
 	for (auto& event : _entityManager->getEntitiesWithComponentAll<OreSelectedEvent>())
 	{
 		OreSelectedEvent selected = event->getComponent<OreSelectedEvent>();
 		tryDestroy(selected.gridCoords, selected.typeIndex);
-		event->destroy();
+		//event->destroy();
 	}
 
 	updateGrid();

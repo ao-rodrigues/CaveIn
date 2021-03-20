@@ -22,7 +22,7 @@ void PointsPopupSystem::update()
 		position.x += 5.f;
 
 		spawnPopup(oreData, position);
-		event->destroy();
+		//event->destroy();
 	}
 
 	auto popupEntities = _entityManager->getEntitiesWithComponentAll<PointsPopup>();

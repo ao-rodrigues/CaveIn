@@ -64,7 +64,7 @@ void ScoreSystem::updateLevel(int newScore)
 
 	if (newScore >= _levelUpScore)
 	{
-		_entityManager->createEntity().addComponent<LevelUpEvent>();
+		_entityManager->createEntity().addComponent<LevelUpEvent>().entity->setDestroyNextFrame(true);
 
 		_level++;
 		_scoreInLevel = 0;
