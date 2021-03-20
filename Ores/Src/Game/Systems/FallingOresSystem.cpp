@@ -49,12 +49,8 @@ void FallingOresSystem::update()
 		Transform& oreTransform = fallingOre.getTransform();
 		oreTransform.position += currVelocity;
 
-		oreTransform.rotation += fallingOre.getRotationSpeed() * Engine::instance().deltaTime;
-
-		if (fallingOre.rotatesLeft())
-		{
-			oreTransform.rotation *= -1.f;
-		}
+		float newRotation = fallingOre.getRotationSpeed() * Engine::instance().deltaTime;
+		oreTransform.rotation += fallingOre.rotatesLeft() ? 360.f - newRotation : newRotation;
 
 		if (SDL_GetTicks() - fallingOre.getSpawnTime() >= fallingOre.getLifetime())
 		{
