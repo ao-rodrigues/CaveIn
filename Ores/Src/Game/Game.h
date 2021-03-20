@@ -7,6 +7,8 @@
 #include "Systems/ScoreSystem.h"
 #include "Systems/PointsPopupSystem.h"
 #include "Systems/PushTimerSystem.h"
+#include "Systems/SoundSystem.h"
+#include "Systems/FallingOresSystem.h"
 
 class Game
 {
@@ -26,6 +28,8 @@ private:
 	OreGridSystem* _oreGridSystem = nullptr;
 	OreMovementSystem* _oreMovementSystem = nullptr;
 	ScoreSystem* _scoreSystem = nullptr;
+	SoundSystem* _soundSystem = nullptr;
+	FallingOresSystem* _fallingOresSystem = nullptr;
 	PointsPopupSystem* _pointsPopupSystem = nullptr;
 	PushTimerSystem* _pushTimerSystem = nullptr;
 };

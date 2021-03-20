@@ -153,4 +153,40 @@ struct Vector2
 
 		return result;
 	}
+
+	/// <summary>
+	/// Returns a unit vector with coordinates (0,1).
+	/// </summary>
+	/// <returns>Unit vector pointing down.</returns>
+	inline static Vector2 down()
+	{
+		return Vector2(0.f, 1.f);
+	}
+
+	/// <summary>
+	/// Returns a unit vector with coordinates (0,-1).
+	/// </summary>
+	/// <returns>Unit vector pointing up.</returns>
+	inline static Vector2 up()
+	{
+		return Vector2(0.f, -1.f);
+	}
+
+	/// <summary>
+	/// Returns a unit vector with coordinates (-1,0)
+	/// </summary>
+	/// <returns>Unit vector pointing left.</returns>
+	inline static Vector2 left()
+	{
+		return Vector2(-1.f, 0.f);
+	}
+
+	/// <summary>
+	/// Returns a unit vector with coordinates (1,0).
+	/// </summary>
+	/// <returns>Unit vector pointing right.</returns>
+	inline static Vector2 right()
+	{
+		return Vector2(1.f, 0.f);
+	}
 };

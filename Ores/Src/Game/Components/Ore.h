@@ -25,7 +25,6 @@ public:
 	{
 		_transform = &entity->getComponent<Transform>();
 		_sprite = &entity->getComponent<Sprite>();
-		_destructionSFX = &entity->getComponent<Audio>();
 
 		setGridCoords(_gridCoords, true);
 	}
@@ -78,7 +77,6 @@ public:
 
 	void destroy()
 	{
-		_destructionSFX->play();
 		entity->destroy();
 	}
 
@@ -101,7 +99,7 @@ private:
 	Vector2 _oreDimensions;
 
 	Sprite* _sprite = nullptr;
-	Audio* _destructionSFX = nullptr;
+	//Audio* _destructionSFX = nullptr;
 
 	bool _visited = false;
 

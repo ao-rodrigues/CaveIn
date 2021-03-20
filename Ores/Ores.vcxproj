@@ -156,13 +156,16 @@
     <ClCompile Include="Src\Engine\InputManager.cpp" />
     <ClCompile Include="Src\Game\Game.cpp" />
     <ClCompile Include="Src\Game\Main.cpp" />
+    <ClCompile Include="Src\Game\Systems\FallingOresSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\HoverCursorSystem.cpp" />
+    <ClCompile Include="Src\Game\Systems\MenuSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\OreClickSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\OreGridSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\OreMovementSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\PointsPopupSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\ScoreSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\PushTimerSystem.cpp" />
+    <ClCompile Include="Src\Game\Systems\SoundSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Engine\AssetManager.h" />
@@ -182,6 +185,7 @@
     <ClInclude Include="Src\Engine\Math\Vector2.h" />
     <ClInclude Include="Src\Engine\RenderLayer.h" />
     <ClInclude Include="Src\Engine\Singleton.h" />
+    <ClInclude Include="Src\Game\Components\FallingOre.h" />
     <ClInclude Include="Src\Game\Components\HoverCursor.h" />
     <ClInclude Include="Src\Game\Components\Ore.h" />
     <ClInclude Include="Src\Game\Components\PointsPopup.h" />
@@ -189,17 +193,21 @@
     <ClInclude Include="Src\Game\Events\HoverCursorReleaseEvent.h" />
     <ClInclude Include="Src\Game\Events\LevelUpEvent.h" />
     <ClInclude Include="Src\Game\Events\OreDestroyedEvent.h" />
+    <ClInclude Include="Src\Game\Events\OreDestroyedInLevelUpEvent.h" />
     <ClInclude Include="Src\Game\Events\OreSelectedEvent.h" />
     <ClInclude Include="Src\Game\Events\PushEvent.h" />
     <ClInclude Include="Src\Game\Game.h" />
     <ClInclude Include="Src\Game\OreData.h" />
+    <ClInclude Include="Src\Game\Systems\FallingOresSystem.h" />
     <ClInclude Include="Src\Game\Systems\HoverCursorSystem.h" />
+    <ClInclude Include="Src\Game\Systems\MenuSystem.h" />
     <ClInclude Include="Src\Game\Systems\OreClickSystem.h" />
     <ClInclude Include="Src\Game\Systems\OreGridSystem.h" />
     <ClInclude Include="Src\Game\Systems\OreMovementSystem.h" />
     <ClInclude Include="Src\Game\Systems\PointsPopupSystem.h" />
     <ClInclude Include="Src\Game\Systems\ScoreSystem.h" />
     <ClInclude Include="Src\Game\Systems\PushTimerSystem.h" />
+    <ClInclude Include="Src\Game\Systems\SoundSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
