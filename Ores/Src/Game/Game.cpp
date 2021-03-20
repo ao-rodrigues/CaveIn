@@ -24,14 +24,16 @@ void Game::init()
 	_pointsPopupSystem = &engine.createSystem<PointsPopupSystem>();
 	_pushTimerSystem = &engine.createSystem<PushTimerSystem>();
 
-	//loadMusic();
 	loadCursor();
 	loadEnvironment();
 	loadCharacters();
+	loadFPSCounter();
 }
 
 void Game::update()
 {
+	updateFPSCounter();
+
 	_oreClickSystem->update();
 	_hoverCursorSystem->update();
 	_oreGridSystem->update();
@@ -41,16 +43,6 @@ void Game::update()
 	_fallingOresSystem->update();
 	_pointsPopupSystem->update();
 	_pushTimerSystem->update();
-}
-
-void Game::loadMusic()
-{
-	AssetManager::instance().loadMusic("Soundtrack", "Assets/Audio/soundtrack.mp3");
-	Engine& engine = Engine::instance();
-
-	Audio& soundtrack = engine.createEntity().addComponent<Audio>(Audio::AudioType::Music, "Soundtrack");
-	soundtrack.loop = true;
-	soundtrack.play();
 }
 
 void Game::loadCursor()
@@ -158,4 +150,21 @@ void Game::loadCharacters()
 
 	huntress.getComponent<Transform>().position.x = 10.f;
 	huntress.getComponent<Transform>().position.y = 320.f;
+}
+
+void Game::loadFPSCounter()
+{
+	AssetManager::instance().loadFont("FPSFont", "Assets/Fonts/Alagard.ttf", 12);
+
+	Engine& engine = Engine::instance();
+
+	std::string fpsDisplay = "FPS: " + std::to_string(engine.FPS());
+	SDL_Color fontColor = { 255, 255, 255, 255 };
+	_fpsCounter = &engine.createEntity().addComponent<Text>("FPSFont", 0, fpsDisplay, fontColor);
+	_fpsCounter->setPosition(Vector2(engine.getWorldDimensions().x - 55.f, 10.f));
+}
+
+void Game::updateFPSCounter()
+{
+	_fpsCounter->setText("FPSFont", "FPS: " + std::to_string(Engine::instance().FPS()));
 }

@@ -100,7 +100,7 @@ void Engine::render()
 {
 	deltaTime = (SDL_GetTicks() - _lastFrameTime) / 1000.f;
 	_lastFrameTime = SDL_GetTicks();
-	int fps = _frameCount / (_lastFrameTime / 1000.f);
+	_fps = _frameCount / (_lastFrameTime / 1000.f);
 	//std::cout << "FPS: " << fps << std::endl;
 
 	_renderSystem->update();

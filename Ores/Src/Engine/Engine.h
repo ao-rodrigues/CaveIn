@@ -58,13 +58,16 @@ public:
 	inline SDL_Rect getCamera() { return _camera; }
 	inline Vector2 getWorldDimensions() { return _worldDimensions; }
 
-	float deltaTime = 1.f;
+	inline unsigned int FPS() { return _fps; }
 
+	float deltaTime = 1.f;
 private:
 	bool _isRunning = false;
 
 	int _lastFrameTime = 0;
 	int _frameCount = 0;
+
+	unsigned int _fps = 0;
 
 	SDL_Window* _window = nullptr;
 	SDL_Rect _camera = { 0, 0, 0, 0 };

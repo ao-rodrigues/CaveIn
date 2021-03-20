@@ -18,10 +18,13 @@ public:
 	void update();
 
 private:
-	void loadMusic();
 	void loadCursor();
 	void loadEnvironment();
 	void loadCharacters();
+	void loadFPSCounter();
+	void updateFPSCounter();
+
+	Text* _fpsCounter = nullptr;
 
 	OreClickSystem* _oreClickSystem = nullptr;
 	HoverCursorSystem* _hoverCursorSystem = nullptr;
