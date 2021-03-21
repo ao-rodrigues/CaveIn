@@ -47,7 +47,6 @@ void ScoreSystem::update()
 		_scoreInLevel += oreData.destructionPoints;
 		updateScoreDisplay(_score);
 		updateLevel(_scoreInLevel);
-		//event->destroy();
 	}
 }
 

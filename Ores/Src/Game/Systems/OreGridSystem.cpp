@@ -54,20 +54,17 @@ void OreGridSystem::update()
 	{
 		destroyAllOres();
 		pushNewGrid();
-		//event->destroy();
 	}
 
-	for (auto& event : _entityManager->getEntitiesWithComponentAll<PushEvent>())
+	for (auto& event : _entityManager->getEntitiesWithComponentAll<PushEvent>(true))
 	{
 		pushColumn();
-		//event->destroy();
 	}
 
 	for (auto& event : _entityManager->getEntitiesWithComponentAll<OreSelectedEvent>())
 	{
 		OreSelectedEvent selected = event->getComponent<OreSelectedEvent>();
 		tryDestroy(selected.gridCoords, selected.typeIndex);
-		//event->destroy();
 	}
 
 	updateGrid();

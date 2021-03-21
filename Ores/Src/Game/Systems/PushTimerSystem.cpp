@@ -36,7 +36,7 @@ void PushTimerSystem::update()
 	if (timePassed >= TIMER_DURATION)
 	{
 		// Send push event
-		_entityManager->createEntity().addComponent<PushEvent>();
+		_entityManager->createEntity().addComponent<PushEvent>().entity->setDestroyNextFrame(true);
 
 		// Reset timer
 		_lastPushTime = SDL_GetTicks();

@@ -35,7 +35,6 @@ void FallingOresSystem::update()
 		{
 			OreDestroyedInLevelUpEvent& oreDestroyedEvent = event->getComponent<OreDestroyedInLevelUpEvent>();
 			spawnFallingOre(oreDestroyedEvent.oreData, oreDestroyedEvent.position);
-			//event->destroy();
 		}
 	}
 

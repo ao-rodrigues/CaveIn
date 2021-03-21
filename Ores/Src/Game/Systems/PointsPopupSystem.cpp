@@ -22,7 +22,6 @@ void PointsPopupSystem::update()
 		position.x += 5.f;
 
 		spawnPopup(oreData, position);
-		//event->destroy();
 	}
 
 	auto popupEntities = _entityManager->getEntitiesWithComponentAll<PointsPopup>();
@@ -39,7 +38,6 @@ void PointsPopupSystem::update()
 		if (timePassed > popup.lifetime)
 		{
 			entity->destroy();
-			//std::cout << "Destroyed popup!" << std::endl;
 			continue;
 		}
 
