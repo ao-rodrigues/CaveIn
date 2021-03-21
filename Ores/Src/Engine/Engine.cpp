@@ -78,6 +78,20 @@ void Engine::handleEvents()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
+		// This piece of code keeps the program on hold while the window is minimized,
+		// which is a good idea because SDL has a habit of leaking memory during render 
+		// calls when minimized
+		if (event.window.event == SDL_WINDOWEVENT_MINIMIZED)
+		{
+			while (SDL_WaitEvent(&event))
+			{
+				if (event.window.event == SDL_WINDOWEVENT_RESTORED)
+				{
+					break;
+				}
+			}
+		}
+
 		if (event.type == SDL_QUIT)
 		{
 			quit();

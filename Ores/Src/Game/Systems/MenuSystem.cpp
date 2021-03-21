@@ -5,8 +5,12 @@
 
 void MenuSystem::init()
 {
-	// Load all GUI textures
-	
+	// Load all GUI assets
+	AssetManager::instance().loadTexture("UIPanel", "Assets/Textures/ui_panel.png");
+	AssetManager::instance().loadTexture("UIHeader", "Assets/Textures/ui_header.png");
+
+	AssetManager::instance().loadFont("TitleFont", "Assets/Fonts/Alagard.ttf", 46);
+	AssetManager::instance().loadFont("UITextFont", "Assets/Fonts/Alagard.ttf", 14);
 
 	// Create entities, set references
 
