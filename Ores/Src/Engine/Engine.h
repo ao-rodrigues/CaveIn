@@ -9,6 +9,7 @@
 #include "Math/Vector2.h"
 #include "ECS/Systems/SpriteSystem.h"
 #include "ECS/Systems/AnimationSystem.h"
+#include "ECS/Systems/ButtonSystem.h"
 
 class Engine : public Singleton<Engine>
 {
@@ -77,6 +78,7 @@ private:
 
 	SpriteSystem* _spriteSystem = nullptr;
 	AnimationSystem* _animationSystem = nullptr;
+	ButtonSystem* _buttonSystem = nullptr;
 
 	std::vector<std::unique_ptr<System>> _systems;
 };

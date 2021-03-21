@@ -45,10 +45,15 @@ public:
 		return &_dstRect;
 	}
 
-	inline void setTexture(const std::string& newTextureID, int rowIndex)
+	inline void setTexture(const std::string& newTextureID)
 	{
 		textureID = newTextureID;
 		texture = AssetManager::instance().getTexture(textureID);
+	}
+
+	inline void setTexture(const std::string& newTextureID, int rowIndex)
+	{
+		setTexture(newTextureID);
 		_srcRect.y = rowIndex * dstHeight;
 	}
 

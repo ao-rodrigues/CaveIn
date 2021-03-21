@@ -147,9 +147,11 @@
   <ItemGroup>
     <ClCompile Include="Src\Engine\AssetManager.cpp" />
     <ClCompile Include="Src\Engine\ECS\Components\Animation.cpp" />
+    <ClCompile Include="Src\Engine\ECS\Components\Button.cpp" />
     <ClCompile Include="Src\Engine\ECS\Components\Sprite.cpp" />
     <ClCompile Include="Src\Engine\ECS\ECS.cpp" />
     <ClCompile Include="Src\Engine\ECS\Systems\AnimationSystem.cpp" />
+    <ClCompile Include="Src\Engine\ECS\Systems\ButtonSystem.cpp" />
     <ClCompile Include="Src\Engine\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="Src\Engine\ECS\Systems\SpriteSystem.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
@@ -164,6 +166,7 @@
     <ClCompile Include="Src\Game\Systems\OreGridSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\OreMovementSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\PointsPopupSystem.cpp" />
+    <ClCompile Include="Src\Game\Systems\PushColumnSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\ScoreSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\PushTimerSystem.cpp" />
     <ClCompile Include="Src\Game\Systems\SoundSystem.cpp" />
@@ -172,12 +175,14 @@
     <ClInclude Include="Src\Engine\AssetManager.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Animation.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Audio.h" />
+    <ClInclude Include="Src\Engine\ECS\Components\Button.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Renderable.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Text.h" />
     <ClInclude Include="Src\Engine\ECS\ECS.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Sprite.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Transform.h" />
     <ClInclude Include="Src\Engine\ECS\Systems\AnimationSystem.h" />
+    <ClInclude Include="Src\Engine\ECS\Systems\ButtonSystem.h" />
     <ClInclude Include="Src\Engine\ECS\Systems\RenderSystem.h" />
     <ClInclude Include="Src\Engine\ECS\Systems\SpriteSystem.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
@@ -207,6 +212,7 @@
     <ClInclude Include="Src\Game\Systems\OreGridSystem.h" />
     <ClInclude Include="Src\Game\Systems\OreMovementSystem.h" />
     <ClInclude Include="Src\Game\Systems\PointsPopupSystem.h" />
+    <ClInclude Include="Src\Game\Systems\PushColumnSystem.h" />
     <ClInclude Include="Src\Game\Systems\ScoreSystem.h" />
     <ClInclude Include="Src\Game\Systems\PushTimerSystem.h" />
     <ClInclude Include="Src\Game\Systems\SoundSystem.h" />

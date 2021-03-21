@@ -41,7 +41,8 @@ void RenderSystem::update()
 			Sprite& sprite = entity->getComponent<Sprite>();
 			_sortedRenderables[sprite.renderLayer].emplace(&sprite);
 		}
-		else if (entity->hasComponent<Text>())
+		
+		if (entity->hasComponent<Text>())
 		{
 			Text& text = entity->getComponent<Text>();
 			_sortedRenderables[text.renderLayer].emplace(&text);

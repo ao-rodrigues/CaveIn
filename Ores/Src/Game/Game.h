@@ -10,6 +10,7 @@
 #include "Systems/SoundSystem.h"
 #include "Systems/FallingOresSystem.h"
 #include "Systems/ClearEventsSystem.h"
+#include "Systems/PushColumnSystem.h"
 
 class Game
 {
@@ -36,5 +37,6 @@ private:
 	FallingOresSystem* _fallingOresSystem = nullptr;
 	PointsPopupSystem* _pointsPopupSystem = nullptr;
 	PushTimerSystem* _pushTimerSystem = nullptr;
+	PushColumnSystem* _pushColumnSystem = nullptr;
 	ClearEventsSystem* _clearEventsSystem = nullptr;
 };

@@ -47,6 +47,7 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 
 	_spriteSystem = &createSystem<SpriteSystem>();
 	_animationSystem = &createSystem<AnimationSystem>();
+	_buttonSystem = &createSystem<ButtonSystem>();
 
 	_isRunning = true;
 }
@@ -91,6 +92,7 @@ void Engine::update()
 {
 	_spriteSystem->update();
 	_animationSystem->update();
+	_buttonSystem->update();
 
 	_entityManager->refresh();
 	InputManager::clearFrameEvents();

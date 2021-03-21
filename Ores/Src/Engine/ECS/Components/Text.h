@@ -12,10 +12,10 @@
 class Text : public Renderable
 {
 public:
-	Text(std::string fontID, int depth, std::string text, SDL_Color color)
+	Text(const std::string& fontID, int depth, const std::string& text, SDL_Color color)
 		: Renderable(RenderLayer::UI, depth)
-		, fontID(std::move(fontID))
-		, text(std::move(text))
+		, fontID(fontID)
+		, text(text)
 		, textColor(color)
 	{
 		setText(this->fontID, this->text);
@@ -39,8 +39,13 @@ public:
 	void setPosition(Vector2 position)
 	{
 		transform->position = position;
-		_dstRect.x = transform->position.x;
-		_dstRect.y = transform->position.y;
+		setLocalPosition(transform->position);
+	}
+
+	void setLocalPosition(Vector2 position)
+	{
+		_dstRect.x = position.x;
+		_dstRect.y = position.y;
 	}
 
 	void setText(std::string fontID, std::string text)
