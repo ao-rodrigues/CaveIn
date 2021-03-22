@@ -9,4 +9,10 @@ public:
 
 	void init() override;
 	virtual void update() override;
+
+private:
+	//std::fstream* _file;
+	//std::ifstream* _fileIn;
+	//std::ofstream* _fileOut;
+	int _highScore = 0;
 };

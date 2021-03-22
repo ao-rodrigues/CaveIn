@@ -11,6 +11,8 @@
 #include "../Events/PauseGameEvent.h"
 #include "../Events/ResumeGameEvent.h"
 #include "../Events/GameOverEvent.h"
+#include "../Events/WriteScoreEvent.h"
+#include "../Events/ShowHighScoreEvent.h"
 
 
 void ClearEventsSystem::update()
@@ -27,7 +29,9 @@ void ClearEventsSystem::update()
 		StartGameEvent,
 		PauseGameEvent,
 		ResumeGameEvent,
-		GameOverEvent
+		GameOverEvent,
+		WriteScoreEvent,
+		ShowHighScoreEvent
 	>())
 	{
 		event->destroy();

@@ -211,7 +211,9 @@
     <ClInclude Include="Src\Game\Events\PauseGameEvent.h" />
     <ClInclude Include="Src\Game\Events\PushEvent.h" />
     <ClInclude Include="Src\Game\Events\ResumeGameEvent.h" />
+    <ClInclude Include="Src\Game\Events\ShowHighScoreEvent.h" />
     <ClInclude Include="Src\Game\Events\StartGameEvent.h" />
+    <ClInclude Include="Src\Game\Events\WriteScoreEvent.h" />
     <ClInclude Include="Src\Game\Game.h" />
     <ClInclude Include="Src\Game\OreData.h" />
     <ClInclude Include="Src\Game\Systems\CharacterSystem.h" />

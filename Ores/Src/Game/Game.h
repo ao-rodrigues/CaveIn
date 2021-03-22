@@ -13,6 +13,7 @@
 #include "Systems/FallingOresSystem.h"
 #include "Systems/ClearEventsSystem.h"
 #include "Systems/PushColumnSystem.h"
+#include "Systems/HighScoreSystem.h"
 
 class Game
 {
@@ -52,6 +53,7 @@ private:
 	OreMovementSystem* _oreMovementSystem = nullptr;
 	ScoreSystem* _scoreSystem = nullptr;
 	SoundSystem* _soundSystem = nullptr;
+	HighScoreSystem* _highScoreSystem = nullptr;
 	FallingOresSystem* _fallingOresSystem = nullptr;
 	PointsPopupSystem* _pointsPopupSystem = nullptr;
 	PushTimerSystem* _pushTimerSystem = nullptr;

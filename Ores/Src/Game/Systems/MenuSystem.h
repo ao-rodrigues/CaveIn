@@ -36,6 +36,9 @@ private:
 	Entity* _resumeButton = nullptr;
 	Entity* _pausedBanner = nullptr;
 	Entity* _gameOverBanner = nullptr;
+	Entity* _gameOverPanel = nullptr;
+	Text* _finalScoreDisplay = nullptr;
+	Text* _highScoreDisplay = nullptr;
 	Entity* _retryButton = nullptr;
 
 	GameState _currentState = GameState::MainMenu;

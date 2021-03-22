@@ -10,6 +10,7 @@
 #include "../Events/PauseGameEvent.h"
 #include "../Events/ResumeGameEvent.h"
 #include "../Events/GameOverEvent.h"
+#include "../Events/ShowHighScoreEvent.h"
 
 void MenuSystem::init()
 {
@@ -110,19 +111,39 @@ void MenuSystem::init()
 	float resumeLabelY = resumeBtnSprite.dstRect()->h / 2.f - resumeLabel.dstRect()->h / 2.f;
 	resumeLabel.setRelativePosition(Vector2(resumeLabelX, resumeLabelY));
 
-	// Game Over banner
+	// Game Over panel and banner
+	_gameOverPanel = &engine.createEntity();
+	Sprite& gameOverPanelSprite = _gameOverPanel->addComponent<Sprite>(RenderLayer::UI, 0, "UIPanel", 0, 0, 818, 504, 400, 160, 0.f, 0.f);
+
+	float gameOverPanelSpriteX = (engine.getWorldDimensions().x / 2.f) - (gameOverPanelSprite.dstRect()->w / 2.f);
+	float gameOverPanelSpriteY = (engine.getWorldDimensions().y / 2.f) - (gameOverPanelSprite.dstRect()->h / 2.f);
+	Transform& gameOverPanelTransform = _gameOverPanel->getComponent<Transform>();
+	gameOverPanelTransform.position = Vector2(gameOverPanelSpriteX, gameOverPanelSpriteY);
+
+	SDL_Color scoreTextColor = { 0, 0, 0, 255 };
+	_finalScoreDisplay = &engine.createEntity().addComponent<Text>("UITextFont", 1, "Final Score: 0", scoreTextColor, 500);
+	float finalScoreX = gameOverPanelTransform.position.x + (gameOverPanelSprite.dstRect()->w / 2.f) - (_finalScoreDisplay->dstRect()->w / 2.f);
+	float finalScoreY = gameOverPanelSpriteY + 50.f;
+	_finalScoreDisplay->getTransform().position = Vector2(finalScoreX, finalScoreY);
+
+	_highScoreDisplay = &engine.createEntity().addComponent<Text>("UITextFont", 1, "High Score: 0", scoreTextColor, 500);
+	float highScoreX = finalScoreX;
+	float highScoreY = finalScoreY + 30.f;
+	_highScoreDisplay->getTransform().position = Vector2(highScoreX, highScoreY);
+
 	_gameOverBanner = &engine.createEntity();
 	Sprite& gameOverBannerSprite = _gameOverBanner->addComponent<Sprite>(RenderLayer::UI, 1, "UIBanner", 0, 0, 830, 188, 400, 100, 0.f, 0.f);
 	Text& gameOverBannerText = _gameOverBanner->addComponent<Text>("UIBannerFont", 2, "Game Over", textColor, 300);
 
-	float gameOverBannerSpriteX = (engine.getWorldDimensions().x / 2.f) - (gameOverBannerSprite.dstRect()->w / 2.f);
-	float gameOverBannerSpriteY = (engine.getWorldDimensions().y / 2.f) - (gameOverBannerSprite.dstRect()->h / 2.f);
+	float gameOverBannerSpriteX = gameOverPanelSpriteX;
+	float gameOverBannerSpriteY = gameOverPanelSpriteY - 110.f;
 	Transform& gameOverBannerTransform = _gameOverBanner->getComponent<Transform>();
 	gameOverBannerTransform.position = Vector2(gameOverBannerSpriteX, gameOverBannerSpriteY);
 
 	float gameOverBannerTextRelX = (gameOverBannerSprite.dstRect()->w / 2.f) - (gameOverBannerText.dstRect()->w / 2.f);
 	float gameOverBannerTextRelY = (gameOverBannerSprite.dstRect()->h / 2.f) - (gameOverBannerText.dstRect()->h / 2.f);
 	gameOverBannerText.setRelativePosition(Vector2(gameOverBannerTextRelX, gameOverBannerTextRelY));
+
 
 	// Retry button
 	_retryButton = &engine.createEntity();
@@ -144,6 +165,14 @@ void MenuSystem::init()
 
 void MenuSystem::update()
 {
+	auto showHighScoreEvents = _entityManager->getEntitiesWithComponentAll<ShowHighScoreEvent>(true);
+	if (showHighScoreEvents.size() > 0)
+	{
+		ShowHighScoreEvent& event = showHighScoreEvents[0]->getComponent<ShowHighScoreEvent>();
+		_finalScoreDisplay->setText("UITextFont", "Final Score: " + std::to_string(event.finalScore));
+		_highScoreDisplay->setText("UITextFont", "High Score: " + std::to_string(event.highScore));
+	}
+
 	auto gameOverEvents = _entityManager->getEntitiesWithComponentAll<GameOverEvent>(true);
 	if (gameOverEvents.size() > 0)
 	{
@@ -246,7 +275,11 @@ void MenuSystem::setState(GameState newState)
 		_resumeButton->setEnabled(false);
 
 		_pausedBanner->setEnabled(false);
+
 		_gameOverBanner->setEnabled(false);
+		_gameOverPanel->setEnabled(false);
+		_finalScoreDisplay->entity->setEnabled(false);
+		_highScoreDisplay->entity->setEnabled(false);
 		_retryButton->setEnabled(false);
 
 		break;
@@ -259,7 +292,11 @@ void MenuSystem::setState(GameState newState)
 		_resumeButton->setEnabled(true);
 
 		_pausedBanner->setEnabled(false);
+
 		_gameOverBanner->setEnabled(false);
+		_gameOverPanel->setEnabled(false);
+		_finalScoreDisplay->entity->setEnabled(false);
+		_highScoreDisplay->entity->setEnabled(false);
 		_retryButton->setEnabled(false);
 		break;
 	case GameState::Playing:
@@ -271,7 +308,11 @@ void MenuSystem::setState(GameState newState)
 		_resumeButton->setEnabled(false);
 
 		_pausedBanner->setEnabled(false);
+
 		_gameOverBanner->setEnabled(false);
+		_gameOverPanel->setEnabled(false);
+		_finalScoreDisplay->entity->setEnabled(false);
+		_highScoreDisplay->entity->setEnabled(false);
 		_retryButton->setEnabled(false);
 		break;
 	case GameState::Paused:
@@ -283,7 +324,11 @@ void MenuSystem::setState(GameState newState)
 		_resumeButton->setEnabled(true);
 
 		_pausedBanner->setEnabled(true);
+
 		_gameOverBanner->setEnabled(false);
+		_gameOverPanel->setEnabled(false);
+		_finalScoreDisplay->entity->setEnabled(false);
+		_highScoreDisplay->entity->setEnabled(false);
 		_retryButton->setEnabled(false);
 		break;
 	case GameState::GameOver:
@@ -295,7 +340,11 @@ void MenuSystem::setState(GameState newState)
 		_resumeButton->setEnabled(false);
 
 		_pausedBanner->setEnabled(false);
+
 		_gameOverBanner->setEnabled(true);
+		_gameOverPanel->setEnabled(true);
+		_finalScoreDisplay->entity->setEnabled(true);
+		_highScoreDisplay->entity->setEnabled(true);
 		_retryButton->setEnabled(true);
 		break;
 	default:

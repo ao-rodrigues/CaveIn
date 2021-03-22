@@ -21,6 +21,7 @@ void Game::init()
 	_oreGridSystem = &engine.createSystem<OreGridSystem>();
 	_oreMovementSystem = &engine.createSystem<OreMovementSystem>();
 	_scoreSystem = &engine.createSystem<ScoreSystem>();
+	_highScoreSystem = &engine.createSystem<HighScoreSystem>();
 	_soundSystem = &engine.createSystem<SoundSystem>();
 	_fallingOresSystem = &engine.createSystem<FallingOresSystem>();
 	_pointsPopupSystem = &engine.createSystem<PointsPopupSystem>();
@@ -44,6 +45,7 @@ void Game::update()
 	_oreGridSystem->update();
 	_oreMovementSystem->update();
 	_scoreSystem->update();
+	_highScoreSystem->update();
 	_soundSystem->update();
 	_fallingOresSystem->update();
 	_pointsPopupSystem->update();

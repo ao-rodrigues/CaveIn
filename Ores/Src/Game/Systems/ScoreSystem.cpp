@@ -5,7 +5,9 @@
 #include "../../Engine/Engine.h"
 #include "../Events/OreDestroyedEvent.h"
 #include "../Events/LevelUpEvent.h"
+#include "../Events/GameOverEvent.h"
 #include "../Events/StartGameEvent.h"
+#include "../Events/WriteScoreEvent.h"
 
 void ScoreSystem::init()
 {
@@ -43,6 +45,12 @@ void ScoreSystem::init()
 
 void ScoreSystem::update()
 {
+	auto gameOverEvents = _entityManager->getEntitiesWithComponentAll<GameOverEvent>();
+	if (gameOverEvents.size() > 0)
+	{
+		_entityManager->createEntity().addComponent<WriteScoreEvent>(_score, _level);
+	}
+
 	auto startGameEvents = _entityManager->getEntitiesWithComponentAll<StartGameEvent>();
 	if (startGameEvents.size() > 0)
 	{
@@ -88,7 +96,7 @@ void ScoreSystem::updateLevel(int newScore)
 
 		_level++;
 		_scoreInLevel = 0;
-		_levelUpScore += round(_levelUpScore * _levelUpScoreIncreaseRate);
+		_levelUpScore += static_cast<int>(round(_levelUpScore * _levelUpScoreIncreaseRate));
 		_levelProgressBarFg->setSrcWidth(0);
 		_levelProgressBarFg->setDstWidth(0);
 	}
