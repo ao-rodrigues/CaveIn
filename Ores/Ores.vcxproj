@@ -236,7 +236,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\CaveIn.ico" />
-    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
