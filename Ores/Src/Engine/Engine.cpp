@@ -5,6 +5,8 @@
 #include "ECS/Components/Transform.h"
 #include "AssetManager.h"
 
+//constexpr unsigned int FPS_COUNT_DELAY = 100u;
+
 Engine::Engine()
 {
 	_isRunning = false;
@@ -76,6 +78,11 @@ void Engine::clear()
 
 void Engine::handleEvents()
 {
+	_deltaTime = static_cast<float>(SDL_GetTicks() - _lastFrameTime) / 1000.f;
+	_lastFrameTime = SDL_GetTicks();
+
+	_fps = static_cast<unsigned int>(1 / _deltaTime);
+
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
@@ -116,11 +123,7 @@ void Engine::update()
 
 void Engine::render()
 {
-	_deltaTime = (SDL_GetTicks() - _lastFrameTime) / 1000.f;
-	_fps = static_cast<int>(1.f / _deltaTime);
-
 	_renderSystem->update();
-	_lastFrameTime = SDL_GetTicks();
 }
 
 Entity& Engine::createEntity()

@@ -128,9 +128,9 @@ public:
 private:
 	bool _isRunning = false;
 
-	unsigned int _lastFrameTime = 0;
+	unsigned int _lastFrameTime = 0u;
+	unsigned int _lastFPSCountTime = 0u;
 	float _deltaTime = 1.f;
-	//int _frameCount = 0;
 
 	unsigned int _fps = 0;
 
