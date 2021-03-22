@@ -34,7 +34,7 @@ void MenuSystem::init()
 	_title = &engine.createEntity().addComponent<Text>("TitleFont", 1, "CAVE-IN", titleTextColor, 500);
 	float titleX = (engine.getWorldDimensions().x / 2.f) - (_title->dstRect()->w / 2.f);
 	float titleY = (engine.getWorldDimensions().y / 2.f) - (_title->dstRect()->h / 2.f);
-	_title->transform->position = Vector2(titleX, titleY);
+	_title->getTransform().position = Vector2(titleX, titleY);
 
 	// Start Game button
 	_startGameButton = &engine.createEntity();
@@ -44,7 +44,7 @@ void MenuSystem::init()
 	Text& startGameLabel = _startGameButton->addComponent<Text>("ButtonFont", 1, "Start Game", buttonTextColor, 200);
 
 	float startBtnX = (engine.getWorldDimensions().x / 2.f) - (_startGameButton->getComponent<Sprite>().dstRect()->w / 2.f);
-	float startBtnY = _title->transform->position.y + _title->dstRect()->h + 20.f;
+	float startBtnY = _title->getTransform().position.y + _title->dstRect()->h + 20.f;
 	_startGameButton->getComponent<Transform>().position = Vector2(startBtnX, startBtnY);
 
 	float labelX = startGameBtnSprite.dstRect()->w / 2.f - startGameLabel.dstRect()->w / 2.f;

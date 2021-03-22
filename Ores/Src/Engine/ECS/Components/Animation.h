@@ -28,18 +28,18 @@ public:
 
 	Animation(const std::string& textureID, unsigned int numFrames, unsigned int frameDelay, bool loop = true, unsigned int rowIndex = 0)
 	{
-		AnimationInfo animation(currentAnimation, textureID, numFrames, frameDelay, loop, rowIndex);
-		animations.emplace(currentAnimation, animation);
+		AnimationInfo animation(_currentAnimation, textureID, numFrames, frameDelay, loop, rowIndex);
+		_animations.emplace(_currentAnimation, animation);
 	}
 
 	Animation(const std::vector<AnimationInfo>& animations)
 	{
 		for (auto& anim : animations)
 		{
-			this->animations.emplace(anim.name, anim);
+			_animations.emplace(anim.name, anim);
 		}
 
-		currentAnimation = animations[0].name;
+		_currentAnimation = animations[0].name;
 	}
 
 	~Animation()
@@ -51,33 +51,41 @@ public:
 
 	void addAnimation(AnimationInfo animation)
 	{
-		animations.emplace(animation.name, animation);
+		_animations.emplace(animation.name, animation);
 	}
 
 	void setAnimation(const std::string& animation)
 	{
-		if (animations.count(animation))
+		if (_animations.count(animation))
 		{
-			currentAnimation = animation;
-			AnimationInfo animInfo = animations.at(currentAnimation);
-			sprite->setTexture(animInfo.textureID, animInfo.rowIndex);
+			_currentAnimation = animation;
+			AnimationInfo animInfo = _animations.at(_currentAnimation);
+			_sprite->setTexture(animInfo.textureID, animInfo.rowIndex);
 			reset();
 		}
 	}
 
 	inline AnimationInfo getCurrentAnimation()
 	{
-		return animations.at(currentAnimation);
+		return _animations.at(_currentAnimation);
 	}
 
 	void reset()
 	{
-		currentFrame = 0;
+		_currentFrame = 0;
 	}
 
-	std::unordered_map<std::string, AnimationInfo> animations;
-	std::string currentAnimation = "Default";
-	unsigned int currentFrame = 0;
-	Sprite* sprite = nullptr;
+	inline const std::unordered_map<std::string, AnimationInfo>& getAnimations() { return _animations; }
+
+	inline unsigned int getCurrentFrame() { return _currentFrame; }
+	inline void setCurrentFrame(unsigned int nextFrame) { _currentFrame = nextFrame; }
+
+	inline Sprite& getSprite() { return *_sprite; }
+
+private:
+	std::unordered_map<std::string, AnimationInfo> _animations;
+	std::string _currentAnimation = "Default";
+	unsigned int _currentFrame = 0;
+	Sprite* _sprite = nullptr;
 };
 

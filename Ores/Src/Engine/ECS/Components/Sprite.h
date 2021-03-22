@@ -12,25 +12,25 @@ class Sprite : public Renderable
 public:
 	Sprite(RenderLayer renderLayer, int depth, const std::string& textureID, int srcX, int srcY, int width, int height, float relativePosX = 0.f, float relativePosY = 0.f)
 		: Renderable(renderLayer, depth, relativePosX, relativePosY)
-		, textureID(textureID)
-		, srcX(srcX)
-		, srcY(srcY)
-		, srcWidth(width)
-		, srcHeight(height)
-		, dstWidth(width)
-		, dstHeight(height)
+		, _textureID(textureID)
+		, _srcX(srcX)
+		, _srcY(srcY)
+		, _srcWidth(width)
+		, _srcHeight(height)
+		, _dstWidth(width)
+		, _dstHeight(height)
 	{
 	}
 
 	Sprite(RenderLayer renderLayer, int depth, const std::string& textureID, int srcX, int srcY, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float relativePosX, float relativePosY)
 		: Renderable(renderLayer, depth, relativePosX, relativePosY)
-		, textureID(textureID)
-		, srcX(srcX)
-		, srcY(srcY)
-		, srcWidth(srcWidth)
-		, srcHeight(srcHeight)
-		, dstWidth(dstWidth)
-		, dstHeight(dstHeight)
+		, _textureID(textureID)
+		, _srcX(srcX)
+		, _srcY(srcY)
+		, _srcWidth(srcWidth)
+		, _srcHeight(srcHeight)
+		, _dstWidth(dstWidth)
+		, _dstHeight(dstHeight)
 	{ }
 
 	~Sprite()
@@ -58,29 +58,50 @@ public:
 
 	inline void setTexture(const std::string& newTextureID)
 	{
-		textureID = newTextureID;
-		texture = AssetManager::instance().getTexture(textureID);
+		_textureID = newTextureID;
+		texture = AssetManager::instance().getTexture(_textureID);
 	}
 
 	inline void setTexture(const std::string& newTextureID, int rowIndex)
 	{
 		setTexture(newTextureID);
-		_srcRect.y = rowIndex * dstHeight;
+		_srcRect.y = rowIndex * _dstHeight;
 	}
+
+	inline const std::string& getTextureID() const { return _textureID; }
 
 	inline void setVisible(bool visible)
 	{
 		this->visible = visible;
 	}
 
-	int srcX = 0;
-	int srcY = 0;
+	inline int getSrcX() const { return _srcX; }
+	inline void setSrcX(int newSrcX) { _srcX = newSrcX; }
 
-	int srcWidth = 0;
-	int srcHeight = 0;
+	inline int getSrcY() const { return _srcY; }
+	inline void setSrcY(int newSrcY) { _srcY = newSrcY; }
 
-	int dstWidth = 0;
-	int dstHeight = 0;
+	inline int getSrcWidth() const { return _srcWidth; }
+	inline void setSrcWidth(int newSrcWidth) { _srcWidth = newSrcWidth; }
 
-	std::string textureID = "";
+	inline int getSrcHeight() const { return _srcHeight; }
+	inline void setSrcHeight(int newSrcHeight) { _srcHeight = newSrcHeight; }
+
+	inline int getDstWidth() const { return _dstWidth; }
+	inline void setDstWidth(int newDstWidth) { _dstWidth = newDstWidth; }
+
+	inline int getDstHeight() const { return _dstHeight; }
+	inline void setDstHeight(int newDstHeight) { _dstHeight = newDstHeight; }
+
+private:
+	int _srcX = 0;
+	int _srcY = 0;
+
+	int _srcWidth = 0;
+	int _srcHeight = 0;
+
+	int _dstWidth = 0;
+	int _dstHeight = 0;
+
+	std::string _textureID = "";
 };

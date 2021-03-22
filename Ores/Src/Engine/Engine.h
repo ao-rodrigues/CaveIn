@@ -19,12 +19,41 @@ public:
 	Engine();
 	~Engine();
 
+	/// <summary>
+	/// Initializes the engine.
+	/// </summary>
+	/// <param name="title">The window title</param>
+	/// <param name="width">The width of the window</param>
+	/// <param name="height">The height of the window</param>
+	/// <param name="fullscreen">Flag to set the window fullscreen or not</param>
+	/// <param name="vsync">Flag to enable vsync or not</param>
+	/// <param name="worldWidth">The width of the game world</param>
+	/// <param name="worldHeight">The height of the game world</param>
 	void init(const char* title, int width, int height, bool fullscreen, bool vsync, int worldWidth, int worldHeight);
+
+	/// <summary>
+	/// Stops the engine.
+	/// </summary>
 	void quit();
+
+	/// <summary>
+	/// Clears the engine
+	/// </summary>
 	void clear();
 
+	/// <summary>
+	/// Handles window and input events
+	/// </summary>
 	void handleEvents();
+
+	/// <summary>
+	/// Updates the engine every frame
+	/// </summary>
 	void update();
+
+	/// <summary>
+	/// Calls the update call to the Render System
+	/// </summary>
 	void render();
 
 	/// <summary>
@@ -39,6 +68,11 @@ public:
 	/// <returns>A new empty entity</returns>
 	Entity& createEmptyEntity();
 
+	/// <summary>
+	/// Creates a new System.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>A reference to the newly-created system</returns>
 	template<typename T>
 	T& createSystem()
 	{
@@ -55,12 +89,40 @@ public:
 		return *system;
 	}
 
+	/// <summary>
+	/// Checks whether the engine is running.
+	/// </summary>
+	/// <returns>True if it is running, false if not</returns>
 	inline bool isRunning() { return _isRunning; }
+
+	/// <summary>
+	/// Returns a pointer to the SDL Renderer.
+	/// </summary>
+	/// <returns>Pointer to the SDL Renderer</returns>
 	inline SDL_Renderer* getRenderer() { return _renderSystem->SDLRenderer(); }
+
+	/// <summary>
+	/// Returns an SDL_Rect that defines the game camera.
+	/// </summary>
+	/// <returns>The game camera</returns>
 	inline SDL_Rect getCamera() { return _camera; }
+
+	/// <summary>
+	/// Returns the dimensions of the game world.
+	/// </summary>
+	/// <returns>A Vector2 with the dimensions as (width,height)</returns>
 	inline Vector2 getWorldDimensions() { return _worldDimensions; }
 
+	/// <summary>
+	/// Returns the time difference between this frame and the last.
+	/// </summary>
+	/// <returns>The time difference between this frame and the last</returns>
 	inline float deltaTime() { return _deltaTime; }
+
+	/// <summary>
+	/// Returns the frames per second
+	/// </summary>
+	/// <returns>Frames per second</returns>
 	inline unsigned int FPS() { return _fps; }
 
 private:

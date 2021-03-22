@@ -16,21 +16,21 @@ void PushTimerSystem::init()
 
 	SDL_Color textColor = { 255, 255, 255, 255 };
 	_progressBarLabel = &Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, "Push:", textColor, 100);
-	_progressBarLabel->transform->position = Vector2(430.f, 10.f);
+	_progressBarLabel->getTransform().position = Vector2(430.f, 10.f);
 	_progressBarLabel->entity->setEnabled(false);
 
 	_progressBarBg = &Engine::instance().createEntity().addComponent<Sprite>(RenderLayer::UI, 0, "ProgressBarBg", 0, 0, 569, 81);
-	_progressBarBg->transform->scale = Vector2(0.3f, 0.3f);
-	_progressBarBg->transform->position.x = 490.f;
-	_progressBarBg->transform->position.y = 5.f;
+	_progressBarBg->getTransform().scale = Vector2(0.3f, 0.3f);
+	_progressBarBg->getTransform().position.x = 490.f;
+	_progressBarBg->getTransform().position.y = 5.f;
 	_progressBarBg->entity->setEnabled(false);
 
 	_progressBarFg = &Engine::instance().createEntity().addComponent<Sprite>(RenderLayer::UI, 1, "ProgressBarFgAlt", 0, 0, 532, 42);
-	_progressBarFg->transform->scale = Vector2(0.3f, 0.3f);
-	_progressBarFg->transform->position.x = 490.f + 0.3f * (569.f - 532.f) / 2.f;
-	_progressBarFg->transform->position.y = 5.f + 0.3f * (81.f - 42.f) / 2.f;
-	_progressBarFg->srcWidth = 0;
-	_progressBarFg->dstWidth = 0;
+	_progressBarFg->getTransform().scale = Vector2(0.3f, 0.3f);
+	_progressBarFg->getTransform().position.x = 490.f + 0.3f * (569.f - 532.f) / 2.f;
+	_progressBarFg->getTransform().position.y = 5.f + 0.3f * (81.f - 42.f) / 2.f;
+	_progressBarFg->setSrcWidth(0);
+	_progressBarFg->setDstWidth(0);
 	_progressBarFg->entity->setEnabled(false);
 }
 
@@ -82,8 +82,8 @@ void PushTimerSystem::update()
 
 	unsigned int timePassed = SDL_GetTicks() - _lastPushTime;
 
-	_progressBarFg->srcWidth = 532 * timePassed / TIMER_DURATION;
-	_progressBarFg->dstWidth = 532 * timePassed / TIMER_DURATION;
+	_progressBarFg->setSrcWidth(532 * timePassed / TIMER_DURATION);
+	_progressBarFg->setDstWidth(532 * timePassed / TIMER_DURATION);
 
 	if (timePassed >= TIMER_DURATION)
 	{
@@ -92,7 +92,7 @@ void PushTimerSystem::update()
 
 		// Reset timer
 		_lastPushTime = SDL_GetTicks();
-		_progressBarFg->srcWidth = 0;
-		_progressBarFg->dstWidth = 0;
+		_progressBarFg->setSrcWidth(0);
+		_progressBarFg->setDstWidth(0);
 	}
 }

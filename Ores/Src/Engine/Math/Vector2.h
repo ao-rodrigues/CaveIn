@@ -10,21 +10,20 @@ struct Vector2
 	float x;
 	float y;
 
-	/**
-	* Creates a Vector2 with x and 0 equal to 0.
-	*/
+	/// <summary>
+	/// Creates a Vector2 with x and y set to 0
+	/// </summary>
 	Vector2()
 	{
 		this->x = 0.f;
 		this->y = 0.f;
 	}
 
-	/**
-	* Creates a new Vector2
-	* 
-	* @param x X value
-	* @param y Y value
-	*/
+	/// <summary>
+	/// Creates a new Vector2
+	/// </summary>
+	/// <param name="x">X value</param>
+	/// <param name="y">Y value</param>
 	Vector2(float x, float y)
 	{
 		this->x = x;
@@ -145,6 +144,13 @@ struct Vector2
 		return stream;
 	}
 
+	/// <summary>
+	/// Calculates a linearly-interpolated Vector2 between two vectors
+	/// </summary>
+	/// <param name="start">The initial vector</param>
+	/// <param name="dest">The final vector</param>
+	/// <param name="t">The interpolation ratio</param>
+	/// <returns></returns>
 	inline static Vector2 lerp(Vector2 start, Vector2 dest, float t)
 	{
 		Vector2 result;

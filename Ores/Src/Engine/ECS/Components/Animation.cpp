@@ -3,7 +3,7 @@
 
 void Animation::init()
 {
-	sprite = &entity->getComponent<Sprite>();
-	AnimationInfo animInfo = animations.at(currentAnimation);
-	sprite->setTexture(animInfo.textureID, animInfo.rowIndex);
+	_sprite = &entity->getComponent<Sprite>();
+	AnimationInfo animInfo = _animations.at(_currentAnimation);
+	_sprite->setTexture(animInfo.textureID, animInfo.rowIndex);
 }

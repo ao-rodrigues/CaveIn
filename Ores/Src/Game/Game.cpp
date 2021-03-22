@@ -82,16 +82,16 @@ void Game::loadEnvironment()
 	Engine& engine = Engine::instance();
 
 	Sprite& bg1 = engine.createEntity().addComponent<Sprite>(RenderLayer::Background, 0, "Background1", 0, 0, 320, 184);
-	bg1.dstWidth = static_cast<int>(engine.getWorldDimensions().x);
-	bg1.dstHeight = static_cast<int>(engine.getWorldDimensions().y);
+	bg1.setDstWidth(static_cast<int>(engine.getWorldDimensions().x));
+	bg1.setDstHeight(static_cast<int>(engine.getWorldDimensions().y));
 
 	Sprite& bg2 = engine.createEntity().addComponent<Sprite>(RenderLayer::Background, -1, "Background2", 0, 0, 320, 184);
-	bg2.dstWidth = static_cast<int>(engine.getWorldDimensions().x);
-	bg2.dstHeight = static_cast<int>(engine.getWorldDimensions().y);
+	bg2.setDstWidth(static_cast<int>(engine.getWorldDimensions().x));
+	bg2.setDstHeight(static_cast<int>(engine.getWorldDimensions().y));
 
 	Sprite& bg3 = engine.createEntity().addComponent<Sprite>(RenderLayer::Background, -2, "Background3", 0, 0, 320, 184);
-	bg3.dstWidth = static_cast<int>(engine.getWorldDimensions().x);
-	bg3.dstHeight = static_cast<int>(engine.getWorldDimensions().y);
+	bg3.setDstWidth(static_cast<int>(engine.getWorldDimensions().x));
+	bg3.setDstHeight(static_cast<int>(engine.getWorldDimensions().y));
 
 	std::string terrainFillTiles[6] = {
 		"TerrainFillBottomCenter",
@@ -108,16 +108,16 @@ void Game::loadEnvironment()
 	for (int i = 0; i < numFloorTilesX; i++)
 	{
 		Sprite& floorTop = engine.createEntity().addComponent<Sprite>(RenderLayer::Foreground, 0, "TerrainTopCenter", 0, 0, 16, 16);
-		floorTop.transform->position.x = static_cast<float>(i * 32);
-		floorTop.transform->position.y = 416.f;
-		floorTop.transform->scale = Vector2(2.f, 2.f);
+		floorTop.getTransform().position.x = static_cast<float>(i * 32);
+		floorTop.getTransform().position.y = 416.f;
+		floorTop.getTransform().scale = Vector2(2.f, 2.f);
 
 		for (int j = 0; j < numFloorTilesY; j++)
 		{
 			Sprite& terrainFill = engine.createEntity().addComponent<Sprite>(RenderLayer::Foreground, 0, terrainFillTiles[rand() % 6], 0, 0, 16, 16);
-			terrainFill.transform->position.x = static_cast<float>(i * 32);
-			terrainFill.transform->position.y = 448.f + j * 32;
-			terrainFill.transform->scale = Vector2(2.f, 2.f);
+			terrainFill.getTransform().position.x = static_cast<float>(i * 32);
+			terrainFill.getTransform().position.y = 448.f + j * 32;
+			terrainFill.getTransform().scale = Vector2(2.f, 2.f);
 		}
 	}
 }
@@ -131,7 +131,7 @@ void Game::loadFPSCounter()
 	std::string fpsDisplay = "FPS: " + std::to_string(engine.FPS());
 	SDL_Color fontColor = { 255, 255, 255, 255 };
 	_fpsCounter = &engine.createEntity().addComponent<Text>("FPSFont", 0, fpsDisplay, fontColor, 100);
-	_fpsCounter->transform->position = Vector2(engine.getWorldDimensions().x - 70.f, 10.f);
+	_fpsCounter->getTransform().position = Vector2(engine.getWorldDimensions().x - 70.f, 10.f);
 }
 
 void Game::updateFPSCounter()

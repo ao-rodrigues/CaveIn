@@ -6,11 +6,11 @@
 class OreSelectedEvent : public Component
 {
 public:
-	OreSelectedEvent(const Vector2& gridCoords, int typeIndex)
+	OreSelectedEvent(Vector2 gridCoords, int typeIndex)
 		: gridCoords(gridCoords)
 		, typeIndex(typeIndex)
 	{ }
 
-	const Vector2& gridCoords;
+	Vector2 gridCoords;
 	int typeIndex;
 };

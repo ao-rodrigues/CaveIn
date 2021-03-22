@@ -18,26 +18,26 @@ void ScoreSystem::init()
 	std::string scoreDisplayText = "Score: " + std::to_string(_score);
 
 	_scoreDisplayText = &Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, scoreDisplayText, textColor, 500);
-	_scoreDisplayText->transform->position = Vector2(10.f, 10.f);
+	_scoreDisplayText->getTransform().position = Vector2(10.f, 10.f);
 	_scoreDisplayText->entity->setEnabled(false);
 
 	std::string levelDisplayText = "Level: " + std::to_string(_level);
 	_levelDisplayText = &Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, levelDisplayText, textColor, 500);
-	_levelDisplayText->transform->position = Vector2(150.f, 10.f);
+	_levelDisplayText->getTransform().position = Vector2(150.f, 10.f);
 	_levelDisplayText->entity->setEnabled(false);
 
 	_levelProgressBarBg = &Engine::instance().createEntity().addComponent<Sprite>(RenderLayer::UI, 0, "ProgressBarBg", 0, 0, 569, 81);
-	_levelProgressBarBg->transform->scale = Vector2(0.3f, 0.3f);
-	_levelProgressBarBg->transform->position.x = 230.f;
-	_levelProgressBarBg->transform->position.y = 5.f;
+	_levelProgressBarBg->getTransform().scale = Vector2(0.3f, 0.3f);
+	_levelProgressBarBg->getTransform().position.x = 230.f;
+	_levelProgressBarBg->getTransform().position.y = 5.f;
 	_levelProgressBarBg->entity->setEnabled(false);
 
 	_levelProgressBarFg = &Engine::instance().createEntity().addComponent<Sprite>(RenderLayer::UI, 1, "ProgressBarFg", 0, 0, 529, 40);
-	_levelProgressBarFg->transform->scale = Vector2(0.3f, 0.3f);
-	_levelProgressBarFg->transform->position.x = 230.f + 0.3f * (569.f - 531.f) / 2.f;
-	_levelProgressBarFg->transform->position.y = 5.f + 0.3f * (81.f - 40.f) / 2.f;
-	_levelProgressBarFg->srcWidth = 0;
-	_levelProgressBarFg->dstWidth = 0;
+	_levelProgressBarFg->getTransform().scale = Vector2(0.3f, 0.3f);
+	_levelProgressBarFg->getTransform().position.x = 230.f + 0.3f * (569.f - 531.f) / 2.f;
+	_levelProgressBarFg->getTransform().position.y = 5.f + 0.3f * (81.f - 40.f) / 2.f;
+	_levelProgressBarFg->setSrcWidth(0);
+	_levelProgressBarFg->setDstWidth(0);
 	_levelProgressBarFg->entity->setEnabled(false);
 }
 
@@ -79,8 +79,8 @@ void ScoreSystem::updateScoreDisplay(int newScore)
 
 void ScoreSystem::updateLevel(int newScore)
 {
-	_levelProgressBarFg->srcWidth = 529 * newScore / _levelUpScore;
-	_levelProgressBarFg->dstWidth = 529 * newScore / _levelUpScore;
+	_levelProgressBarFg->setSrcWidth(529 * newScore / _levelUpScore);
+	_levelProgressBarFg->setDstWidth(529 * newScore / _levelUpScore);
 
 	if (newScore >= _levelUpScore)
 	{
@@ -89,8 +89,8 @@ void ScoreSystem::updateLevel(int newScore)
 		_level++;
 		_scoreInLevel = 0;
 		_levelUpScore += round(_levelUpScore * _levelUpScoreIncreaseRate);
-		_levelProgressBarFg->srcWidth = 0;
-		_levelProgressBarFg->dstWidth = 0;
+		_levelProgressBarFg->setSrcWidth(0);
+		_levelProgressBarFg->setDstWidth(0);
 	}
 
 	std::string text = "Level: " + std::to_string(_level);

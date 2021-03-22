@@ -64,25 +64,17 @@ void OreClickSystem::update()
 
 void OreClickSystem::handleMouseInteractions(Ore& ore, const Vector2& mousePos)
 {
-	/*
-	if (ore.isMoving())
-	{
-		_entityManager->createEntity().addComponent<HoverCursorReleaseEvent>();
-		return;
-	}
-	*/
+	Sprite& sprite = ore.getSprite();
+	Transform& transform = ore.getTransform();
 
-	Sprite* sprite = ore.getSprite();
-	Transform* transform = ore.getTransform();
-
-	if (mousePos.x > sprite->dstRect()->x && mousePos.x < sprite->dstRect()->x + sprite->dstRect()->w
-		&& mousePos.y > sprite->dstRect()->y && mousePos.y < sprite->dstRect()->y + sprite->dstRect()->h)
+	if (mousePos.x > sprite.dstRect()->x && mousePos.x < sprite.dstRect()->x + sprite.dstRect()->w
+		&& mousePos.y > sprite.dstRect()->y && mousePos.y < sprite.dstRect()->y + sprite.dstRect()->h)
 	{
 		
 		ore.hover = true;
 
 		// Create hover attach event
-		_entityManager->createEntity().addComponent<HoverCursorAttachEvent>(transform->position);
+		_entityManager->createEntity().addComponent<HoverCursorAttachEvent>(transform.position);
 	}
 	else if (ore.hover)
 	{

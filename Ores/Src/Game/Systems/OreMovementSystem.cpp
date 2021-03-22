@@ -9,19 +9,17 @@ void OreMovementSystem::update()
 	{
 		Ore& ore = oreEntity->getComponent<Ore>();
 
-		if (ore._transform->position == ore.targetPosition)
+		if (ore.getTransform().position == ore.getTargetPosition())
 		{
-			ore.flagNotMoving();
 			continue;
 		}
 
-		Vector2 moveDir = ore.targetPosition - ore._transform->position;
-		ore._transform->position += moveDir * ORE_MOVE_SPEED * Engine::instance().deltaTime();
+		Vector2 moveDir = ore.getTargetPosition() - ore.getTransform().position;
+		ore.getTransform().position += moveDir * ORE_MOVE_SPEED * Engine::instance().deltaTime();
 
-		if (ore._transform->position.x > ore.targetPosition.x && ore._transform->position.y > ore.targetPosition.y)
+		if (ore.getTransform().position.x > ore.getTargetPosition().x && ore.getTransform().position.y > ore.getTargetPosition().y)
 		{
-			ore._transform->position = ore.targetPosition;
-			ore.flagNotMoving();
+			ore.getTransform().position = ore.getTargetPosition();
 		}
 	}
 }

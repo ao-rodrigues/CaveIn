@@ -6,9 +6,9 @@
 class HoverCursorAttachEvent : public Component
 {
 public:
-	HoverCursorAttachEvent(const Vector2& position)
+	HoverCursorAttachEvent(Vector2 position)
 		: position(position)
 	{}
 
-	const Vector2& position;
+	Vector2 position;
 };

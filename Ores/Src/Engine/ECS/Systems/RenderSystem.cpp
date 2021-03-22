@@ -39,13 +39,13 @@ void RenderSystem::update()
 		if (entity->hasComponent<Sprite>())
 		{
 			Sprite& sprite = entity->getComponent<Sprite>();
-			_sortedRenderables[sprite.renderLayer].emplace(&sprite);
+			_sortedRenderables[sprite.getRenderLayer()].emplace(&sprite);
 		}
 		
 		if (entity->hasComponent<Text>())
 		{
 			Text& text = entity->getComponent<Text>();
-			_sortedRenderables[text.renderLayer].emplace(&text);
+			_sortedRenderables[text.getRenderLayer()].emplace(&text);
 		}
 	}
 
@@ -56,9 +56,9 @@ void RenderSystem::update()
 	{
 		for (auto& renderable : layer)
 		{
-			if (renderable->visible)
+			if (renderable->isVisible())
 			{
-				SDL_RenderCopyEx(_renderer, renderable->texture, renderable->srcRect(), renderable->dstRect(), renderable->transform->rotation, nullptr, renderable->flip);
+				SDL_RenderCopyEx(_renderer, renderable->getTexture(), renderable->srcRect(), renderable->dstRect(), renderable->getTransform().rotation, nullptr, renderable->getFlip());
 			}
 		}
 

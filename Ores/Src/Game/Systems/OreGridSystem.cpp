@@ -175,7 +175,7 @@ void OreGridSystem::destroyAllOres()
 		{
 			if (_grid[y][x] != nullptr)
 			{
-				_entityManager->createEntity().addComponent<OreDestroyedInLevelUpEvent>(_grid[y][x]->getOreData(), _grid[y][x]->getTransform()->position);
+				_entityManager->createEntity().addComponent<OreDestroyedInLevelUpEvent>(_grid[y][x]->getOreData(), _grid[y][x]->getTransform().position);
 				_grid[y][x]->destroy();
 				_grid[y][x] = nullptr;
 			}
@@ -268,7 +268,7 @@ void OreGridSystem::crushHeroes()
 	}
 }
 
-void OreGridSystem::tryDestroy(const Vector2& oreCoords, int typeIndex)
+void OreGridSystem::tryDestroy(Vector2 oreCoords, int typeIndex)
 {
 	// Convert the coords because the Ore component doesn't know that the grid is transposed
 	Vector2 convertedCoords = coordConvertOreToGrid(static_cast<int>(oreCoords.x), static_cast<int>(oreCoords.y));
@@ -283,7 +283,7 @@ void OreGridSystem::tryDestroy(const Vector2& oreCoords, int typeIndex)
 	if (y - 1 >= 0 && _grid[y - 1][x] != nullptr && _grid[y - 1][x]->getOreData().typeIndex == typeIndex)
 	{
 		destroyNeighboringOre(Vector2(x, y - 1), _grid[y - 1][x]->getOreData().typeIndex);
-		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y - 1][x]->getOreData(), _grid[y - 1][x]->getTransform()->position);
+		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y - 1][x]->getOreData(), _grid[y - 1][x]->getTransform().position);
 		_grid[y - 1][x]->destroy();
 		_grid[y - 1][x] = nullptr;
 		neighborDestroyed = true;
@@ -293,7 +293,7 @@ void OreGridSystem::tryDestroy(const Vector2& oreCoords, int typeIndex)
 	if (y + 1 < GRID_WIDTH && _grid[y + 1][x] != nullptr && _grid[y + 1][x]->getOreData().typeIndex == typeIndex)
 	{
 		destroyNeighboringOre(Vector2(x, y + 1), _grid[y + 1][x]->getOreData().typeIndex);
-		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y + 1][x]->getOreData(), _grid[y + 1][x]->getTransform()->position);
+		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y + 1][x]->getOreData(), _grid[y + 1][x]->getTransform().position);
 		_grid[y + 1][x]->destroy();
 		_grid[y + 1][x] = nullptr;
 		neighborDestroyed = true;
@@ -303,7 +303,7 @@ void OreGridSystem::tryDestroy(const Vector2& oreCoords, int typeIndex)
 	if (x + 1 < GRID_HEIGHT && _grid[y][x + 1] != nullptr && _grid[y][x + 1]->getOreData().typeIndex == typeIndex)
 	{
 		destroyNeighboringOre(Vector2(x + 1, y), _grid[y][x + 1]->getOreData().typeIndex);
-		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y][x + 1]->getOreData(), _grid[y][x + 1]->getTransform()->position);
+		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y][x + 1]->getOreData(), _grid[y][x + 1]->getTransform().position);
 		_grid[y][x + 1]->destroy();
 		_grid[y][x + 1] = nullptr;
 		neighborDestroyed = true;
@@ -313,7 +313,7 @@ void OreGridSystem::tryDestroy(const Vector2& oreCoords, int typeIndex)
 	if (x - 1 >= 0 && _grid[y][x - 1] != nullptr && _grid[y][x - 1]->getOreData().typeIndex == typeIndex)
 	{
 		destroyNeighboringOre(Vector2(x - 1, y), _grid[y][x - 1]->getOreData().typeIndex);
-		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y][x - 1]->getOreData(), _grid[y][x - 1]->getTransform()->position);
+		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y][x - 1]->getOreData(), _grid[y][x - 1]->getTransform().position);
 		_grid[y][x - 1]->destroy();
 		_grid[y][x - 1] = nullptr;
 		neighborDestroyed = true;
@@ -322,7 +322,7 @@ void OreGridSystem::tryDestroy(const Vector2& oreCoords, int typeIndex)
 	// We only destroy a block if at least one of its neighbors was destroyed
 	if (neighborDestroyed)
 	{
-		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y][x]->getOreData(), _grid[y][x]->getTransform()->position);
+		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y][x]->getOreData(), _grid[y][x]->getTransform().position);
 		_grid[y][x]->destroy();
 		_grid[y][x] = nullptr;
 
@@ -337,7 +337,7 @@ void OreGridSystem::tryDestroy(const Vector2& oreCoords, int typeIndex)
 	}
 }
 
-void OreGridSystem::destroyNeighboringOre(const Vector2& gridCoords, int typeIndex)
+void OreGridSystem::destroyNeighboringOre(Vector2 gridCoords, int typeIndex)
 {
 	int x = static_cast<int>(gridCoords.x);
 	int y = static_cast<int>(gridCoords.y);
@@ -348,7 +348,7 @@ void OreGridSystem::destroyNeighboringOre(const Vector2& gridCoords, int typeInd
 	if (y - 1 >= 0 && _grid[y - 1][x] != nullptr && _grid[y - 1][x]->getOreData().typeIndex == typeIndex && !_grid[y - 1][x]->visited())
 	{
 		destroyNeighboringOre(Vector2(x, y - 1), _grid[y - 1][x]->getOreData().typeIndex);
-		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y - 1][x]->getOreData(), _grid[y - 1][x]->getTransform()->position);
+		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y - 1][x]->getOreData(), _grid[y - 1][x]->getTransform().position);
 		_grid[y - 1][x]->destroy();
 		_grid[y - 1][x] = nullptr;
 	}
@@ -357,7 +357,7 @@ void OreGridSystem::destroyNeighboringOre(const Vector2& gridCoords, int typeInd
 	if (y + 1 < GRID_WIDTH && _grid[y + 1][x] != nullptr && _grid[y + 1][x]->getOreData().typeIndex == typeIndex && !_grid[y + 1][x]->visited())
 	{
 		destroyNeighboringOre(Vector2(x, y + 1), _grid[y + 1][x]->getOreData().typeIndex);
-		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y + 1][x]->getOreData(), _grid[y + 1][x]->getTransform()->position);
+		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y + 1][x]->getOreData(), _grid[y + 1][x]->getTransform().position);
 		_grid[y + 1][x]->destroy();
 		_grid[y + 1][x] = nullptr;
 	}
@@ -366,7 +366,7 @@ void OreGridSystem::destroyNeighboringOre(const Vector2& gridCoords, int typeInd
 	if (x - 1 >= 0 && _grid[y][x - 1] != nullptr && _grid[y][x - 1]->getOreData().typeIndex == typeIndex && !_grid[y][x - 1]->visited())
 	{
 		destroyNeighboringOre(Vector2(x - 1, y), _grid[y][x - 1]->getOreData().typeIndex);
-		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y][x - 1]->getOreData(), _grid[y][x - 1]->getTransform()->position);
+		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y][x - 1]->getOreData(), _grid[y][x - 1]->getTransform().position);
 		_grid[y][x - 1]->destroy();
 		_grid[y][x - 1] = nullptr;
 	}
@@ -375,7 +375,7 @@ void OreGridSystem::destroyNeighboringOre(const Vector2& gridCoords, int typeInd
 	if (x + 1 < GRID_HEIGHT && _grid[y][x + 1] != nullptr && _grid[y][x + 1]->getOreData().typeIndex == typeIndex && !_grid[y][x + 1]->visited())
 	{
 		destroyNeighboringOre(Vector2(x + 1, y), _grid[y][x + 1]->getOreData().typeIndex);
-		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y][x + 1]->getOreData(), _grid[y][x + 1]->getTransform()->position);
+		_entityManager->createEntity().addComponent <OreDestroyedEvent>(_grid[y][x + 1]->getOreData(), _grid[y][x + 1]->getTransform().position);
 		_grid[y][x + 1]->destroy();
 		_grid[y][x + 1] = nullptr;
 

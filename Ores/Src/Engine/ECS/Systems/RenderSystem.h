@@ -26,7 +26,7 @@ private:
 	{
 		bool operator()(const Renderable* r1, const Renderable* r2) const
 		{
-			return r1->depth < r2->depth;
+			return r1->getDepth() < r2->getDepth();
 		}
 	};
 	

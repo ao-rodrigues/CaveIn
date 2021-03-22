@@ -34,8 +34,8 @@ private:
 	void pushColumn();
 	void crushHeroes();
 
-	void tryDestroy(const Vector2& oreCoords, int typeIndex);
-	void destroyNeighboringOre(const Vector2& gridCoords, int typeIndex);
+	void tryDestroy(Vector2 oreCoords, int typeIndex);
+	void destroyNeighboringOre(Vector2 gridCoords, int typeIndex);
 
 	Ore* _grid[GRID_WIDTH][GRID_HEIGHT]; // We work with a transposed grid because we'll be working column-major and this way it's more cache-friendly
 	int _leftmostColIndex = GRID_WIDTH / 2; // The value that controls how close the grid is from the limit line (0)

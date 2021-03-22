@@ -10,12 +10,12 @@ void SpriteSystem::update()
 	{
 		Sprite& sprite = spriteEntity->getComponent<Sprite>();
 
-		sprite.srcRect()->w = sprite.srcWidth;
-		sprite.srcRect()->h = sprite.srcHeight;
-		sprite.dstRect()->x = static_cast<int>(std::round(sprite.transform->position.x + sprite.getRelativePosition().x * sprite.transform->scale.x));
-		sprite.dstRect()->y = static_cast<int>(std::round(sprite.transform->position.y + sprite.getRelativePosition().y * sprite.transform->scale.y));
-		sprite.dstRect()->w = static_cast<int>(std::round(sprite.dstWidth * sprite.transform->scale.x));
-		sprite.dstRect()->h = static_cast<int>(std::round(sprite.dstHeight * sprite.transform->scale.y));
+		sprite.srcRect()->w = sprite.getSrcWidth();
+		sprite.srcRect()->h = sprite.getSrcHeight();
+		sprite.dstRect()->x = static_cast<int>(std::round(sprite.getTransform().position.x + sprite.getRelativePosition().x * sprite.getTransform().scale.x));
+		sprite.dstRect()->y = static_cast<int>(std::round(sprite.getTransform().position.y + sprite.getRelativePosition().y * sprite.getTransform().scale.y));
+		sprite.dstRect()->w = static_cast<int>(std::round(sprite.getDstWidth() * sprite.getTransform().scale.x));
+		sprite.dstRect()->h = static_cast<int>(std::round(sprite.getDstHeight() * sprite.getTransform().scale.y));
 
 		sprite.makeDstRelativeToCamera();
 	}

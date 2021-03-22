@@ -16,11 +16,19 @@ public:
 		_sprite->setVisible(false);
 	}
 
+	/// <summary>
+	/// Sets the position of the cursor.
+	/// </summary>
+	/// <param name="position">The new position</param>
 	void setPosition(Vector2 position)
 	{
 		_transform->position = position;
 	}
 
+	/// <summary>
+	/// Sets whether this cursor is visible or not.
+	/// </summary>
+	/// <param name="visible">The visible value</param>
 	void setVisible(bool visible)
 	{
 		_sprite->setVisible(visible);

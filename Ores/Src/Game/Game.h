@@ -22,9 +22,24 @@ public:
 	void update();
 
 private:
+	/// <summary>
+	/// Loads the game cursor.
+	/// </summary>
 	void loadCursor();
+
+	/// <summary>
+	/// Loads the environment.
+	/// </summary>
 	void loadEnvironment();
+
+	/// <summary>
+	/// Loads the FPS counter.
+	/// </summary>
 	void loadFPSCounter();
+
+	/// <summary>
+	/// Updates the FPS counter.
+	/// </summary>
 	void updateFPSCounter();
 
 	Text* _fpsCounter = nullptr;

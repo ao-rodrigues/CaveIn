@@ -14,12 +14,12 @@ class Text : public Renderable
 public:
 	Text(const std::string& fontID, int depth, const std::string& text, SDL_Color color, unsigned int wrapLength, float relativePosX = 0.f, float relativePosY = 0.f)
 		: Renderable(RenderLayer::UI, depth, relativePosX, relativePosY)
-		, fontID(fontID)
-		, text(text)
-		, textColor(color)
-		, wrapLength(wrapLength)
+		, _fontID(fontID)
+		, _text(text)
+		, _textColor(color)
+		, _wrapLength(wrapLength)
 	{
-		setText(this->fontID, this->text);
+		setText(this->_fontID, this->_text);
 	}
 
 	void init() override
@@ -40,15 +40,15 @@ public:
 
 	void setText(std::string fontID, std::string text)
 	{
-		this->fontID = fontID;
-		this->text = text;
+		this->_fontID = fontID;
+		this->_text = text;
 
 		if (texture != nullptr)
 		{
 			SDL_DestroyTexture(texture);
 		}
 
-		SDL_Surface* surf = TTF_RenderText_Blended_Wrapped(AssetManager::instance().getFont(fontID), text.c_str(), textColor, wrapLength);
+		SDL_Surface* surf = TTF_RenderText_Blended_Wrapped(AssetManager::instance().getFont(fontID), text.c_str(), _textColor, _wrapLength);
 		texture = SDL_CreateTextureFromSurface(Engine::instance().getRenderer(), surf);
 		SDL_FreeSurface(surf);
 
@@ -62,7 +62,7 @@ public:
 			SDL_DestroyTexture(texture);
 		}
 
-		SDL_Surface* surf = TTF_RenderText_Blended(AssetManager::instance().getFont(fontID), text.c_str(), newColor);
+		SDL_Surface* surf = TTF_RenderText_Blended(AssetManager::instance().getFont(_fontID), _text.c_str(), newColor);
 		texture = SDL_CreateTextureFromSurface(Engine::instance().getRenderer(), surf);
 		SDL_FreeSurface(surf);
 
@@ -79,8 +79,14 @@ public:
 		return &_dstRect;
 	}
 
-	std::string fontID;
-	std::string text;
-	SDL_Color textColor;
-	unsigned int wrapLength;
+	inline const std::string& getFontID() const { return _fontID; }
+	inline const std::string& getText() const { return _text; }
+	inline const SDL_Color& getTextColor() const { return _textColor; }
+	inline int getWrapLength() const { return _wrapLength; }
+
+private:
+	std::string _fontID;
+	std::string _text;
+	SDL_Color _textColor;
+	unsigned int _wrapLength;
 };

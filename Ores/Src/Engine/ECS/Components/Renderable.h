@@ -46,12 +46,12 @@ public:
 
 	void makeDstRelativeToCamera();
 	
-	SDL_Texture* texture = nullptr;
-	RenderLayer renderLayer = RenderLayer::Background;
-	SDL_RendererFlip flip = SDL_FLIP_NONE;
-	int depth = 0;
-	bool visible = true;
-	Transform* transform = nullptr;
+	inline SDL_Texture* getTexture() { return texture; }
+	inline RenderLayer getRenderLayer() const { return renderLayer; }
+	inline SDL_RendererFlip getFlip() { return flip; }
+	inline int getDepth() const { return depth; }
+	inline bool isVisible() const { return visible; }
+	inline Transform& getTransform() { return *transform; }
 
 protected:
 	SDL_Rect _srcRect = { 0, 0, 0, 0 };
@@ -60,4 +60,10 @@ protected:
 	float _relativePosX = 0.f;
 	float _relativePosY = 0.f;
 
+	SDL_Texture* texture = nullptr;
+	RenderLayer renderLayer = RenderLayer::Background;
+	SDL_RendererFlip flip = SDL_FLIP_NONE;
+	int depth = 0;
+	bool visible = true;
+	Transform* transform = nullptr;
 };

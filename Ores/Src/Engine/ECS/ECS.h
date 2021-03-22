@@ -20,8 +20,12 @@ class Component
 public:
 	virtual ~Component() {}
 
+	/// <summary>
+	/// Initializes the component. 
+	/// This is usually the place where a component can get references to other components
+	/// in the same Entity.
+	/// </summary>
 	virtual void init() {}
-	//virtual void update() {}
 
 	Entity* entity = nullptr;
 };

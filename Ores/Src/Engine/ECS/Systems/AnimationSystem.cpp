@@ -9,13 +9,13 @@ void AnimationSystem::update()
 		Animation& animation = animEntity->getComponent<Animation>();
 		Animation::AnimationInfo animInfo = animation.getCurrentAnimation();
 
-		if (!animInfo.loop && (animation.currentFrame == animInfo.numFrames - 1)) continue;
+		if (!animInfo.loop && (animation.getCurrentFrame() == animInfo.numFrames - 1)) continue;
 
 		int nextFrame = static_cast<int>((SDL_GetTicks() / animInfo.frameDelay) % animInfo.numFrames);
-		animation.sprite->srcRect()->x = animation.sprite->srcRect()->w * nextFrame;
-		animation.currentFrame = nextFrame;
+		animation.getSprite().srcRect()->x = animation.getSprite().srcRect()->w * nextFrame;
+		animation.setCurrentFrame(nextFrame);
 
-		if (animInfo.loop && animation.currentFrame == animInfo.numFrames - 1)
+		if (animInfo.loop && animation.getCurrentFrame() == animInfo.numFrames - 1)
 		{
 			animation.reset();
 		}
