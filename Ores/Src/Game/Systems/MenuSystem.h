@@ -23,6 +23,12 @@ private:
 		GameOver
 	};
 
+	void loadTitle();
+	void loadStartGameButton();
+	void loadTutorialMenu();
+	void loadPausedMenu();
+	void loadGameOverMenu();
+
 	void updateMainMenu();
 	void updateTutorialMenu();
 	void handlePlayingEvents();

@@ -26,21 +26,80 @@ void MenuSystem::init()
 	AssetManager::instance().loadFont("UIBannerFont", "Assets/Fonts/Alagard.ttf", 32);
 	AssetManager::instance().loadFont("UITextFont", "Assets/Fonts/Alagard.ttf", 20);
 
+	// Create entities, set references
+	loadTitle();
+	loadStartGameButton();
+	loadTutorialMenu();
+	loadPausedMenu();
+	loadGameOverMenu();
+
+	// Put game in initial state
+	setState(GameState::MainMenu);
+}
+
+void MenuSystem::update()
+{
+	auto showHighScoreEvents = _entityManager->getEntitiesWithComponentAll<ShowHighScoreEvent>(true);
+	if (showHighScoreEvents.size() > 0)
+	{
+		ShowHighScoreEvent& event = showHighScoreEvents[0]->getComponent<ShowHighScoreEvent>();
+		_finalScoreDisplay->setText("UITextFont", "Final Score: " + std::to_string(event.finalScore));
+		_highScoreDisplay->setText("UITextFont", "High Score: " + std::to_string(event.highScore));
+	}
+
+	auto gameOverEvents = _entityManager->getEntitiesWithComponentAll<GameOverEvent>(true);
+	if (gameOverEvents.size() > 0)
+	{
+		setState(GameState::GameOver);
+	}
+
+	switch (_currentState)
+	{
+	case GameState::MainMenu:
+		updateMainMenu();
+		break;
+
+	case GameState::Tutorial:
+		updateTutorialMenu();
+		break;
+
+	case GameState::Playing:
+		handlePlayingEvents();
+		break;
+
+	case GameState::Paused:
+		updatePausedMenu();
+		break;
+
+	case GameState::GameOver:
+		updateGameOverMenu();
+		break;
+
+	default:
+		break;
+	}
+}
+
+void MenuSystem::loadTitle()
+{
 	Engine& engine = Engine::instance();
 
-	// Create entities, set references
-
-	// Title
 	SDL_Color titleTextColor = { 255, 255, 255, 255 };
 	_title = &engine.createEntity().addComponent<Text>("TitleFont", 1, "CAVE-IN", titleTextColor, 500);
+
 	float titleX = (engine.getWorldDimensions().x / 2.f) - (_title->dstRect()->w / 2.f);
 	float titleY = (engine.getWorldDimensions().y / 2.f) - (_title->dstRect()->h / 2.f);
 	_title->getTransform().position = Vector2(titleX, titleY);
+}
 
-	// Start Game button
+void MenuSystem::loadStartGameButton()
+{
+	Engine& engine = Engine::instance();
+
 	_startGameButton = &engine.createEntity();
 	Sprite& startGameBtnSprite = _startGameButton->addComponent<Sprite>(RenderLayer::UI, 0, "ButtonDefault", 0, 0, 300, 87);
 	_startGameButton->addComponent<Button>("ButtonDefault", "ButtonHover", "ButtonDown");
+
 	SDL_Color buttonTextColor = { 255, 255, 255, 255 };
 	Text& startGameLabel = _startGameButton->addComponent<Text>("ButtonFont", 1, "Start Game", buttonTextColor, 200);
 
@@ -51,9 +110,12 @@ void MenuSystem::init()
 	float labelX = startGameBtnSprite.dstRect()->w / 2.f - startGameLabel.dstRect()->w / 2.f;
 	float labelY = startGameBtnSprite.dstRect()->h / 2.f - startGameLabel.dstRect()->h / 2.f;
 	startGameLabel.setRelativePosition(Vector2(labelX, labelY));
+}
 
-	
-	// Tutorial panel and banner
+void MenuSystem::loadTutorialMenu()
+{
+	Engine& engine = Engine::instance();
+
 	_tutorialPanel = &engine.createEntity();
 	Sprite& tutorialPanelSprite = _tutorialPanel->addComponent<Sprite>(RenderLayer::UI, 0, "UIPanel", 0, 0, 818, 504, 400, 160, 0.f, 0.f);
 
@@ -83,9 +145,31 @@ void MenuSystem::init()
 	float bannerTextRelY = (tutorialBannerSprite.dstRect()->h / 2.f) - (tutorialBannerText.dstRect()->h / 2.f);
 	tutorialBannerText.setRelativePosition(Vector2(bannerTextRelX, bannerTextRelY));
 
-	// Paused banner
+	// Resume Button
+	_resumeButton = &engine.createEntity();
+	Sprite& resumeBtnSprite = _resumeButton->addComponent<Sprite>(RenderLayer::UI, 0, "ButtonDefault", 0, 0, 300, 87);
+	_resumeButton->addComponent<Button>("ButtonDefault", "ButtonHover", "ButtonDown");
+
+	SDL_Color buttonTextColor = { 255, 255, 255, 255 };
+	Text& resumeLabel = _resumeButton->addComponent<Text>("ButtonFont", 1, "Resume", buttonTextColor, 200);
+
+	float resumeBtnX = (engine.getWorldDimensions().x / 2.f) - (_resumeButton->getComponent<Sprite>().dstRect()->w / 2.f);
+	float resumeBtnY = tutorialPanelTransform.position.y + tutorialPanelSprite.dstRect()->h + 20.f;
+	_resumeButton->getComponent<Transform>().position = Vector2(resumeBtnX, resumeBtnY);
+
+	float resumeLabelX = resumeBtnSprite.dstRect()->w / 2.f - resumeLabel.dstRect()->w / 2.f;
+	float resumeLabelY = resumeBtnSprite.dstRect()->h / 2.f - resumeLabel.dstRect()->h / 2.f;
+	resumeLabel.setRelativePosition(Vector2(resumeLabelX, resumeLabelY));
+}
+
+void MenuSystem::loadPausedMenu()
+{
+	Engine& engine = Engine::instance();
+
 	_pausedBanner = &engine.createEntity();
 	Sprite& pausedBannerSprite = _pausedBanner->addComponent<Sprite>(RenderLayer::UI, 1, "UIBanner", 0, 0, 830, 188, 400, 100, 0.f, 0.f);
+
+	SDL_Color textColor = { 0, 0, 0, 255 };
 	Text& pausedBannerText = _pausedBanner->addComponent<Text>("UIBannerFont", 2, "Paused", textColor, 300);
 
 	float pausedBannerSpriteX = (engine.getWorldDimensions().x / 2.f) - (pausedBannerSprite.dstRect()->w / 2.f);
@@ -96,22 +180,12 @@ void MenuSystem::init()
 	float pausedBannerTextRelX = (pausedBannerSprite.dstRect()->w / 2.f) - (pausedBannerText.dstRect()->w / 2.f);
 	float pausedBannerTextRelY = (pausedBannerSprite.dstRect()->h / 2.f) - (pausedBannerText.dstRect()->h / 2.f);
 	pausedBannerText.setRelativePosition(Vector2(pausedBannerTextRelX, pausedBannerTextRelY));
+}
 
-	// Resume button
-	_resumeButton = &engine.createEntity();
-	Sprite& resumeBtnSprite = _resumeButton->addComponent<Sprite>(RenderLayer::UI, 0, "ButtonDefault", 0, 0, 300, 87);
-	_resumeButton->addComponent<Button>("ButtonDefault", "ButtonHover", "ButtonDown");
-	Text& resumeLabel = _resumeButton->addComponent<Text>("ButtonFont", 1, "Resume", buttonTextColor, 200);
+void MenuSystem::loadGameOverMenu()
+{
+	Engine& engine = Engine::instance();
 
-	float resumeBtnX = (engine.getWorldDimensions().x / 2.f) - (_resumeButton->getComponent<Sprite>().dstRect()->w / 2.f);
-	float resumeBtnY = tutorialPanelTransform.position.y + tutorialPanelSprite.dstRect()->h + 20.f;
-	_resumeButton->getComponent<Transform>().position = Vector2(resumeBtnX, resumeBtnY);
-
-	float resumeLabelX = resumeBtnSprite.dstRect()->w / 2.f - resumeLabel.dstRect()->w / 2.f;
-	float resumeLabelY = resumeBtnSprite.dstRect()->h / 2.f - resumeLabel.dstRect()->h / 2.f;
-	resumeLabel.setRelativePosition(Vector2(resumeLabelX, resumeLabelY));
-
-	// Game Over panel and banner
 	_gameOverPanel = &engine.createEntity();
 	Sprite& gameOverPanelSprite = _gameOverPanel->addComponent<Sprite>(RenderLayer::UI, 0, "UIPanel", 0, 0, 818, 504, 400, 160, 0.f, 0.f);
 
@@ -133,6 +207,8 @@ void MenuSystem::init()
 
 	_gameOverBanner = &engine.createEntity();
 	Sprite& gameOverBannerSprite = _gameOverBanner->addComponent<Sprite>(RenderLayer::UI, 1, "UIBanner", 0, 0, 830, 188, 400, 100, 0.f, 0.f);
+
+	SDL_Color textColor = { 0, 0, 0, 255 };
 	Text& gameOverBannerText = _gameOverBanner->addComponent<Text>("UIBannerFont", 2, "Game Over", textColor, 300);
 
 	float gameOverBannerSpriteX = gameOverPanelSpriteX;
@@ -144,70 +220,21 @@ void MenuSystem::init()
 	float gameOverBannerTextRelY = (gameOverBannerSprite.dstRect()->h / 2.f) - (gameOverBannerText.dstRect()->h / 2.f);
 	gameOverBannerText.setRelativePosition(Vector2(gameOverBannerTextRelX, gameOverBannerTextRelY));
 
-
 	// Retry button
 	_retryButton = &engine.createEntity();
 	Sprite& retryBtnSprite = _retryButton->addComponent<Sprite>(RenderLayer::UI, 0, "ButtonDefault", 0, 0, 300, 87);
 	_retryButton->addComponent<Button>("ButtonDefault", "ButtonHover", "ButtonDown");
+
+	SDL_Color buttonTextColor = { 255, 255, 255, 255 };
 	Text& retryLabel = _retryButton->addComponent<Text>("ButtonFont", 1, "Try Again", buttonTextColor, 200);
 
 	float retryBtnX = (engine.getWorldDimensions().x / 2.f) - (_retryButton->getComponent<Sprite>().dstRect()->w / 2.f);
-	float retryBtnY = tutorialPanelTransform.position.y + tutorialPanelSprite.dstRect()->h + 20.f;
+	float retryBtnY = gameOverPanelTransform.position.y + gameOverPanelSprite.dstRect()->h + 20.f;
 	_retryButton->getComponent<Transform>().position = Vector2(retryBtnX, retryBtnY);
 
 	float retryLabelX = retryBtnSprite.dstRect()->w / 2.f - retryLabel.dstRect()->w / 2.f;
 	float retryLabelY = retryBtnSprite.dstRect()->h / 2.f - retryLabel.dstRect()->h / 2.f;
 	retryLabel.setRelativePosition(Vector2(retryLabelX, retryLabelY));
-
-	// Put game in initial state
-	setState(GameState::MainMenu);
-}
-
-void MenuSystem::update()
-{
-	auto showHighScoreEvents = _entityManager->getEntitiesWithComponentAll<ShowHighScoreEvent>(true);
-	if (showHighScoreEvents.size() > 0)
-	{
-		ShowHighScoreEvent& event = showHighScoreEvents[0]->getComponent<ShowHighScoreEvent>();
-		_finalScoreDisplay->setText("UITextFont", "Final Score: " + std::to_string(event.finalScore));
-		_highScoreDisplay->setText("UITextFont", "High Score: " + std::to_string(event.highScore));
-	}
-
-	auto gameOverEvents = _entityManager->getEntitiesWithComponentAll<GameOverEvent>(true);
-	if (gameOverEvents.size() > 0)
-	{
-		setState(GameState::GameOver);
-	}
-
-	// Check GUI events
-
-	switch (_currentState)
-	{
-	case GameState::MainMenu:
-		updateMainMenu();
-		break;
-
-	case GameState::Tutorial:
-		updateTutorialMenu();
-		break;
-
-	case GameState::Playing:
-		handlePlayingEvents();
-		break;
-
-	case GameState::Paused:
-		updatePausedMenu();
-		break;
-
-	case GameState::GameOver:
-		updateGameOverMenu();
-		break;
-
-	default:
-		break;
-	}
-
-	// Change game state accordingly
 }
 
 void MenuSystem::updateMainMenu()
