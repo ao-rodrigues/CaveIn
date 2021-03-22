@@ -32,7 +32,7 @@ void PointsPopupSystem::update()
 		Vector2 newPosition = popup.text->transform->position;
 		newPosition.y -= POPUP_MOVE_SPEED * Engine::instance().deltaTime;
 
-		popup.text->setPosition(newPosition);
+		popup.text->transform->position = newPosition;
 
 		float timePassed = (SDL_GetTicks() - popup.spawnTime) / 1000.f;
 		if (timePassed > popup.lifetime)
@@ -51,6 +51,6 @@ void PointsPopupSystem::spawnPopup(OreData oreData, Vector2 position)
 {
 	Entity& newPopup = Engine::instance().createEntity();
 	SDL_Color popupColor = { 21, 232, 156, 255 };
-	newPopup.addComponent<Text>("PopupFont", 1, std::to_string(oreData.destructionPoints), popupColor).setPosition(position);
+	newPopup.addComponent<Text>("PopupFont", 1, std::to_string(oreData.destructionPoints), popupColor, 100).transform->position = position;
 	newPopup.addComponent<PointsPopup>(1.5f);
 }

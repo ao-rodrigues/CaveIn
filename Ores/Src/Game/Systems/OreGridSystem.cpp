@@ -8,6 +8,10 @@
 #include "../Events/OreDestroyedInLevelUpEvent.h"
 #include "../Events/PushEvent.h"
 #include "../Events/LevelUpEvent.h"
+#include "../Events/StartGameEvent.h"
+#include "../Events/GameOverEvent.h"
+#include "../Events/PauseGameEvent.h"
+#include "../Events/ResumeGameEvent.h"
 
 void OreGridSystem::init()
 {
@@ -22,6 +26,7 @@ void OreGridSystem::init()
 	AssetManager::instance().loadTexture("Sandstone", "Assets/Textures/sandstone_wall1.png");
 	AssetManager::instance().loadTexture("Slime", "Assets/Textures/slime0.png");
 
+	
 	Engine& engine = Engine::instance();
 
 	_gridRoot = Vector2(Engine::instance().getWorldDimensions().x - (GRID_WIDTH * 32), 100.f);
@@ -30,26 +35,53 @@ void OreGridSystem::init()
 	{
 		for (int x = 0; x < GRID_HEIGHT; x++)
 		{
-			if (y < _leftmostColIndex)
-			{
-				_grid[y][x] = nullptr;
-			}
-			else
-			{
-				OreData oreData = _oreData[rand() % 8];
-
-				Entity& ore = engine.createEntity();
-				ore.addComponent<Sprite>(RenderLayer::Midground, 0, oreData.textureID, 0, 0, 32, 32);
-
-				Vector2 convertedCoords = coordConvertGridToOre(x, y);
-				_grid[y][x] = &ore.addComponent<Ore>(oreData, _gridRoot, convertedCoords, 32, 32, 0.8f);
-			}
+			_grid[y][x] = nullptr;
 		}
 	}
 }
 
 void OreGridSystem::update()
 {
+	if (!_gameRunning)
+	{
+		auto startGameEvents = _entityManager->getEntitiesWithComponentAll<StartGameEvent>();
+		if (startGameEvents.size() > 0)
+		{
+			_gameRunning = true;
+			destroyAllOres();
+			pushNewGrid();
+		}
+		else
+		{
+			// Check if game has been resumed
+			auto resumeGameEvents = _entityManager->getEntitiesWithComponentAll<ResumeGameEvent>();
+			if (resumeGameEvents.size() > 0)
+			{
+				_gameRunning = true;
+			}
+			else
+			{
+				return;
+			}
+		}
+	}
+
+	// Check if the game has been paused
+	auto pauseGameEvents = _entityManager->getEntitiesWithComponentAll<PauseGameEvent>();
+	if (pauseGameEvents.size() > 0)
+	{
+		_gameRunning = false;
+		return;
+	}
+
+	// Check if the game is over
+	auto gameOverEvents = _entityManager->getEntitiesWithComponentAll<GameOverEvent>(true);
+	if (gameOverEvents.size() > 0)
+	{
+		_gameRunning = false;
+		return;
+	}
+
 	for (auto& event : _entityManager->getEntitiesWithComponentAll<LevelUpEvent>(true))
 	{
 		destroyAllOres();
@@ -179,7 +211,11 @@ void OreGridSystem::pushColumn()
 {
 	if (_leftmostColIndex - 1 < 0)
 	{
-		// TODO Send game over event
+		// Send game over event
+		_entityManager->createEntity().addComponent<GameOverEvent>().entity->setDestroyNextFrame(true);
+
+		// Move all ores a bit more to the left to CRUSH THE HEROES
+		crushHeroes();
 		return;
 	}
 
@@ -215,6 +251,20 @@ void OreGridSystem::pushColumn()
 
 		Vector2 convertedCoords = coordConvertGridToOre(x, GRID_WIDTH - 1);
 		_grid[GRID_WIDTH - 1][x]->setGridCoords(convertedCoords, false);
+	}
+}
+
+void OreGridSystem::crushHeroes()
+{
+	for (int y = _leftmostColIndex; y < GRID_WIDTH; y++)
+	{
+		for (int x = 0; x < GRID_HEIGHT; x++)
+		{
+			if (_grid[y][x] != nullptr)
+			{
+				_grid[y][x]->setGridCoords(coordConvertGridToOre(x, y - 3), false);
+			}
+		}
 	}
 }
 

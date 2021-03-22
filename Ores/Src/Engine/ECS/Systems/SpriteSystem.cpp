@@ -12,8 +12,8 @@ void SpriteSystem::update()
 		sprite.srcRect()->w = sprite.srcWidth;
 		sprite.srcRect()->h = sprite.srcHeight;
 
-		sprite.dstRect()->x = static_cast<int>(sprite.transform->position.x);
-		sprite.dstRect()->y = static_cast<int>(sprite.transform->position.y);
+		sprite.dstRect()->x = static_cast<int>(sprite.transform->position.x + sprite.getRelativePosition().x * sprite.transform->scale.x);
+		sprite.dstRect()->y = static_cast<int>(sprite.transform->position.y + sprite.getRelativePosition().y * sprite.transform->scale.y);
 		sprite.dstRect()->w = static_cast<int>(sprite.dstWidth * sprite.transform->scale.x);
 		sprite.dstRect()->h = static_cast<int>(sprite.dstHeight * sprite.transform->scale.y);
 

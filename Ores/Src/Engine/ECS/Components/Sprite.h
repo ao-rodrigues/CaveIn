@@ -10,8 +10,8 @@
 class Sprite : public Renderable
 {
 public:
-	Sprite(RenderLayer renderLayer, int depth, const std::string& textureID, int srcX, int srcY, int width, int height)
-		: Renderable(renderLayer, depth)
+	Sprite(RenderLayer renderLayer, int depth, const std::string& textureID, int srcX, int srcY, int width, int height, float relativePosX = 0.f, float relativePosY = 0.f)
+		: Renderable(renderLayer, depth, relativePosX, relativePosY)
 		, textureID(textureID)
 		, srcX(srcX)
 		, srcY(srcY)
@@ -21,6 +21,17 @@ public:
 		, dstHeight(height)
 	{
 	}
+
+	Sprite(RenderLayer renderLayer, int depth, const std::string& textureID, int srcX, int srcY, int srcWidth, int srcHeight, int dstWidth, int dstHeight, float relativePosX, float relativePosY)
+		: Renderable(renderLayer, depth, relativePosX, relativePosY)
+		, textureID(textureID)
+		, srcX(srcX)
+		, srcY(srcY)
+		, srcWidth(srcWidth)
+		, srcHeight(srcHeight)
+		, dstWidth(dstWidth)
+		, dstHeight(dstHeight)
+	{ }
 
 	~Sprite()
 	{
@@ -61,8 +72,6 @@ public:
 	{
 		this->visible = visible;
 	}
-
-	void makeDstRelativeToCamera();
 
 	int srcX = 0;
 	int srcY = 0;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Systems/MenuSystem.h"
+#include "Systems/CharacterSystem.h"
 #include "Systems/OreClickSystem.h"
 #include "Systems/HoverCursorSystem.h"
 #include "Systems/OreGridSystem.h"
@@ -28,6 +30,8 @@ private:
 
 	Text* _fpsCounter = nullptr;
 
+	MenuSystem* _menuSystem = nullptr;
+	CharacterSystem* _characterSystem = nullptr;
 	OreClickSystem* _oreClickSystem = nullptr;
 	HoverCursorSystem* _hoverCursorSystem = nullptr;
 	OreGridSystem* _oreGridSystem = nullptr;

@@ -17,5 +17,5 @@ bool Button::buttonDown()
 
 bool Button::buttonReleased()
 {
-	return mouseHovering() && InputManager::mouseButtonUp(SDL_BUTTON_LEFT);;
+	return wasPressed() && InputManager::mouseButtonUp(SDL_BUTTON_LEFT);;
 }

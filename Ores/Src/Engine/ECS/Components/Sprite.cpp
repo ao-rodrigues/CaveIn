@@ -11,18 +11,10 @@ void Sprite::init()
 	_srcRect.w = srcWidth;
 	_srcRect.h = srcHeight;
 
-	_dstRect.x = static_cast<int>(transform->position.x);
-	_dstRect.y = static_cast<int>(transform->position.y);
+	_dstRect.x = static_cast<int>(transform->position.x + _relativePosX);
+	_dstRect.y = static_cast<int>(transform->position.y + _relativePosY);
 	_dstRect.w = static_cast<int>(dstWidth * transform->scale.x);
 	_dstRect.h = static_cast<int>(dstHeight * transform->scale.y);
 
 	makeDstRelativeToCamera();
-}
-
-void Sprite::makeDstRelativeToCamera()
-{
-	// Make final destination relative to camera
-	SDL_Rect camera = Engine::instance().getCamera();
-	_dstRect.x -= camera.x;
-	_dstRect.y -= camera.y;
 }

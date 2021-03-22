@@ -3,9 +3,16 @@
 
 void ButtonSystem::update()
 {
-	for (auto& buttonEntity : _entityManager->getEntitiesWithComponentAll<Button>())
+	for (auto& buttonEntity : _entityManager->getEntitiesWithComponentAll<Button>(false, true))
 	{
 		Button& button = buttonEntity->getComponent<Button>();
+
+		if (!buttonEntity->isEnabled())
+		{
+			// Reset disabled buttons
+			button.setPressed(false);
+			continue;
+		}
 
 		if (button.getDefaultTextureID() != "")
 		{

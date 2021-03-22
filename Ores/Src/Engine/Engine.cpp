@@ -46,6 +46,7 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 	_renderSystem->init(_window, rendererFlags);
 
 	_spriteSystem = &createSystem<SpriteSystem>();
+	_textSystem = &createSystem<TextSystem>();
 	_animationSystem = &createSystem<AnimationSystem>();
 	_buttonSystem = &createSystem<ButtonSystem>();
 
@@ -105,6 +106,7 @@ void Engine::handleEvents()
 void Engine::update()
 {
 	_spriteSystem->update();
+	_textSystem->update();
 	_animationSystem->update();
 	_buttonSystem->update();
 

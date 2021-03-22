@@ -15,4 +15,5 @@ public:
 
 private:
 	Button* _pushColumnButton = nullptr;
+	bool _gameRunning = false;
 };

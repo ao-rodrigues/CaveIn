@@ -10,6 +10,7 @@
 #include "ECS/Systems/SpriteSystem.h"
 #include "ECS/Systems/AnimationSystem.h"
 #include "ECS/Systems/ButtonSystem.h"
+#include "ECS/Systems/TextSystem.h"
 
 class Engine : public Singleton<Engine>
 {
@@ -77,6 +78,7 @@ private:
 	EntityManager* _entityManager = nullptr;
 
 	SpriteSystem* _spriteSystem = nullptr;
+	TextSystem* _textSystem = nullptr;
 	AnimationSystem* _animationSystem = nullptr;
 	ButtonSystem* _buttonSystem = nullptr;
 

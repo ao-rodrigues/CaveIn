@@ -7,6 +7,10 @@
 #include "../Events/OreDestroyedInLevelUpEvent.h"
 #include "../Events/OreSelectedEvent.h"
 #include "../Events/PushEvent.h"
+#include "../Events/StartGameEvent.h"
+#include "../Events/PauseGameEvent.h"
+#include "../Events/ResumeGameEvent.h"
+#include "../Events/GameOverEvent.h"
 
 
 void ClearEventsSystem::update()
@@ -19,7 +23,11 @@ void ClearEventsSystem::update()
 		OreDestroyedEvent,
 		OreDestroyedInLevelUpEvent,
 		OreSelectedEvent,
-		PushEvent
+		PushEvent,
+		StartGameEvent,
+		PauseGameEvent,
+		ResumeGameEvent,
+		GameOverEvent
 	>())
 	{
 		event->destroy();

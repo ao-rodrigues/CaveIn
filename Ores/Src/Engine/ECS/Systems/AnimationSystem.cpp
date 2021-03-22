@@ -7,8 +7,17 @@ void AnimationSystem::update()
 	for (auto& animEntity : _entityManager->getEntitiesWithComponentAll<Animation>())
 	{
 		Animation& animation = animEntity->getComponent<Animation>();
-		Animation::AnimationInfo animInfo = animation.animations.at(animation.currentAnimation);
+		Animation::AnimationInfo animInfo = animation.getCurrentAnimation();
 
-		animation.sprite->srcRect()->x = animation.sprite->srcRect()->w * static_cast<int>((SDL_GetTicks() / animInfo.frameDelay) % animInfo.numFrames);
+		if (!animInfo.loop && (animation.currentFrame == animInfo.numFrames - 1)) continue;
+
+		int nextFrame = static_cast<int>((SDL_GetTicks() / animInfo.frameDelay) % animInfo.numFrames);
+		animation.sprite->srcRect()->x = animation.sprite->srcRect()->w * nextFrame;
+		animation.currentFrame = nextFrame;
+
+		if (animInfo.loop && animation.currentFrame == animInfo.numFrames - 1)
+		{
+			animation.reset();
+		}
 	}
 }

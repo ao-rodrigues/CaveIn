@@ -28,6 +28,7 @@ private:
 	void pushNewGrid();
 
 	void pushColumn();
+	void crushHeroes();
 
 	void tryDestroy(const Vector2& oreCoords, int typeIndex);
 	void destroyNeighboringOre(const Vector2& gridCoords, int typeIndex);
@@ -47,4 +48,6 @@ private:
 		OreData(6, 90, "Sandstone"),
 		OreData(7, 200, "Slime")
 	};
+
+	bool _gameRunning = false;
 };

@@ -8,9 +8,11 @@
 class Renderable : public Component
 {
 public:
-	Renderable(RenderLayer renderLayer, int depth)
+	Renderable(RenderLayer renderLayer, int depth, float relativePosX = 0.f, float relativePosY = 0.f)
 		: renderLayer(renderLayer)
 		, depth(depth)
+		, _relativePosX(relativePosX)
+		, _relativePosY(relativePosY)
 	{}
 
 	~Renderable()
@@ -25,6 +27,24 @@ public:
 
 	virtual SDL_Rect* srcRect() = 0;
 	virtual SDL_Rect* dstRect() = 0;
+
+	/// <summary>
+	/// Get the position offset relative to the Transform.
+	/// </summary>
+	/// <returns>Position offset relative to Transform</returns>
+	inline Vector2 getRelativePosition() { return Vector2(_relativePosX, _relativePosY); }
+
+	/// <summary>
+	/// Set the position offset relative to the Transform.
+	/// </summary>
+	/// <param name="relativePosition">New position offset</param>
+	inline void setRelativePosition(Vector2 relativePosition)
+	{
+		_relativePosX = relativePosition.x;
+		_relativePosY = relativePosition.y;
+	}
+
+	void makeDstRelativeToCamera();
 	
 	SDL_Texture* texture = nullptr;
 	RenderLayer renderLayer = RenderLayer::Background;
@@ -36,5 +56,8 @@ public:
 protected:
 	SDL_Rect _srcRect = { 0, 0, 0, 0 };
 	SDL_Rect _dstRect = { 0, 0, 0, 0 };
+
+	float _relativePosX = 0.f;
+	float _relativePosY = 0.f;
 
 };

@@ -14,6 +14,8 @@ void Game::init()
 {
 	Engine& engine = Engine::instance();
 
+	_menuSystem = &engine.createSystem<MenuSystem>();
+	_characterSystem = &engine.createSystem<CharacterSystem>();
 	_oreClickSystem = &engine.createSystem<OreClickSystem>();
 	_hoverCursorSystem = &engine.createSystem<HoverCursorSystem>();
 	_oreGridSystem = &engine.createSystem<OreGridSystem>();
@@ -28,7 +30,7 @@ void Game::init()
 
 	loadCursor();
 	loadEnvironment();
-	loadCharacters();
+	//loadCharacters();
 	loadFPSCounter();
 }
 
@@ -36,6 +38,8 @@ void Game::update()
 {
 	updateFPSCounter();
 
+	_menuSystem->update();
+	_characterSystem->update();
 	_oreClickSystem->update();
 	_hoverCursorSystem->update();
 	_oreGridSystem->update();
@@ -164,8 +168,8 @@ void Game::loadFPSCounter()
 
 	std::string fpsDisplay = "FPS: " + std::to_string(engine.FPS());
 	SDL_Color fontColor = { 255, 255, 255, 255 };
-	_fpsCounter = &engine.createEntity().addComponent<Text>("FPSFont", 0, fpsDisplay, fontColor);
-	_fpsCounter->setPosition(Vector2(engine.getWorldDimensions().x - 55.f, 10.f));
+	_fpsCounter = &engine.createEntity().addComponent<Text>("FPSFont", 0, fpsDisplay, fontColor, 100);
+	_fpsCounter->transform->position = Vector2(engine.getWorldDimensions().x - 55.f, 10.f);
 }
 
 void Game::updateFPSCounter()

@@ -13,4 +13,5 @@ public:
 
 private:
 	void handleMouseInteractions(Ore& ore, const Vector2& mousePos);
+	bool _gameRunning = false;
 };
