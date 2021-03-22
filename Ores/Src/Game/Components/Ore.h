@@ -16,7 +16,7 @@ public:
 		: _oreData(oreData)
 		, _gridRoot(gridRoot)
 		, _gridCoords(gridCoords)
-		, _oreDimensions(Vector2(oreWidth, oreHeight))
+		, _oreDimensions(Vector2(static_cast<float>(oreWidth), static_cast<float>(oreHeight)))
 		, _moveDuration(moveDuration)
 	{
 	}

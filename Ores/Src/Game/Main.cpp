@@ -4,6 +4,7 @@
 #include "../Engine/ECS/Components/Transform.h"
 #include "Game.h"
 
+constexpr float MIN_DELTA_TIME = 1000.f / 240.f; // 240 FPS
 
 int main(int argc, char *args[])
 {
@@ -13,14 +14,24 @@ int main(int argc, char *args[])
 	Game* game = new Game();
 	game->init();
 
+	float lastFrameTime = 0.f;
+
 	while (engine.isRunning())
 	{
-		engine.handleEvents();
+		float time = SDL_GetTicks();
+		float delta = time - lastFrameTime;
 
-		game->update();
+		if (delta > MIN_DELTA_TIME)
+		{
+			engine.handleEvents();
 
-		engine.update();
-		engine.render();
+			game->update();
+
+			engine.update();
+			engine.render();
+
+			lastFrameTime = time;
+		}
 	}
 
 	engine.clear();

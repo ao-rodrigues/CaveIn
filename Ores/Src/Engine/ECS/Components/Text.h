@@ -25,8 +25,8 @@ public:
 	void init() override
 	{
 		transform = &entity->getComponent<Transform>();
-		_dstRect.x = transform->position.x + _relativePosX;
-		_dstRect.y = transform->position.y + _relativePosY;
+		_dstRect.x = static_cast<int>(transform->position.x + _relativePosX);
+		_dstRect.y = static_cast<int>(transform->position.y + _relativePosY);
 		makeDstRelativeToCamera();
 	}
 

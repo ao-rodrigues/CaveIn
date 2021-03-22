@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include <iostream>
+#include <stdlib.h>
 #include "InputManager.h"
 #include "ECS/Components/Transform.h"
 #include "AssetManager.h"
@@ -13,7 +14,6 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-	//delete _entityManager;
 }
 
 void Engine::init(const char* title, int width, int height, bool fullscreen, bool vsync, int worldWidth, int worldHeight)
@@ -38,8 +38,8 @@ void Engine::init(const char* title, int width, int height, bool fullscreen, boo
 	_camera.w = width;
 	_camera.h = height;
 
-	_worldDimensions.x = worldWidth;
-	_worldDimensions.y = worldHeight;
+	_worldDimensions.x = static_cast<float>(worldWidth);
+	_worldDimensions.y = static_cast<float>(worldHeight);
 
 	_renderSystem = &createSystem<RenderSystem>();
 	auto rendererFlags = vsync ? (SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED) : SDL_RENDERER_ACCELERATED;
@@ -116,13 +116,11 @@ void Engine::update()
 
 void Engine::render()
 {
-	deltaTime = (SDL_GetTicks() - _lastFrameTime) / 1000.f;
-	_lastFrameTime = SDL_GetTicks();
-	_fps = _frameCount / (_lastFrameTime / 1000.f);
-	//std::cout << "FPS: " << fps << std::endl;
+	_deltaTime = (SDL_GetTicks() - _lastFrameTime) / 1000.f;
+	_fps = static_cast<int>(1.f / _deltaTime);
 
 	_renderSystem->update();
-	_frameCount++;
+	_lastFrameTime = SDL_GetTicks();
 }
 
 Entity& Engine::createEntity()

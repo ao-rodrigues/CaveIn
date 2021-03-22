@@ -30,7 +30,7 @@ public:
 	}
 
 	float lifetime = 0.f;
-	float spawnTime = 0.f;
+	unsigned int spawnTime = 0u;
 	Text* text = nullptr;
 	Transform* transform = nullptr;
 

@@ -60,14 +60,15 @@ public:
 	inline SDL_Rect getCamera() { return _camera; }
 	inline Vector2 getWorldDimensions() { return _worldDimensions; }
 
+	inline float deltaTime() { return _deltaTime; }
 	inline unsigned int FPS() { return _fps; }
 
-	float deltaTime = 1.f;
 private:
 	bool _isRunning = false;
 
-	int _lastFrameTime = 0;
-	int _frameCount = 0;
+	unsigned int _lastFrameTime = 0;
+	float _deltaTime = 1.f;
+	//int _frameCount = 0;
 
 	unsigned int _fps = 0;
 

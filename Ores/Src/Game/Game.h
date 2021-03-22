@@ -24,7 +24,6 @@ public:
 private:
 	void loadCursor();
 	void loadEnvironment();
-	void loadCharacters();
 	void loadFPSCounter();
 	void updateFPSCounter();
 

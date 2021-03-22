@@ -30,7 +30,7 @@ void PointsPopupSystem::update()
 		PointsPopup& popup = entity->getComponent<PointsPopup>();
 
 		Vector2 newPosition = popup.text->transform->position;
-		newPosition.y -= POPUP_MOVE_SPEED * Engine::instance().deltaTime;
+		newPosition.y -= POPUP_MOVE_SPEED * Engine::instance().deltaTime();
 
 		popup.text->transform->position = newPosition;
 
@@ -42,7 +42,7 @@ void PointsPopupSystem::update()
 		}
 
 		SDL_Color newColor = popup.text->textColor;
-		newColor.a = lerp(255.f, 0.f, timePassed / popup.lifetime);
+		newColor.a = static_cast<int>(lerp(255.f, 0.f, timePassed / popup.lifetime));
 		popup.text->setTextColor(newColor);
 	}
 }

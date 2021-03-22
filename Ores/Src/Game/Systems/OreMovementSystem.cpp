@@ -16,7 +16,7 @@ void OreMovementSystem::update()
 		}
 
 		Vector2 moveDir = ore.targetPosition - ore._transform->position;
-		ore._transform->position += moveDir * ORE_MOVE_SPEED * Engine::instance().deltaTime;
+		ore._transform->position += moveDir * ORE_MOVE_SPEED * Engine::instance().deltaTime();
 
 		if (ore._transform->position.x > ore.targetPosition.x && ore._transform->position.y > ore.targetPosition.y)
 		{

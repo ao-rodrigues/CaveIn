@@ -10,7 +10,7 @@
 #include "../../Engine/ECS/Components/Sprite.h"
 #include "../Components/FallingOre.h"
 
-constexpr float THROW_FORCE = 10.f;
+constexpr float THROW_FORCE = 15.f;
 constexpr float GRAVITY_FORCE = 9.f;
 constexpr unsigned int FALLING_ORE_LIFETIME = 1500;
 constexpr float MIN_ROT_SPEED = 80.f;
@@ -42,13 +42,13 @@ void FallingOresSystem::update()
 	{
 		FallingOre& fallingOre = fallingOreEntity->getComponent<FallingOre>();
 		Vector2 currVelocity = fallingOre.getVelocity();
-		currVelocity += Vector2::down() * GRAVITY_FORCE * Engine::instance().deltaTime;
+		currVelocity += Vector2::down() * GRAVITY_FORCE * Engine::instance().deltaTime();
 		fallingOre.setVelocity(currVelocity);
 
 		Transform& oreTransform = fallingOre.getTransform();
 		oreTransform.position += currVelocity;
 
-		float newRotation = fallingOre.getRotationSpeed() * Engine::instance().deltaTime;
+		float newRotation = fallingOre.getRotationSpeed() * Engine::instance().deltaTime();
 		oreTransform.rotation += fallingOre.rotatesLeft() ? 360.f - newRotation : newRotation;
 
 		if (SDL_GetTicks() - fallingOre.getSpawnTime() >= fallingOre.getLifetime())

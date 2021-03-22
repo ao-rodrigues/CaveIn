@@ -13,7 +13,7 @@ class EntityManager;
 
 using EntityID = std::size_t;
 using ArchetypeID = std::size_t;
-using ComponentID = std::string;
+using ComponentID = std::size_t;
 
 class Component
 {
@@ -59,16 +59,26 @@ struct Archetype
 
 	Archetype(std::unordered_set<ComponentID>&& newComponents);
 
+	/// <summary>
+	/// Checks whether this Archetype has the component of type supplied as type param.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>True if it has, false if it doesn't</returns>
 	template<typename T>
 	inline bool hasComponent()
 	{
 		return components.count(getComponentID<T>()) > 0;
 	}
 
+	/// <summary>
+	/// Calculates the Component ID for the component type supplied as type param.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>Component ID</returns>
 	template<typename T>
 	static ComponentID getComponentID()
 	{
-		return typeid(T).name();
+		return typeid(T).hash_code();
 	}
 
 	ArchetypeID id;
@@ -92,21 +102,57 @@ public:
 		_componentMap.clear();
 	}
 
-	//void update();
-
+	/// <summary>
+	/// Checks whether this Entity is active (not marked for removal).
+	/// </summary>
+	/// <returns>True if active, false if not</returns>
 	inline bool isActive() const { return _isActive; }
+
+	/// <summary>
+	/// Marks this Entity for removal (inactive).
+	/// </summary>
 	inline void destroy() { _isActive = false; }
+
+	/// <summary>
+	/// Checks whether this Entity is enabled.
+	/// </summary>
+	/// <returns>True if enabled, false if not</returns>
 	inline bool isEnabled() const { return _isEnabled; }
+
+	/// <summary>
+	/// Changes the enabled state of this Entity.
+	/// </summary>
+	/// <param name="enabled">The new enabled state</param>
 	inline void setEnabled(bool enabled) { _isEnabled = enabled; }
+
+	/// <summary>
+	/// Flags this Entity so that, if it is set inactive this frame, it will only be removed in the next.
+	/// </summary>
+	/// <param name="destroyNextFrame">The flag value</param>
 	inline void setDestroyNextFrame(bool destroyNextFrame) { _destroyNextFrame = destroyNextFrame; }
+
+	/// <summary>
+	/// Checks if this Entity is flagged to be destroyed next frame.
+	/// </summary>
+	/// <returns>True if it is, false if not</returns>
 	inline bool destroyNextFrame() { return _destroyNextFrame; }
 
+	/// <summary>
+	/// Checks if this Entity has the component supplied as type param.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>True if it has, false if not</returns>
 	template<typename T>
 	inline bool hasComponent() const
 	{
 		return _componentMap.count(Archetype::getComponentID<T>());
 	}
 
+	/// <summary>
+	/// Returns a reference to this Entity's component of the type supplied as type param.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>A reference to the component, or nullptr if this Entity doesn't have it</returns>
 	template<typename T>
 	inline T& getComponent() const
 	{
@@ -114,6 +160,13 @@ public:
 		return *static_cast<T*>(ptr);
 	}
 
+	/// <summary>
+	/// Adds a new component of the type supplied as type param to this Entity.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="...TArgs"></typeparam>
+	/// <param name="...args">The constructor arguments for the component</param>
+	/// <returns>A reference to the newly-added component</returns>
 	template<typename T, typename... TArgs>
 	T& addComponent(TArgs&&... args);
 
@@ -134,9 +187,15 @@ public:
 		_entityArchetypes.clear();
 	}
 
-	//void update();
+	/// <summary>
+	/// Deletes all inactive entities and empty archetypes.
+	/// </summary>
 	void refresh();
 
+	/// <summary>
+	/// Creates a new entity with a Transform component pre-applied.
+	/// </summary>
+	/// <returns>A new entity</returns>
 	Entity& createEntity();
 
 	/// <summary>
@@ -186,6 +245,11 @@ private:
 	unsigned int _lastCleanupTime = 0;
 	const unsigned int CLEANUP_INTERVAL = 60000;
 
+	/// <summary>
+	/// Updates the archetypes with the new component(s) of the supplied Entity.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="entity">The entity with the new component(s)</param>
 	template<typename T>
 	void updateArchetypes(Entity* entity);
 };

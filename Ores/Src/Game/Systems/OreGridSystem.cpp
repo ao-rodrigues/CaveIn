@@ -159,12 +159,12 @@ void OreGridSystem::updateGrid()
 
 Vector2 OreGridSystem::coordConvertGridToOre(int gridX, int gridY)
 {
-	return Vector2(gridY, (GRID_HEIGHT - 1 - gridX));
+	return Vector2(static_cast<float>(gridY), static_cast<float>((GRID_HEIGHT - 1 - gridX)));
 }
 
 Vector2 OreGridSystem::coordConvertOreToGrid(int oreX, int oreY)
 {
-	return Vector2((GRID_HEIGHT - 1 - oreY), oreX);
+	return Vector2(static_cast<float>((GRID_HEIGHT - 1 - oreY)), static_cast<float>(oreX));
 }
 
 void OreGridSystem::destroyAllOres()
