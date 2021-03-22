@@ -49,11 +49,19 @@ public:
 
 	void init() override;
 
+	/// <summary>
+	/// Adds a new animation.
+	/// </summary>
+	/// <param name="animation">The new animation</param>
 	void addAnimation(AnimationInfo animation)
 	{
 		_animations.emplace(animation.name, animation);
 	}
 
+	/// <summary>
+	/// Changes the current active animation.
+	/// </summary>
+	/// <param name="animation">The new animation ID</param>
 	void setAnimation(const std::string& animation)
 	{
 		if (_animations.count(animation))
@@ -65,21 +73,45 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Returns the current animation.
+	/// </summary>
+	/// <returns>A struct with the animation info</returns>
 	inline AnimationInfo getCurrentAnimation()
 	{
 		return _animations.at(_currentAnimation);
 	}
 
+	/// <summary>
+	/// Sets the current frame to the first frame.
+	/// </summary>
 	void reset()
 	{
 		_currentFrame = 0;
 	}
 
+	/// <summary>
+	/// Returns all the animations.
+	/// </summary>
+	/// <returns>A vector with all the animations</returns>
 	inline const std::unordered_map<std::string, AnimationInfo>& getAnimations() { return _animations; }
 
+	/// <summary>
+	/// Returns the index of the current frame.
+	/// </summary>
+	/// <returns>Index of the current frame</returns>
 	inline unsigned int getCurrentFrame() { return _currentFrame; }
+
+	/// <summary>
+	/// Sets the frame index of the current animation
+	/// </summary>
+	/// <param name="nextFrame">The new index</param>
 	inline void setCurrentFrame(unsigned int nextFrame) { _currentFrame = nextFrame; }
 
+	/// <summary>
+	/// Returns the Sprite component attached to the same Entity as this Animation component.
+	/// </summary>
+	/// <returns>A reference to the Sprite component</returns>
 	inline Sprite& getSprite() { return *_sprite; }
 
 private:

@@ -38,6 +38,11 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Sets the text.
+	/// </summary>
+	/// <param name="fontID">The new font ID</param>
+	/// <param name="text">The new text</param>
 	void setText(std::string fontID, std::string text)
 	{
 		this->_fontID = fontID;
@@ -55,6 +60,10 @@ public:
 		SDL_QueryTexture(texture, nullptr, nullptr, &_dstRect.w, &_dstRect.h);
 	}
 
+	/// <summary>
+	/// Sets the text color.
+	/// </summary>
+	/// <param name="newColor">The new text color</param>
 	void setTextColor(SDL_Color newColor)
 	{
 		if (texture != nullptr)
@@ -69,19 +78,46 @@ public:
 		SDL_QueryTexture(texture, nullptr, nullptr, &_dstRect.w, &_dstRect.h);
 	}
 
+	/// <summary>
+	/// Returns the source rectangle.
+	/// </summary>
+	/// <returns>The source rectangle</returns>
 	virtual SDL_Rect* srcRect() override
 	{
 		return nullptr;
 	}
 
+	/// <summary>
+	/// Returns the destination rectangle.
+	/// </summary>
+	/// <returns>The destination rectangle</returns>
 	virtual SDL_Rect* dstRect() override
 	{
 		return &_dstRect;
 	}
 
+	/// <summary>
+	/// Returns the font ID.
+	/// </summary>
+	/// <returns>The font ID</returns>
 	inline const std::string& getFontID() const { return _fontID; }
+
+	/// <summary>
+	/// Returns the text.
+	/// </summary>
+	/// <returns>The text</returns>
 	inline const std::string& getText() const { return _text; }
+
+	/// <summary>
+	/// Returns the text color.
+	/// </summary>
+	/// <returns>The text color</returns>
 	inline const SDL_Color& getTextColor() const { return _textColor; }
+
+	/// <summary>
+	/// Returns the wrap length in pixels.
+	/// </summary>
+	/// <returns>The wrap length</returns>
 	inline int getWrapLength() const { return _wrapLength; }
 
 private:

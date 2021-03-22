@@ -23,18 +23,58 @@ public:
 		_sprite = &entity->getComponent<Sprite>();
 	}
 
+	/// <summary>
+	/// Returns the texture ID of the button in its default state.
+	/// </summary>
+	/// <returns>The default texture ID</returns>
 	inline std::string getDefaultTextureID() { return _defaultTextureID; }
+
+	/// <summary>
+	/// Sets the texture ID of the Button in its default state.
+	/// </summary>
+	/// <param name="defaultTextureID">The new texture ID</param>
 	inline void setDefaultTextureID(const std::string& defaultTextureID) { _defaultTextureID = defaultTextureID; }
 
+	/// <summary>
+	/// Returns the texture ID of the button in its hovered state.
+	/// </summary>
+	/// <returns>The hover texture ID</returns>
 	inline std::string getHoverTextureID() { return _hoverTextureID; }
+
+	/// <summary>
+	/// Sets the texture ID of the Button in its hovered state.
+	/// </summary>
+	/// <param name="hoverTextureID">The new texture ID</param>
 	inline void setHoverTextureID(const std::string hoverTextureID) { _hoverTextureID = hoverTextureID; }
 
+	/// <summary>
+	/// Returns the texture ID of the button in its down state.
+	/// </summary>
+	/// <returns>The down texture ID</returns>
 	inline std::string getDownTextureID() { return _downTextureID; }
+
+	/// <summary>
+	/// Sets the texture ID of the Button in its down state.
+	/// </summary>
+	/// <param name="downTextureID">The new texture ID</param>
 	inline void setDownTextureID(const std::string& downTextureID) { _downTextureID = downTextureID; }
 
+	/// <summary>
+	/// Checks whether the button was pressed or not.
+	/// </summary>
+	/// <returns>True if it was, false if not</returns>
 	inline bool wasPressed() { return _pressed; }
+
+	/// <summary>
+	/// Sets the button's pressed state.
+	/// </summary>
+	/// <param name="pressed">The new pressed state</param>
 	inline void setPressed(bool pressed) { _pressed = pressed; }
 
+	/// <summary>
+	/// Returns the Sprite component attached to the same Entity as this Button component.
+	/// </summary>
+	/// <returns></returns>
 	inline Sprite& getSprite() { return *_sprite; }
 
 	/// <summary>

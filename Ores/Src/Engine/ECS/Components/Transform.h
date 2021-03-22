@@ -33,7 +33,18 @@ public:
 
 	}
 
+	/// <summary>
+	/// The position in world coordinates
+	/// </summary>
 	Vector2 position;
+
+	/// <summary>
+	/// The scale in world coordinates
+	/// </summary>
 	Vector2 scale = { 1, 1 };
+
+	/// <summary>
+	/// The rotation
+	/// </summary>
 	float rotation = 0.f;
 };
