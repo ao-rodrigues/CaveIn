@@ -49,6 +49,7 @@ void Game::update()
 	_pointsPopupSystem->update();
 	_pushTimerSystem->update();
 	_pushColumnSystem->update();
+
 	_clearEventsSystem->update();
 }
 

@@ -175,6 +175,7 @@
     <ClCompile Include="Src\Game\Systems\SoundSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Src\Engine\AssetManager.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Animation.h" />
     <ClInclude Include="Src\Engine\ECS\Components\Audio.h" />
@@ -225,6 +226,13 @@
     <ClInclude Include="Src\Game\Systems\ScoreSystem.h" />
     <ClInclude Include="Src\Game\Systems\PushTimerSystem.h" />
     <ClInclude Include="Src\Game\Systems\SoundSystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Ores.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Textures\CaveIn.ico" />
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
