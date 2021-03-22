@@ -31,7 +31,7 @@ void MenuSystem::init()
 
 	// Title
 	SDL_Color titleTextColor = { 255, 255, 255, 255 };
-	_title = &engine.createEntity().addComponent<Text>("TitleFont", 1, "ORES", titleTextColor, 500);
+	_title = &engine.createEntity().addComponent<Text>("TitleFont", 1, "CAVE-IN", titleTextColor, 500);
 	float titleX = (engine.getWorldDimensions().x / 2.f) - (_title->dstRect()->w / 2.f);
 	float titleY = (engine.getWorldDimensions().y / 2.f) - (_title->dstRect()->h / 2.f);
 	_title->transform->position = Vector2(titleX, titleY);

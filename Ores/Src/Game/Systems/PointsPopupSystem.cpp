@@ -8,7 +8,7 @@
 
 void PointsPopupSystem::init()
 {
-	AssetManager::instance().loadFont("PopupFont", "Assets/Fonts/Alagard.ttf", 14);
+	AssetManager::instance().loadFont("PopupFont", "Assets/Fonts/Alagard.ttf", 16);
 }
 
 void PointsPopupSystem::update()
@@ -50,7 +50,7 @@ void PointsPopupSystem::update()
 void PointsPopupSystem::spawnPopup(OreData oreData, Vector2 position)
 {
 	Entity& newPopup = Engine::instance().createEntity();
-	SDL_Color popupColor = { 21, 232, 156, 255 };
+	SDL_Color popupColor = { 58, 240, 119, 255 };
 	newPopup.addComponent<Text>("PopupFont", 1, std::to_string(oreData.destructionPoints), popupColor, 100).transform->position = position;
-	newPopup.addComponent<PointsPopup>(1.5f);
+	newPopup.addComponent<PointsPopup>(1.7f);
 }

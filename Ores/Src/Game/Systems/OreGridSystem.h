@@ -19,6 +19,10 @@ public:
 	virtual void update() override;
 
 private:
+	inline int getRandomOreIndex()
+	{
+		return rand() % 6;
+	}
 	void updateGrid();
 
 	Vector2 coordConvertGridToOre(int gridX, int gridY);
@@ -38,15 +42,15 @@ private:
 
 	Vector2 _gridRoot;
 
-	OreData _oreData[8] = {
-		OreData(0, 100, "Brick"),
-		OreData(1, 110, "Cobble"),
-		OreData(2, 280, "Crystal"),
-		OreData(3, 240, "Marble"),
-		OreData(4, 150, "Pebble"),
-		OreData(5, 100, "Red"),
-		OreData(6, 90, "Sandstone"),
-		OreData(7, 200, "Slime")
+	OreData _oreData[6] = {
+		//OreData(0, 113, "Brick"),
+		OreData(0, 132, "Cobble"),
+		OreData(1, 282, "Crystal"),
+		OreData(2, 150, "Marble"),
+		//OreData(2, 150, "Pebble"),
+		OreData(3, 111, "Red"),
+		OreData(4, 98, "Sandstone"),
+		OreData(5, 202, "Slime")
 	};
 
 	bool _gameRunning = false;

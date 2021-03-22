@@ -17,11 +17,11 @@ void OreGridSystem::init()
 {
 	srand(time(0));
 
-	AssetManager::instance().loadTexture("Brick", "Assets/Textures/brick_brown0.png");
+	//AssetManager::instance().loadTexture("Brick", "Assets/Textures/brick_brown0.png");
 	AssetManager::instance().loadTexture("Cobble", "Assets/Textures/cobble_blood4.png");
 	AssetManager::instance().loadTexture("Crystal", "Assets/Textures/crystal_wall04.png");
 	AssetManager::instance().loadTexture("Marble", "Assets/Textures/marble_wall1.png");
-	AssetManager::instance().loadTexture("Pebble", "Assets/Textures/pebble_brown2.png");
+	//AssetManager::instance().loadTexture("Pebble", "Assets/Textures/pebble_brown2.png");
 	AssetManager::instance().loadTexture("Red", "Assets/Textures/rough_red0.png");
 	AssetManager::instance().loadTexture("Sandstone", "Assets/Textures/sandstone_wall1.png");
 	AssetManager::instance().loadTexture("Slime", "Assets/Textures/slime0.png");
@@ -193,7 +193,7 @@ void OreGridSystem::pushNewGrid()
 	{
 		for (int x = 0; x < GRID_HEIGHT; x++)
 		{
-			OreData oreData = _oreData[rand() % 8];
+			OreData oreData = _oreData[getRandomOreIndex()];
 
 			Entity& ore = engine.createEntity();
 			ore.addComponent<Sprite>(RenderLayer::Midground, 0, oreData.textureID, 0, 0, 32, 32);
@@ -241,7 +241,7 @@ void OreGridSystem::pushColumn()
 	// Add new column at the end
 	for (int x = 0; x < GRID_HEIGHT; x++)
 	{
-		OreData oreData = _oreData[rand() % 8];
+		OreData oreData = _oreData[getRandomOreIndex()];
 
 		Entity& ore = engine.createEntity();
 		ore.addComponent<Sprite>(RenderLayer::Midground, 0, oreData.textureID, 0, 0, 32, 32);

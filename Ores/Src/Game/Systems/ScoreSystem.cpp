@@ -17,12 +17,12 @@ void ScoreSystem::init()
 	SDL_Color textColor = { 255, 255, 255, 255 };
 	std::string scoreDisplayText = "Score: " + std::to_string(_score);
 
-	_scoreDisplayText = &Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, scoreDisplayText, textColor, 100);
+	_scoreDisplayText = &Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, scoreDisplayText, textColor, 500);
 	_scoreDisplayText->transform->position = Vector2(10.f, 10.f);
 	_scoreDisplayText->entity->setEnabled(false);
 
 	std::string levelDisplayText = "Level: " + std::to_string(_level);
-	_levelDisplayText = &Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, levelDisplayText, textColor, 100);
+	_levelDisplayText = &Engine::instance().createEntity().addComponent<Text>("ScoreFont", 0, levelDisplayText, textColor, 500);
 	_levelDisplayText->transform->position = Vector2(150.f, 10.f);
 	_levelDisplayText->entity->setEnabled(false);
 
