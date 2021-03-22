@@ -54,6 +54,7 @@ void ScoreSystem::update()
 		_score = 0;
 		_scoreInLevel = 0;
 		_level = 1;
+		_levelUpScore = STARTER_LEVEL_UP_SCORE;
 		updateScoreDisplay(_score);
 		updateLevel(_scoreInLevel);
 	}
