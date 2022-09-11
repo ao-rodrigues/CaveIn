@@ -1,4 +1,4 @@
-# Ores
+# CaveIn
 A clone of the game Ores built from scratch using SDL2.
 
 # Running the game
